@@ -1,0 +1,18 @@
+{
+  "name": "traceAppServerSide",
+  "version": "1.0.0",
+  "description": "This app is used to go out with your friends",
+  "main": "server.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "~1.9.2",
+    "express": "~4.9.8",
+    "jwt-simple": "^0.3.1",
+    "mongoose": "~4.2.4",
+    "morgan": "~1.5.0",
+    "passport": "^0.3.0",
+    "passport-jwt": "^1.2.1"
+  },
+  "author": "Raphel Didier",
+  "license": "ISC"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "loginionic2",
+  "app_id": "",
+  "v2": true,
+  "typescript": true,
+   "proxies": [
+    {
+      "path": "/api/v1",
+      "proxyUrl": "http://localhost:8080/api/v1"
+    }
+  ]
+}
