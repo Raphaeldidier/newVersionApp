@@ -13,11 +13,11 @@
           <ion-list inset>
             
             <ion-item>
-              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
+              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" ></ion-input>
             </ion-item>
             
             <ion-item>
-              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" ></ion-input>
             </ion-item>
             
           </ion-list>
@@ -31,6 +31,13 @@
         </ion-col>
       </ion-row>
       
-    </form>
+     </form>
+      <!-- FB Button -->
+      <ion-row>
+        <ion-col class="signup-col">
+          <button ion-button class="submit-btn" full (click)="fbLogin()">Login with Facebook</button>
+        </ion-col>
+      </ion-row>
+    
   </div>
 </ion-content>

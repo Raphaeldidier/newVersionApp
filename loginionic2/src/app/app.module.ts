@@ -3,7 +3,9 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
+import { ProfilePage } from '../pages/profile/profile';
 import { RegisterPage } from '../pages/register/register';
+import { TabsPage } from '../pages/tabs/tabs';
 import { AuthService } from '../providers/auth-service';
 import { AppSettings } from './../providers/app-settings';
 import { TokenAuth } from './../providers/token-auth';
@@ -13,7 +15,9 @@ import { TokenAuth } from './../providers/token-auth';
     MyApp,
     HomePage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ProfilePage,
+    TabsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -23,7 +27,9 @@ import { TokenAuth } from './../providers/token-auth';
     MyApp,
     HomePage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ProfilePage,
+    TabsPage
   ],
   providers: [AuthService, AppSettings, TokenAuth]
 })

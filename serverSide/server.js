@@ -43,11 +43,12 @@ var apiRoutes = express.Router();
  
 // create a new user account (POST http://localhost:8080/api/signup)
 apiRoutes.post('/signup', function(req, res) {
-  if (!req.body.name || !req.body.password) {
-    res.json({success: false, msg: 'Please pass name and password.'});
+  if (!req.body.name || !req.body.email || !req.body.password) {
+    res.json({success: false, msg: 'Please pass name, email and password.'});
   } else {
     var newUser = new User({
       name: req.body.name,
+      email: req.body.email,
       password: req.body.password
     });
     // save the user
@@ -63,7 +64,7 @@ apiRoutes.post('/signup', function(req, res) {
 //Authentification
 apiRoutes.post('/authenticate', function(req, res) {
   User.findOne({
-    name: req.body.name
+    email: req.body.email
   }, function(err, user) {
     if (err) throw err;
  
@@ -76,7 +77,7 @@ apiRoutes.post('/authenticate', function(req, res) {
           // if user is found and password is right create a token
           var token = jwt.encode(user, config.secret);
           // return the information including token as JSON
-          res.json({success: true, token: 'JWT ' + token});
+          res.json({success: true, user: user, token: 'JWT ' + token});
         } else {
           res.send({success: false, msg: 'Authentication failed. Wrong password.'});
         }
