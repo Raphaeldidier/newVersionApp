@@ -9,6 +9,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { AuthService } from '../providers/auth-service';
 import { AppSettings } from './../providers/app-settings';
 import { TokenAuth } from './../providers/token-auth';
+import { Facebook } from '@ionic-native/facebook';
+
  
 @NgModule({
   declarations: [
@@ -31,6 +33,6 @@ import { TokenAuth } from './../providers/token-auth';
     ProfilePage,
     TabsPage
   ],
-  providers: [AuthService, AppSettings, TokenAuth]
+  providers: [AuthService, AppSettings, TokenAuth, Facebook]
 })
 export class AppModule {}

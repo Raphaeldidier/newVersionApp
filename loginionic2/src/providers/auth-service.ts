@@ -7,10 +7,12 @@ import 'rxjs/add/operator/map';
 export class User {
   name: string;
   email: string;
+  birthdate: string;
  
-  constructor(name: string, email: string) {
+  constructor(name: string, email: string, birthdate: string) {
     this.name = name;
     this.email = email;
+    this.birthdate = birthdate;
   }
 }
  
@@ -28,6 +30,7 @@ export class AuthService {
     if (credentials.email === null || credentials.password === null) {
       return Observable.throw("Please insert credentials");
     } else {
+      credentials.email = credentials.email.toLowerCase();
       return this.http.post(this.apiUrl + 'authenticate', {'email':credentials.email,'password':credentials.password});
     }
   }
@@ -36,7 +39,8 @@ export class AuthService {
     if (credentials.name === null || credentials.email === null || credentials.password === null) {
       return Observable.throw("Please insert credentials");
     } else {
-      return this.http.post(this.apiUrl + 'signup', {'name':credentials.name, 'email':credentials.email ,'password':credentials.password});
+      credentials.email = credentials.email.toLowerCase();
+      return this.http.post(this.apiUrl + 'signup', {'name':credentials.name, 'email':credentials.email ,'password':credentials.password, 'birthdate':credentials.birthdate});
     }
   }
  

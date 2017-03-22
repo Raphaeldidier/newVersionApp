@@ -13,15 +13,23 @@
           <ion-list inset>
             
             <ion-item>
-              <ion-input type="text" placeholder="Name" name="name" [(ngModel)]="registerCredentials.name" required></ion-input>
+              <ion-label>Name</ion-label>
+              <ion-input type="text" placeholder="Raphaël Didier" name="name" [(ngModel)]="registerCredentials.name" required></ion-input>
             </ion-item>
             
             <ion-item>
-              <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
+              <ion-label>Email</ion-label>
+              <ion-input type="email" placeholder="rapahel.didier@domain.com" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+              <ion-label>Password</ion-label>
+              <ion-input type="password" placeholder="**********" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Birth date</ion-label>
+              <ion-datetime type="date" name="birthdate" [(ngModel)]="registerCredentials.birthdate"></ion-datetime>
             </ion-item>
             
           </ion-list>

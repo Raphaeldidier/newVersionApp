@@ -1,22 +1,25 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AuthService } from '../../providers/auth-service';
 
-/*
-  Generated class for the Profile page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html'
 })
+
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+	name:'';
+	email:'';
+	user: any;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
-  }
+	// Image to get
+    profilePicture: any = "http://rs1217.pbsrc.com/albums/dd395/dhanz_ztya/Avatar_Foto_Profil_Facebook_Unik_1.jpg~c200"
+
+	constructor(public navCtrl: NavController, public navParams: NavParams, public authService : AuthService) {
+		this.user = authService.currentUser;
+	}
+
+ 	
 
 }
