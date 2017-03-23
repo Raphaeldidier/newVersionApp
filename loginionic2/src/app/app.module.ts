@@ -3,14 +3,14 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
-import { ProfilePage } from '../pages/profile/profile';
+import { ListPage } from '../pages/list/list';
 import { RegisterPage } from '../pages/register/register';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AuthService } from '../providers/auth-service';
 import { AppSettings } from './../providers/app-settings';
 import { TokenAuth } from './../providers/token-auth';
 import { Facebook } from '@ionic-native/facebook';
-
+import { CustomNavBarComponent } from './../components/custom-nav-bar/custom-nav-bar';
  
 @NgModule({
   declarations: [
@@ -18,8 +18,9 @@ import { Facebook } from '@ionic-native/facebook';
     HomePage,
     LoginPage,
     RegisterPage,
-    ProfilePage,
-    TabsPage
+    ListPage,
+    TabsPage,
+    CustomNavBarComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -30,7 +31,7 @@ import { Facebook } from '@ionic-native/facebook';
     HomePage,
     LoginPage,
     RegisterPage,
-    ProfilePage,
+    ListPage,
     TabsPage
   ],
   providers: [AuthService, AppSettings, TokenAuth, Facebook]

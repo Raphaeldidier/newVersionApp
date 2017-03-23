@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HomePage } from '../home/home';
-import { ProfilePage } from '../profile/profile';
+import { ListPage } from '../list/list';
  
 @Component({
   selector: 'page-tabs',
@@ -10,7 +10,7 @@ import { ProfilePage } from '../profile/profile';
 export class TabsPage {
  
   tab1Root: any = HomePage;
-  tab2Root: any = ProfilePage;
+  tab2Root: any = ListPage;
  
   constructor(){
  

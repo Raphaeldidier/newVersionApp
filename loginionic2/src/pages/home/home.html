@@ -1,14 +1,28 @@
 <ion-header>
-  <ion-navbar color="dark">
-    <ion-title>
-      Member Area
-    </ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="logout()">
-        <ion-icon name="log-out"></ion-icon>
+
+  <custom-nav-bar></custom-nav-bar>
+  
+  <!-- <ion-navbar color="primary">
+    <ion-buttons class="firstButton">
+      <button ion-button icon-only>
+        <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-navbar>
+
+    <ion-searchbar 
+      [(ngModel)]="myInput"
+      placeholder="City"
+      (search)="searchByKeyword($event)"
+      animated=true>
+    </ion-searchbar>
+
+    <ion-buttons class="lastButton">
+      <button ion-button icon-only>
+        <ion-icon name="options"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar> -->
+
 </ion-header>
 
 

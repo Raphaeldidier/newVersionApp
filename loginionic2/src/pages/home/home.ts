@@ -17,6 +17,7 @@ export class HomePage {
   email = '';
   @ViewChild('map') mapElement: ElementRef;
   map: any;
+  myInput: any = '';
 
   constructor(private nav: NavController, private auth: AuthService) {
     // let info = this.auth.getUserInfo();
@@ -53,5 +54,9 @@ export class HomePage {
     this.auth.logout().subscribe(succ => {
         this.nav.setRoot(LoginPage)
     });
+  }
+
+  searchByKeyword(){
+    console.log(this.myInput)
   }
 }

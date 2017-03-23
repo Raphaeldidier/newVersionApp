@@ -1,0 +1,20 @@
+<ion-navbar color="primary">
+  <ion-buttons class="firstButton">
+    <button ion-button icon-only>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-buttons>
+
+  <ion-searchbar 
+    [(ngModel)]="myInput"
+    placeholder="City"
+    (search)="searchByKeyword($event)"
+    animated=true>
+  </ion-searchbar>
+
+  <ion-buttons class="lastButton">
+    <button ion-button icon-only>
+      <ion-icon name="options"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
