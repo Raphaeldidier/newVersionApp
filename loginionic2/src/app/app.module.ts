@@ -10,6 +10,7 @@ import { AuthService } from '../providers/auth-service';
 import { AppSettings } from './../providers/app-settings';
 import { TokenAuth } from './../providers/token-auth';
 import { Facebook } from '@ionic-native/facebook';
+import { DatePipe } from '@angular/common';
 import { CustomNavBarComponent } from './../components/custom-nav-bar/custom-nav-bar';
  
 @NgModule({
@@ -34,6 +35,6 @@ import { CustomNavBarComponent } from './../components/custom-nav-bar/custom-nav
     ListPage,
     TabsPage
   ],
-  providers: [AuthService, AppSettings, TokenAuth, Facebook]
+  providers: [AuthService, AppSettings, TokenAuth, Facebook, DatePipe]
 })
 export class AppModule {}
