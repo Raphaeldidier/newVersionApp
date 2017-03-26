@@ -4,33 +4,59 @@ page-list {
 
 		padding: 0 !important;
 
-		ion-list ion-card{
+		ion-list {
 
 			margin: 0;
-			padding: 15px;
-			width: 100%;
-    		display: flex;
-    		justify-content: space-between;
 
-			.left-card{
+			ion-card{
 
-				width:70%;
-				
-				.card-title{
-					font-size: 2.5rem;
-    				margin-bottom: 15px;
-				}		
-				.card-place-and-date{
-    				margin-bottom: 15px;
+				color: white;
+				margin: 0;
+				width: 100%;
+	    		position: relative;
+
+	    		img{
+					height: 200px;
 				}
-			}
 
-			.right-card{
-   		 		text-align: right;
-				display: flex;
-   		 		flex-direction: column;
-    			justify-content: space-between;
-			}
+	    		.int-card{
+	    			position: absolute;
+	    			width: 100%;
+	    			display: flex;
+	    			justify-content: space-between;
+	   				top: 0%;
+	   				padding: 15px;
+	   				/*to check*/
+					height: 200px;
+
+					.left-card{
+
+						width:70%;
+						display: flex;
+		   		 		flex-direction: column;
+		    			justify-content: space-between;
+						
+						.card-title{
+							font-size: 2.5rem;
+		    				margin-bottom: 15px;
+						}		
+						.card-place-and-date{
+		    				margin-bottom: 15px;
+						}
+					}
+
+					.right-card{
+		   		 		text-align: right;
+						display: flex;
+		   		 		flex-direction: column;
+		    			justify-content: space-between;
+		    			
+						.card-taken-number-places{
+							font-size: 4.5rem;
+						}
+					}
+	    		}
+	    	}
 		}
 	}
 }

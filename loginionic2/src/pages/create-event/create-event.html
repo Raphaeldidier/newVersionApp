@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>CreateEvent</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+	<form (ngSubmit)="createEvent()" #createEventForm="ngForm">
+	  <ion-row>
+	    <ion-col>
+	      <ion-list inset>
+	        
+	        <ion-item>
+			  <ion-label>Languages</ion-label>
+			  <ion-select [(ngModel)]="createEventVal.languages" name="languages" multiple="true">
+			    <ion-option>French</ion-option>
+			    <ion-option>English</ion-option>
+			    <ion-option>German</ion-option>
+			  </ion-select>
+			</ion-item>
+	        
+	        <!-- <ion-item>
+	          <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" ></ion-input>
+	        </ion-item> -->
+	        
+	      </ion-list>
+	    </ion-col>
+	  </ion-row>
+	  
+	  <ion-row>
+	    <ion-col class="signup-col">
+	      <button ion-button class="submit-btn" full type="submit" [disabled]="!createEventForm.form.valid">Create Event !</button>
+	    </ion-col>
+	  </ion-row>
+	  
+	 </form>
+
+</ion-content>

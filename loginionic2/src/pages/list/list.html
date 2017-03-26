@@ -9,25 +9,33 @@
 	<ion-list>
 
 		<ion-card *ngFor="let card of cards">
-		    <!-- <img src="img/card-saopaolo.png"/> -->
-		    <div class="left-card">
-			    <div class="card-title">{{card.name}}</div>
-			    <div class="card-place-and-date">
-				    <div class="card-address">{{card.address}}</div>
-				    <div class="card-date">{{card.date | date: 'EEE, MMMM dd'}} / {{card.date | date: 'jm'}}</div>
+		    <img src={{card.source}}/>
+		    <div class="int-card">
+			    <div class="left-card">
+				    <div class="card-title">{{card.name}}</div>
+				    <div class="card-place-and-date">
+					    <div class="card-address">{{card.address}}</div>
+					    <div class="card-date">{{card.date | date: 'EEE, MMMM dd'}} / {{card.date | date: 'jm'}}</div>
+				    </div>
+				    <div class="card-creator">{{card.creator}}</div>
 			    </div>
-			    <div class="card-creator">{{card.creator}}</div>
-		    </div>
-		    <div class="right-card">
-	    		<div class="card-days-left">{{ card.daysLeft }}</div>
-	    		<div class="card-number-places">
-				    <div class="card-taken-number-places">{{card.takenNumberPlaces}}/{{card.totalNumberPlaces}}</div>
-				    <div class="card-free-number-places">{{card.freeNumberPlaces}} spots left</div>
+			    <div class="right-card">
+		    		<div class="card-days-left">{{ card.daysLeft }}</div>
+		    		<div class="card-number-places">
+					    <div class="card-taken-number-places">{{card.takenNumberPlaces}}/{{card.totalNumberPlaces}}</div>
+					    <div class="card-free-number-places">{{card.freeNumberPlaces}} spots left</div>
+				    </div>	
+		    		<div class="card-distance">{{ card.distance }}</div>
 			    </div>	
-	    		<div class="card-days-left">{{ card.distance }}</div>
-		    </div>	
+		    </div>
 	  	</ion-card>
 
 	</ion-list>
+
+	<ion-fab bottom right>
+		<button mini ion-fab icon-only clear=true color="primary" (click)="createEvent()">
+		  <ion-icon name="add-circle"></ion-icon>
+		</button>
+	</ion-fab>
 
 </ion-content>

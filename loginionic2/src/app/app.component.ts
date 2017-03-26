@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { LoginPage } from '../pages/login/login';
-import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import { SettingsPage } from '../pages/settings/settings';
+import { ProfilePage } from '../pages/profile/profile';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = LoginPage;
+  @ViewChild(Nav) nav: Nav;
+  rootPage = TabsPage;
+  settingsPage: any;
+  profilePage: any;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
@@ -19,5 +23,16 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
     });
+  
+    this.profilePage = ProfilePage;
+    this.settingsPage = SettingsPage; 
+
+  }
+
+  openPage(page) {
+    console.log(page);
+  // Reset the content nav to have just this page
+  // we wouldn't want the back button to show in this scenario
+    this.nav.push(page);
   }
 }

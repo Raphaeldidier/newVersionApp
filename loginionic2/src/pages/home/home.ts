@@ -17,8 +17,7 @@ export class HomePage {
   email = '';
   @ViewChild('map') mapElement: ElementRef;
   map: any;
-  myInput: any = '';
-
+  latLng: any;
   constructor(private nav: NavController, private auth: AuthService) {
     // let info = this.auth.getUserInfo();
     // this.username = info.name;
@@ -26,6 +25,7 @@ export class HomePage {
   }
 
   ionViewDidLoad(){
+
     this.loadMap();
   }
 
@@ -33,17 +33,41 @@ export class HomePage {
  
     Geolocation.getCurrentPosition().then((position) => {
  
-      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      this.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
  
       let mapOptions = {
-        center: latLng,
+        center: this.latLng,
         zoom: 14,
+        zoomMax: 17,
+        minZoom: 6,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: true
       }
  
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
- 
+
+      this.map.addListener('dragend', this.makeQuery);
+
+      this.map.addListener('zoom_changed', this.makeQuery);
+
+      //setIcon
+      var icon = {
+        url: "assets/img/blue_dot.png", // url
+        scaledSize: new google.maps.Size(30, 30), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+      };
+
+      //Set First Marker
+       var posMarker = new google.maps.Marker({
+        position: this.latLng,
+        icon: icon,
+        size: 5,
+        map: this.map
+      });
+
+      posMarker.setMap(this.map);
+
     }, (err) => {
       console.log(err);
     });
@@ -56,7 +80,14 @@ export class HomePage {
     });
   }
 
-  searchByKeyword(){
-    console.log(this.myInput)
+  public recenterMap(){
+
+    this.makeQuery();
+    this.map.setCenter(this.latLng);
+
+  }
+
+  public makeQuery(){
+    console.log("Query");
   }
 }

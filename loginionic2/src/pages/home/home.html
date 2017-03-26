@@ -1,31 +1,15 @@
 <ion-header>
 
   <custom-nav-bar></custom-nav-bar>
-  
-  <!-- <ion-navbar color="primary">
-    <ion-buttons class="firstButton">
-      <button ion-button icon-only>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
-
-    <ion-searchbar 
-      [(ngModel)]="myInput"
-      placeholder="City"
-      (search)="searchByKeyword($event)"
-      animated=true>
-    </ion-searchbar>
-
-    <ion-buttons class="lastButton">
-      <button ion-button icon-only>
-        <ion-icon name="options"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar> -->
 
 </ion-header>
 
 
 <ion-content>
   <div #map id="map"></div> 
+  <ion-fab top right class="clear-position-button">
+    <button ion-fab icon-only clear=true mini (click)=recenterMap()>
+      <ion-icon name="locate"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
