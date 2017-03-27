@@ -9,6 +9,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { SettingsPage } from '../pages/settings/settings';
 import { CreateEventPage } from '../pages/create-event/create-event';
 import { ProfilePage } from '../pages/profile/profile';
+import { MapModalPage } from '../pages/map-modal/map-modal';
 import { AuthService } from '../providers/auth-service';
 import { AppSettings } from './../providers/app-settings';
 import { TokenAuth } from './../providers/token-auth';
@@ -27,7 +28,8 @@ import { CustomNavBarComponent } from './../components/custom-nav-bar/custom-nav
     SettingsPage,
     ProfilePage,
     CreateEventPage,
-    CustomNavBarComponent
+    CustomNavBarComponent,
+    MapModalPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -42,7 +44,9 @@ import { CustomNavBarComponent } from './../components/custom-nav-bar/custom-nav
     TabsPage,
     SettingsPage,
     ProfilePage,
-    CreateEventPage
+    CreateEventPage,
+    CustomNavBarComponent,
+    MapModalPage
   ],
   providers: [AuthService, AppSettings, TokenAuth, Facebook, DatePipe]
 })

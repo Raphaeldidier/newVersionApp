@@ -6,6 +6,8 @@ var mongoose    = require('mongoose');
 var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
+var Categories  = require('./app/models/categories'); // get the mongoose model
+// var Subcategories  = require('./app/models/subcategories'); // get the mongoose model
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
  
@@ -106,6 +108,36 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   } else {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
+});
+
+apiRoutes.get('/categories', function(req, res){
+
+  Categories.find({}, function(err, categories){
+    if(categories)
+      res.json({success: true, categories: categories});
+    else
+      res.json({success: false, categories: null});
+  });
+
+});
+
+// apiRoutes.get('/subcategories', function(req, res){
+
+//   Categories.find({}, function(err, subCategories){
+//     if(categories)
+//       res.json({success: true, categories: categories});
+//     else
+//       res.json({success: false, categories: null});
+//   });
+
+// });
+
+//event creation
+apiRoutes.post('/createevent', function(req, res) {
+  if (!req.body.category || !req.body.subCategory || !req.body.date || !req.body.time || !req.body.languages) {
+    res.json({success: false, msg: 'Please pass name, email and password.'});
+  } 
+  //TODO : end it
 });
  
 // connect the api routes under /api/*

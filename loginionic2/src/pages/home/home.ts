@@ -29,7 +29,7 @@ export class HomePage {
     this.loadMap();
   }
 
-  loadMap(){
+  public loadMap(){
  
     Geolocation.getCurrentPosition().then((position) => {
  

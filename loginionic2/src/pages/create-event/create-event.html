@@ -15,6 +15,30 @@
 	      <ion-list inset>
 	        
 	        <ion-item>
+			  <ion-label>Category</ion-label>
+			  <ion-select [(ngModel)]="createEventVal.category" name="category" (ionChange)=changeCategory()>
+		      	<ion-option *ngFor="let item of optionsListCat" value="{{item.value}}" required>{{item.text}}</ion-option>
+			  </ion-select>
+			</ion-item>
+
+			<ion-item>
+			  <ion-label>SubCategory</ion-label>
+			  <ion-select [(ngModel)]="createEventVal.subCategory" name="subCategory" [disabled]="disableSubCategory">
+		      	<ion-option *ngFor="let item of optionsListSubCat" value="{{item.value}}" required>{{item.text}}</ion-option>
+			  </ion-select>
+			</ion-item>
+
+			<ion-item>
+			  <ion-label>Date</ion-label>
+			  <ion-datetime displayFormat="MMM DD, YYYY" name="date" [(ngModel)]="createEventVal.date" required></ion-datetime>
+			</ion-item>
+
+			<ion-item>
+			  <ion-label>Time</ion-label>
+			  <ion-datetime displayFormat="hh:mma" name="time" [(ngModel)]="createEventVal.time" required></ion-datetime>
+			</ion-item>
+
+			<ion-item>
 			  <ion-label>Languages</ion-label>
 			  <ion-select [(ngModel)]="createEventVal.languages" name="languages" multiple="true">
 			    <ion-option>French</ion-option>
@@ -22,10 +46,29 @@
 			    <ion-option>German</ion-option>
 			  </ion-select>
 			</ion-item>
-	        
-	        <!-- <ion-item>
-	          <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" ></ion-input>
-	        </ion-item> -->
+
+			<ion-item>
+			  <ion-label>Price</ion-label>
+			  <ion-input type="number" name="priceNumber" [(ngModel)]="createEventVal.priceNumber" required></ion-input>
+			</ion-item>
+
+			<ion-item>
+			  <ion-label>Currency</ion-label>
+			  <ion-select [(ngModel)]="createEventVal.currency" name="currency" required>
+			    <ion-option>$</ion-option>
+			    <ion-option>€</ion-option>
+			    <ion-option>¥</ion-option>
+			    <ion-option>£</ion-option>
+			  </ion-select>
+			</ion-item>
+
+			<ion-item>
+				<button (click)=presentMapModal()>Location</button>
+			</ion-item>
+			<ion-item>
+			  <ion-label>Address</ion-label>
+			  <ion-input type="text" name="address" [(ngModel)]="createEventVal.address" disabled="true" required></ion-input>
+			</ion-item>
 	        
 	      </ion-list>
 	    </ion-col>
