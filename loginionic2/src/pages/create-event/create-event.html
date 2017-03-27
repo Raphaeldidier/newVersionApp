@@ -7,39 +7,66 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
-	<form (ngSubmit)="createEvent()" #createEventForm="ngForm">
+	<!-- <custom-card [card]="card"></custom-card> -->
+	<!-- <ion-card>
+		<img src={{card.source}}/>
+		<div class="int-card">
+		    <div class="left-card"> -->
+			    <div class="card-title">{{card.name}}</div>
+			    <!-- <div class="card-place-and-date">
+				    <div class="card-address">{{card.address}}</div>
+				    <div class="card-date">{{card.date | date: 'EEE, MMMM dd'}} / {{card.date | date: 'jm'}}</div>
+			    </div>
+			    <div class="card-creator">{{card.creator}}</div>
+		    </div>
+		    <div class="right-card">
+				<div class="card-days-left">{{ card.daysLeft }}</div>
+				<div class="card-number-places">
+				    <div class="card-taken-number-places">{{card.takenNumberPlaces}}/{{card.totalNumberPlaces}}</div>
+				    <div class="card-free-number-places">{{card.freeNumberPlaces}} spots left</div>
+			    </div>	
+				<div class="card-distance">{{ card.distance }}</div>
+		    </div>	
+		</div>
+	</ion-card>
+ -->
+	<form (ngSubmit)="createEvent()" #createEventForm="ngForm" (change)="setCustomCard()">
 	  <ion-row>
 	    <ion-col>
 	      <ion-list inset>
-	        
 	        <ion-item>
-			  <ion-label>Category</ion-label>
+			  <ion-label floating>Category</ion-label>
 			  <ion-select [(ngModel)]="createEventVal.category" name="category" (ionChange)=changeCategory()>
 		      	<ion-option *ngFor="let item of optionsListCat" value="{{item.value}}" required>{{item.text}}</ion-option>
 			  </ion-select>
 			</ion-item>
 
 			<ion-item>
-			  <ion-label>SubCategory</ion-label>
+			  <ion-label floating>SubCategory</ion-label>
 			  <ion-select [(ngModel)]="createEventVal.subCategory" name="subCategory" [disabled]="disableSubCategory">
 		      	<ion-option *ngFor="let item of optionsListSubCat" value="{{item.value}}" required>{{item.text}}</ion-option>
 			  </ion-select>
 			</ion-item>
 
 			<ion-item>
-			  <ion-label>Date</ion-label>
+			  <ion-label floating>Name</ion-label>
+			  <ion-input type="text" name="name" min=0 [(ngModel)]="createEventVal.name" required></ion-input>
+			</ion-item>
+
+			<ion-item>
+			  <ion-label floating>Date</ion-label>
 			  <ion-datetime displayFormat="MMM DD, YYYY" name="date" [(ngModel)]="createEventVal.date" required></ion-datetime>
 			</ion-item>
 
 			<ion-item>
-			  <ion-label>Time</ion-label>
+			  <ion-label floating>Time</ion-label>
 			  <ion-datetime displayFormat="hh:mma" name="time" [(ngModel)]="createEventVal.time" required></ion-datetime>
 			</ion-item>
 
 			<ion-item>
-			  <ion-label>Languages</ion-label>
+			  <ion-label floating>Languages</ion-label>
 			  <ion-select [(ngModel)]="createEventVal.languages" name="languages" multiple="true">
 			    <ion-option>French</ion-option>
 			    <ion-option>English</ion-option>
@@ -48,12 +75,12 @@
 			</ion-item>
 
 			<ion-item>
-			  <ion-label>Price</ion-label>
-			  <ion-input type="number" name="priceNumber" [(ngModel)]="createEventVal.priceNumber" required></ion-input>
+			  <ion-label floating>Price</ion-label>
+			  <ion-input type="number" name="priceNumber" min=0 max=10000 [(ngModel)]="createEventVal.priceNumber" required></ion-input>
 			</ion-item>
 
 			<ion-item>
-			  <ion-label>Currency</ion-label>
+			  <ion-label floating>Currency</ion-label>
 			  <ion-select [(ngModel)]="createEventVal.currency" name="currency" required>
 			    <ion-option>$</ion-option>
 			    <ion-option>€</ion-option>
@@ -63,10 +90,13 @@
 			</ion-item>
 
 			<ion-item>
-				<button (click)=presentMapModal()>Location</button>
+				<button ion-button icon-right (click)=presentMapModal()>
+  					Location
+  					<ion-icon name="flag"></ion-icon>
+				</button>
 			</ion-item>
 			<ion-item>
-			  <ion-label>Address</ion-label>
+			  <ion-label floating>Address</ion-label>
 			  <ion-input type="text" name="address" [(ngModel)]="createEventVal.address" disabled="true" required></ion-input>
 			</ion-item>
 	        
@@ -76,7 +106,7 @@
 	  
 	  <ion-row>
 	    <ion-col class="signup-col">
-	      <button ion-button class="submit-btn" full type="submit" [disabled]="!createEventForm.form.valid">Create Event !</button>
+	      <button ion-button class="submit-btn" full type="submit" [disabled]="!createEventForm.form.valid||!createEventVal.address">Create Event !</button>
 	    </ion-col>
 	  </ion-row>
 	  

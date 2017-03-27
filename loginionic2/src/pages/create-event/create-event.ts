@@ -9,17 +9,22 @@ import { NavController, AlertController, LoadingController, Loading, ModalContro
   templateUrl: 'create-event.html'
 })
 export class CreateEventPage {
+  card: any;
   loading: Loading;
   globalCategories: any;
   disableSubCategory: any;
   optionsListCat: Array<{ value: number, text: string }> = [];
   optionsListSubCat: Array<{ value: number, text: string }> = [];
   apiUrl = this.appSettings.getApiUrl();
-  createEventVal = { languages:"", category:"", subCategory:"", priceNumber:0, date: new Date().toISOString(), time: new Date().toISOString() };
+  createEventVal = { languages: "", category: "", subCategory: "", priceNumber:0, date: new Date().toISOString(), 
+  	time: new Date().toISOString(), address:"", lat: "", lng: "", valid:false, name:""};
 
   constructor(public navCtrl: NavController, public appSettings: AppSettings, public http: Http, public alertCtrl: AlertController, 
   	private loadingCtrl: LoadingController, public modalCtrl: ModalController) {
   	
+  	//Custom card
+  	this.setCustomCard();
+
   	//we disable the subCategory
     this.disableSubCategory = true;
 
@@ -59,6 +64,16 @@ export class CreateEventPage {
     alert.present();
   }
 
+  public setCustomCard(){
+  	console.log(this.createEventVal.name);
+  	this.card = {
+  		// source: "assets/img/bandeaux/pelouse.jpg",
+  		name: this.createEventVal.name,
+  		// address: this.createEventVal.address,
+  		// creator: "Raphael"
+  	};
+  }
+
   public createEvent(){
 
   }
@@ -66,11 +81,9 @@ export class CreateEventPage {
   public changeCategory(){
   	this.createEventVal.subCategory = "";
   	this.optionsListSubCat = [];
-  	console.log(this.globalCategories);
   	for(var i in this.globalCategories[this.createEventVal.category].subCategories)
-  	{
 		this.optionsListSubCat.push({ value: Number(i), text: this.globalCategories[this.createEventVal.category].subCategories[i].name });
-  	}
+  	
   	//Other
 	this.optionsListSubCat.push({ value: Number(i+1), text: "Other" });
 
@@ -86,8 +99,12 @@ export class CreateEventPage {
   }
 
 	public presentMapModal() {
-		let contactModal = this.modalCtrl.create(MapModalPage);
-		contactModal.present();
+		let MapModal = this.modalCtrl.create(MapModalPage);
+		MapModal.onDidDismiss(data => {
+			this.createEventVal.address = data.address;
+			this.createEventVal.lat = data.lat;
+			this.createEventVal.lng = data.lng;
+		});
+		MapModal.present();
 	}
 }
-

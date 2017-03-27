@@ -16,6 +16,7 @@ import { TokenAuth } from './../providers/token-auth';
 import { Facebook } from '@ionic-native/facebook';
 import { DatePipe } from '@angular/common';
 import { CustomNavBarComponent } from './../components/custom-nav-bar/custom-nav-bar';
+import { CustomCardComponent } from './../components/custom-card/custom-card';
  
 @NgModule({
   declarations: [
@@ -28,8 +29,9 @@ import { CustomNavBarComponent } from './../components/custom-nav-bar/custom-nav
     SettingsPage,
     ProfilePage,
     CreateEventPage,
+    MapModalPage,
     CustomNavBarComponent,
-    MapModalPage
+    CustomCardComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -45,8 +47,9 @@ import { CustomNavBarComponent } from './../components/custom-nav-bar/custom-nav
     SettingsPage,
     ProfilePage,
     CreateEventPage,
+    MapModalPage,
     CustomNavBarComponent,
-    MapModalPage
+    CustomCardComponent
   ],
   providers: [AuthService, AppSettings, TokenAuth, Facebook, DatePipe]
 })
