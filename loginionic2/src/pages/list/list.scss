@@ -1,5 +1,33 @@
 page-list {
 
+	ion-navbar {
+		.toolbar-content {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.toolbar-content-md{
+			align-items : center;
+		}
+
+		ion-searchbar, ion-buttons{
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.firstButton{
+			order:1;
+		}
+
+		ion-searchbar{
+			order:2;
+		}
+
+		.lastButton{
+			order:3;
+		}
+	}
+	
 	.scroll-content{
 
 		padding: 0 !important;

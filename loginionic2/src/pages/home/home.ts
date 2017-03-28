@@ -1,8 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController, Loading } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
 import { LoginPage } from '../login/login';
 import { Geolocation } from 'ionic-native';
+import { Http } from '@angular/http';
 
 declare var google; 
 
@@ -13,12 +14,14 @@ declare var google;
 
 export class HomePage {
 
-  username = '';
+  searchedAddress: any = '';
+  loading: Loading;
+  username = 'Raphaël DIDIER';
   email = '';
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   latLng: any;
-  constructor(private nav: NavController, private auth: AuthService) {
+  constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http) {
     // let info = this.auth.getUserInfo();
     // this.username = info.name;
     // this.email = info.email;
@@ -31,13 +34,15 @@ export class HomePage {
 
   public loadMap(){
  
+    this.showLoading();
+
     Geolocation.getCurrentPosition().then((position) => {
  
       this.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
  
       let mapOptions = {
         center: this.latLng,
-        zoom: 14,
+        zoom: 13,
         zoomMax: 17,
         minZoom: 6,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -68,10 +73,13 @@ export class HomePage {
 
       posMarker.setMap(this.map);
 
+      setTimeout(() => {
+        this.loading.dismiss();
+      }, 1000);
+
     }, (err) => {
       console.log(err);
     });
- 
   }
  
   public logout() {
@@ -80,14 +88,39 @@ export class HomePage {
     });
   }
 
-  public recenterMap(){
-
+  public recenterMap(location){
+    if(location)
+      this.map.panTo(location);
+    else
+      this.map.panTo(this.latLng);
     this.makeQuery();
-    this.map.setCenter(this.latLng);
 
   }
 
   public makeQuery(){
     console.log("Query");
+  }
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    this.loading.present();
+  }
+
+  searchByKeyword(){
+    this.http.get("https://maps.googleapis.com/maps/api/geocode/json?address="+(this.searchedAddress).replace(/ /g, ",") ).subscribe((res)=>{
+      if(res.status==200){
+        if((res.json()).results[0])
+        {
+          let location = (res.json()).results[0].geometry.location;
+          this.recenterMap(location);
+        }
+        else
+          console.log("No addresses found!");
+      }
+    }, (err) => {
+      console.log(err);
+    });
   }
 }

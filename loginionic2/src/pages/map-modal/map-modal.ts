@@ -11,31 +11,33 @@ declare var google;
 })
 export class MapModalPage {
 
-  loading: Loading;
-  marker: any;
+	loading: Loading;
+	searchedAddress: any = '';
+	marker: any;
 	@ViewChild('map') mapElement: ElementRef;
 	map: any;
-  lat: any;
-  lng: any;
+	lat: any;
+	lng: any;
   	
-	constructor(public http: Http, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private loadingCtrl: LoadingController) {	
+	constructor(public http: Http, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, 
+		private loadingCtrl: LoadingController) {	
     	this.loadMap();
 	}
 
 	public closeModal(){
 
-    let lngLat = this.marker.getPosition();
-    this.lat = lngLat.lat();
-    this.lng = lngLat.lng();
-    this.http.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+this.lat+","+this.lng+"&sensor=true").subscribe((res)=>{
-      if(res.status==200){
-        let addressInfo = (res.json()).results[0].formatted_address;
-        let data = { 'address': addressInfo, 'lng': this.lng, 'lat': this.lat };
-        this.viewCtrl.dismiss(data);
-      }
-    }, (err) => {
-      console.log(err);
-    });
+	    let lngLat = this.marker.getPosition();
+	    this.lat = lngLat.lat();
+	    this.lng = lngLat.lng();
+	    this.http.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+this.lat+","+this.lng+"&sensor=true").subscribe((res)=>{
+	      if(res.status==200){
+	        let addressInfo = (res.json()).results[0].formatted_address;
+	        let data = { 'address': addressInfo, 'lng': this.lng, 'lat': this.lat };
+	        this.viewCtrl.dismiss(data);
+	      }
+	    }, (err) => {
+	      console.log(err);
+	    });
 	}
 
 	public loadMap(){
@@ -48,7 +50,7 @@ export class MapModalPage {
  
       let mapOptions = {
         center: latLng,
-        zoom: 14,
+        zoom: 13,
         zoomMax: 17,
         minZoom: 6,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -82,5 +84,29 @@ export class MapModalPage {
       content: 'Please wait...'
     });
     this.loading.present();
+  }
+
+  searchByKeyword(){
+  	this.marker.setMap(null);
+    console.log(this.searchedAddress);
+
+  	this.http.get("https://maps.googleapis.com/maps/api/geocode/json?address="+(this.searchedAddress).replace(/ /g, ",") ).subscribe((res)=>{
+      if(res.status==200){
+        if((res.json()).results[0]){
+          let location = (res.json()).results[0].geometry.location;
+          this.map.panTo(location);
+          this.marker.setPosition(location);
+          this.marker.setAnimation(google.maps.Animation.DROP);
+          this.marker.setMap(this.map);
+        }
+        else{
+          this.marker.setAnimation(google.maps.Animation.DROP);
+          this.marker.setMap(this.map);
+          console.log("No addresses found!");
+        }
+      }
+    }, (err) => {
+      console.log(err);
+    });
   }
 }

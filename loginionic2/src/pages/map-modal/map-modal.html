@@ -1,11 +1,16 @@
 <ion-header>
 	<ion-toolbar>
-		<ion-title>MapModal</ion-title>
 		<ion-buttons left>
 	        <button nav-pop (click)=closeModal()>
 	            <ion-icon name="close"></ion-icon>
 	        </button>
         </ion-buttons>
+		<ion-searchbar 
+			[(ngModel)]="searchedAddress"
+			placeholder="City, Address"
+			(search)="searchByKeyword($event)"
+			animated=true>
+		</ion-searchbar>
 	</ion-toolbar>
 
 

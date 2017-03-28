@@ -9,13 +9,14 @@ import { CreateEventPage } from '../create-event/create-event';
 })
 export class ListPage {
 
-	cards : any;
+	searchedEvent: any = "";
+	cards: any;
 
 	constructor(public datepipe: DatePipe, public nav: Nav) {
 
 		let todayDate = new Date();
 
-		let someDay = new Date('2017-03-25²² 18:00:00');
+		let someDay = new Date('2017-03-25 18:00:00');
 
 		let diffHours = (someDay.getTime() - todayDate.getTime())/(60*60*1000);
 
@@ -63,7 +64,13 @@ export class ListPage {
 		];
 	}
 
+	searchByKeyword(){
+		//Looking for event by name or city
+		console.log("Searching for : "+this.searchedEvent);
+	}
+
 	public createEvent(){
+		//Event creation page
 		this.nav.push(CreateEventPage);
 	}
 }

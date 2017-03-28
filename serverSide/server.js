@@ -7,13 +7,13 @@ var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
 var Categories  = require('./app/models/categories'); // get the mongoose model
-// var Subcategories  = require('./app/models/subcategories'); // get the mongoose model
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
  
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use("/images", express.static(__dirname + '/images'));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

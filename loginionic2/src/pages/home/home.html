@@ -1,6 +1,25 @@
 <ion-header>
 
-  <custom-nav-bar></custom-nav-bar>
+  <ion-navbar color="primary">
+	  <ion-buttons class="firstButton">
+	    <button menuToggle ion-button icon-only>
+	      <ion-icon name="menu"></ion-icon>
+	    </button>
+	  </ion-buttons>
+
+	  <ion-searchbar 
+	    [(ngModel)]="searchedAddress"
+	    placeholder="City, Address"
+	    (search)="searchByKeyword($event)"
+	    animated=true>
+	  </ion-searchbar>
+
+	  <ion-buttons class="lastButton">
+	    <button ion-button icon-only>
+	      <ion-icon name="options"></ion-icon>
+	    </button>
+	  </ion-buttons>
+	</ion-navbar>
 
 </ion-header>
 

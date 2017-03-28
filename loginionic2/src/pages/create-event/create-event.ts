@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { AppSettings } from '../../providers/app-settings';
 import { MapModalPage } from '../../pages/map-modal/map-modal';
+import { HomePage } from '../../pages/home/home';
 import { Http } from '@angular/http';
 import { NavController, AlertController, LoadingController, Loading, ModalController, ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'page-create-event',
-  templateUrl: 'create-event.html'
+  templateUrl: 'create-event.html',
+  providers: [HomePage]
 })
 export class CreateEventPage {
   card: any;
@@ -17,11 +19,11 @@ export class CreateEventPage {
   optionsListSubCat: Array<{ value: number, text: string }> = [];
   apiUrl = this.appSettings.getApiUrl();
   createEventVal = { languages: "", category: "", subCategory: "", priceNumber:0, date: new Date().toISOString(), 
-  	time: new Date().toISOString(), address:"", lat: "", lng: "", valid:false, name:""};
+  	time: new Date().toISOString(), address:"", lat: "", lng: "", valid:false, name:"", spots:0};
 
   constructor(public navCtrl: NavController, public appSettings: AppSettings, public http: Http, public alertCtrl: AlertController, 
-  	private loadingCtrl: LoadingController, public modalCtrl: ModalController) {
-  	
+  	private loadingCtrl: LoadingController, public modalCtrl: ModalController, public homePage: HomePage) {
+
   	//Custom card
   	this.setCustomCard();
 
@@ -39,9 +41,8 @@ export class CreateEventPage {
       	for(var i in jsonRes.categories){
   			this.optionsListCat.push({ value: Number(i), text: jsonRes.categories[i].name });
       	}
-		 setTimeout(() => {
-			  this.loading.dismiss();
-		  });
+		this.loading.dismiss();
+      
       } else {
         this.showPopup("Error", "Categories could not be found, Please try later");
       }
@@ -65,12 +66,25 @@ export class CreateEventPage {
   }
 
   public setCustomCard(){
-  	console.log(this.createEventVal.name);
+  	
+  	//Set the default values and fetch the images
+  	let source = (this.createEventVal.category && this.createEventVal.subCategory) ?
+  			"http://localhost:8080/images/"+this.createEventVal.category+"/"+this.createEventVal.subCategory+".jpg":
+  			"http://localhost:8080/images/default.jpg"; 
+  	let spotsLeft = (this.createEventVal.spots == 0)?1:this.createEventVal.spots;
+  	let nameEvent = (this.createEventVal.name=="")?"Name of the event":this.createEventVal.name;
+  	let addressEvent = (this.createEventVal.address=="")?"Address of the event":this.createEventVal.address;
+
   	this.card = {
-  		// source: "assets/img/bandeaux/pelouse.jpg",
-  		name: this.createEventVal.name,
-  		// address: this.createEventVal.address,
-  		// creator: "Raphael"
+  		source: source,
+  		name: nameEvent,
+  		address: addressEvent,
+  		creator: this.homePage.username,
+  		date: this.createEventVal.date,
+  		time: this.createEventVal.time,
+  		totalNumberPlaces: spotsLeft,
+  		daysLeft: "?d",
+  		distance: "?km"
   	};
   }
 
@@ -85,7 +99,7 @@ export class CreateEventPage {
 		this.optionsListSubCat.push({ value: Number(i), text: this.globalCategories[this.createEventVal.category].subCategories[i].name });
   	
   	//Other
-	this.optionsListSubCat.push({ value: Number(i+1), text: "Other" });
+	this.optionsListSubCat.push({ value: Number(i)+1, text: "Other" });
 
 	//Enable the subCategory select
 	this.disableSubCategory = false;
@@ -104,6 +118,7 @@ export class CreateEventPage {
 			this.createEventVal.address = data.address;
 			this.createEventVal.lat = data.lat;
 			this.createEventVal.lng = data.lng;
+		    this.setCustomCard();
 		});
 		MapModal.present();
 	}
