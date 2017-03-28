@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, LoadingController, Loading, PopoverController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
+import { CustomPopOverComponent } from "../../components/custom-pop-over/custom-pop-over"
 import { LoginPage } from '../login/login';
 import { Geolocation } from 'ionic-native';
 import { Http } from '@angular/http';
@@ -21,7 +22,7 @@ export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   latLng: any;
-  constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http) {
+  constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, public popoverCtrl: PopoverController) {
     // let info = this.auth.getUserInfo();
     // this.username = info.name;
     // this.email = info.email;
@@ -121,6 +122,17 @@ export class HomePage {
       }
     }, (err) => {
       console.log(err);
+    });
+  }
+
+  presentPopover(ev) {
+    console.log("Opened");
+    let popover = this.popoverCtrl.create(CustomPopOverComponent, {
+      
+    });
+
+    popover.present({
+      ev: ev
     });
   }
 }

@@ -32,7 +32,7 @@ export class CreateEventPage {
 
     //Fetch the categories
     this.showLoading();
-  	this.http.get(this.apiUrl + "/categories").subscribe(res => {
+  	this.http.get(this.apiUrl + "categories").subscribe(res => {
 
       let jsonRes = res.json();
       if (jsonRes.success) {

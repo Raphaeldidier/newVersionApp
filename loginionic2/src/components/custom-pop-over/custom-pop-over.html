@@ -1,0 +1,19 @@
+
+ 	<ion-buttons left>
+        <button ion-button icon-only (click)=closeFilter()>
+            <ion-icon name="close"></ion-icon>
+        </button>
+    </ion-buttons>
+
+ <ion-list inset>
+	<ion-item>
+		<ion-label floating>Category</ion-label>
+		<ion-select [(ngModel)]="filters.categories" name="category" multiple="true">
+			<ion-option *ngFor="let item of optionsListCat" value="{{item.value}}" required>{{item.text}}</ion-option>
+		</ion-select>
+	</ion-item>	
+	<ion-item>
+		<button ion-button (click)="triggerFilter()">Filter</button>
+		<button ion-button clear (click)="closeFilter()">Cancel</button>
+	</ion-item>
+</ion-list>
