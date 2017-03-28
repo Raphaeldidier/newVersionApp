@@ -31,7 +31,7 @@
 		</div>
 	</ion-card>
 
-	<form (ngSubmit)="createEvent()" #createEventForm="ngForm">
+	<form #createEventForm="ngForm">
 	  <ion-row>
 	    <ion-col>
 	      <ion-list inset>
@@ -94,7 +94,7 @@
 			</ion-item>
 
 			<ion-item>
-				<button ion-button icon-right (click)=presentMapModal()>
+				<button ion-button icon-right full (click)=presentMapModal()>
   					Location
   					<ion-icon name="flag"></ion-icon>
 				</button>
@@ -110,7 +110,7 @@
 	  
 	  <ion-row>
 	    <ion-col class="signup-col">
-	      <button ion-button class="submit-btn" full type="submit" [disabled]="!createEventForm.form.valid||!createEventVal.address">Create Event !</button>
+	      <button ion-button class="submit-btn" full type="submit" (click)="createEvent()" [disabled]="!createEventForm.form.valid||!createEventVal.address">Create Event !</button>
 	    </ion-col>
 	  </ion-row>
 	  

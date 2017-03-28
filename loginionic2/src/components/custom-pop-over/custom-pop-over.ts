@@ -37,6 +37,7 @@ export class CustomPopOverComponent {
 
   public triggerFilter(){
     console.log(this.filters);
+     // this.viewCtrl.dismiss();
   }
 
   public closeFilter(){

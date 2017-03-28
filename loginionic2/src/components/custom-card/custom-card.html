@@ -12,8 +12,8 @@
 	    <div class="right-card">
 			<div class="card-days-left">{{ card.daysLeft }}</div>
 			<div class="card-number-places">
-			    <div class="card-taken-number-places">{{card.takenNumberPlaces}}/{{card.totalNumberPlaces}}</div>
-			    <div class="card-free-number-places">{{card.freeNumberPlaces}} spots left</div>
+			    <div class="card-taken-number-places">{{card.spotsMax-card.spotsLeft}}/{{card.spotsMax}}</div>
+			    <div class="card-free-number-places">{{card.spotsLeft}} spots left</div>
 		    </div>	
 			<div class="card-distance">{{ card.distance }}</div>
 	    </div>	

@@ -22,8 +22,9 @@ export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   latLng: any;
+
   constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, public popoverCtrl: PopoverController) {
-    // let info = this.auth.getUserInfo();
+    let info = this.auth.getUserInfo();
     // this.username = info.name;
     // this.email = info.email;
   }
@@ -126,10 +127,7 @@ export class HomePage {
   }
 
   presentPopover(ev) {
-    console.log("Opened");
-    let popover = this.popoverCtrl.create(CustomPopOverComponent, {
-      
-    });
+    let popover = this.popoverCtrl.create(CustomPopOverComponent, {});
 
     popover.present({
       ev: ev

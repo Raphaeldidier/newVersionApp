@@ -1,7 +1,7 @@
 <ion-header>
 	<ion-toolbar>
 		<ion-buttons left>
-	        <button ion-button icon-only (click)=closeModal()>
+	        <button ion-button icon-only clear (click)=closeModal()>
 	            <ion-icon name="close"></ion-icon>
 	        </button>
         </ion-buttons>
@@ -12,11 +12,14 @@
 			animated=true>
 		</ion-searchbar>
 	</ion-toolbar>
-
-
 </ion-header>
 
 
 <ion-content>
-  <div #map id="map"></div> 
+  <div #map id="map"></div>
+  <ion-fab bottom center class="send-modal-info">
+    <button ion-fab (click)=validateModal()>
+      <ion-icon name="flag"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

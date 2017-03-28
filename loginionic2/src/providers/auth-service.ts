@@ -5,11 +5,13 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
  
 export class User {
+  id: string;
   name: string;
   email: string;
   birthdate: string;
  
-  constructor(name: string, email: string, birthdate: string) {
+  constructor(id: string, name: string, email: string, birthdate: string) {
+    this.id = id,
     this.name = name;
     this.email = email;
     this.birthdate = birthdate;

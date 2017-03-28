@@ -7,6 +7,7 @@ var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
 var Categories  = require('./app/models/categories'); // get the mongoose model
+var Event        = require('./app/models/event'); // get the mongoose model
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
  
@@ -121,23 +122,47 @@ apiRoutes.get('/categories', function(req, res){
 
 });
 
-// apiRoutes.get('/subcategories', function(req, res){
-
-//   Categories.find({}, function(err, subCategories){
-//     if(categories)
-//       res.json({success: true, categories: categories});
-//     else
-//       res.json({success: false, categories: null});
-//   });
-
-// });
-
 //event creation
-apiRoutes.post('/createevent', function(req, res) {
-  if (!req.body.category || !req.body.subCategory || !req.body.date || !req.body.time || !req.body.languages) {
-    res.json({success: false, msg: 'Please pass name, email and password.'});
-  } 
-  //TODO : end it
+apiRoutes.post('/createEvent', function(req, res) {
+  console.log(req.body);
+  User.findOne({
+    _id: mongoose.Types.ObjectId(req.body._creator)
+  }, function(err, user) {
+    if (err) throw err;
+
+      console.log("User :"+user);
+      var newEvent = new Event({
+        _creator: user,
+        name: req.body.name,
+        languages: req.body.languages,
+        category: req.body.category,
+        subCategory : req.body.subCategory,
+        priceNumber : req.body.priceNumber,
+        priceCurrency : req.body.priceCurrency,
+        date : req.body.date,
+        time : req.body.time,
+        address : req.body.address,
+        lat : req.body.lat,
+        lng : req.body.lng,
+        spotsMax : req.body.spotsMax,
+        spotsLeft: req.body.spotsLeft
+      });
+
+      newEvent.save((err)=>{
+        if(err) throw err;
+        else
+          res.json({success: true});
+      });
+  });
+});
+
+apiRoutes.get('/events', function(req, res){
+  Event.find({}, function(err, events){
+    if(events)
+      res.json({success: true, events: events});
+    else
+      res.json({success: false, events: null});
+  });
 });
  
 // connect the api routes under /api/*

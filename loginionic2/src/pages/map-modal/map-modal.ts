@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, NavParams, ViewController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, NavParams, ViewController, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { Geolocation } from 'ionic-native';
 import { Http } from '@angular/http';
 
@@ -20,11 +20,16 @@ export class MapModalPage {
 	lng: any;
   	
 	constructor(public http: Http, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, 
-		private loadingCtrl: LoadingController) {	
+		private loadingCtrl: LoadingController, public alertCtrl: AlertController) {	
     	this.loadMap();
+
 	}
 
-	public closeModal(){
+  public closeModal(){
+    this.viewCtrl.dismiss({});
+  }
+
+	public validateModal(){
 
 	    let lngLat = this.marker.getPosition();
 	    this.lat = lngLat.lat();
@@ -33,7 +38,23 @@ export class MapModalPage {
 	      if(res.status==200){
 	        let addressInfo = (res.json()).results[0].formatted_address;
 	        let data = { 'address': addressInfo, 'lng': this.lng, 'lat': this.lat };
-	        this.viewCtrl.dismiss(data);
+
+          //Alert popUp
+          let alert = this.alertCtrl.create({
+          title: "Right address ?",
+          subTitle: addressInfo,
+          buttons: [
+            {
+              text: 'No'
+            },{
+              text: 'Yes',
+              handler: val => {
+                this.viewCtrl.dismiss(data);
+              }
+            }]
+          });
+          alert.present();
+
 	      }
 	    }, (err) => {
 	      console.log(err);
@@ -43,6 +64,7 @@ export class MapModalPage {
 	public loadMap(){
  
     this.showLoading();
+    console.log("After2");
 
     Geolocation.getCurrentPosition().then((position) => {
  

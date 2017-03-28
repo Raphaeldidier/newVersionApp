@@ -29,7 +29,7 @@ export class LoginPage {
     this.auth.login(this.registerCredentials).subscribe(res => {
       let jsonRes = res.json();
       if (jsonRes.success) {
-        this.auth.currentUser = new User(jsonRes.user.name, jsonRes.user.email, jsonRes.user.email);
+        this.auth.currentUser = new User(jsonRes.user._id, jsonRes.user.name, jsonRes.user.email, jsonRes.user.email);
         //Todo TOKENS
         // this.tokenAuth.storeUserCredentials(body.token);
         // this.tokenAuth.loadUserCredentials();
