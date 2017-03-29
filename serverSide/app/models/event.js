@@ -5,7 +5,7 @@ var SchemaTypes = mongoose.Schema.Types;
 var bcrypt = require('bcryptjs');
 
 var EventSchema = new Schema({
-  _creator : { type: Number, ref: 'User' },
+  creator : [{ type: SchemaTypes.ObjectId, ref: 'User' }],
   name    : String,
   languages : Array,
   category : Number,
@@ -13,7 +13,6 @@ var EventSchema = new Schema({
   priceNumber : Number,
   priceCurrency : String,
   date : Date,
-  time : Date,
   address : String,
   lat : SchemaTypes.Double,
   lng : SchemaTypes.Double,

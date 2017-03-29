@@ -2,6 +2,8 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { Nav, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { DatePipe } from '@angular/common';
 import { CreateEventPage } from '../create-event/create-event';
+import { PositionService } from '../../providers/position-service';
+import { RequestService } from '../../providers/request-service';
 import { AppSettings } from '../../providers/app-settings';
 import { Http } from '@angular/http';
 
@@ -18,19 +20,20 @@ export class ListPage {
 	cards: Array<{}> = [];
 
 	constructor(public datepipe: DatePipe, public nav: Nav, public cdr: ChangeDetectorRef, public loadingCtrl: LoadingController, public alertCtrl: AlertController,
-		public http: Http, public appSettings: AppSettings) {
-
+		public http: Http, public appSettings: AppSettings, public positionService: PositionService, public requestService: RequestService) {
+		
 	}
 
 	ngAfterViewInit() {
 		this.events = this.getEvents();
   	}
-
+ 
 
 	public getDaysDiff(date){
 
 		let todayDate = new Date();
-		let diffHours = (todayDate.getTime() - date)/(60*60*1000);
+		let formatedDate = new Date(date);
+		let diffHours = (formatedDate.getTime() - todayDate.getTime())/(60*60*1000);
 		return  (diffHours >= 24) ? Math.round(diffHours/24)+"d" : Math.round(diffHours)+"h";
 	}
 
@@ -41,26 +44,26 @@ export class ListPage {
 
 	public getEvents(){
 
-    	this.showLoading();
+    	// this.showLoading();
 
 		this.http.get(this.apiUrl + "events").subscribe(res => {
 
 			let jsonRes = res.json();
-		    this.loading.dismiss();
+		    // this.loading.dismiss();
 			if (jsonRes.success) {
 				console.log(jsonRes.events);
-				this.events = jsonRes.events;
-				this.events.forEach((event) => {
+				jsonRes.events.forEach((event) => {
 				this.cards.push({
 					"name": event.name,
 					"address": event.address,
 					"date": event.date,
-					"creator":"Julien",
+					"creator":event.creator[0].name,
 					"daysLeft": this.getDaysDiff(event.date),
 					"spotsMax": event.spotsMax,
 					"spotsLeft": event.spotsLeft,
-					"distance": event.lat,
-					"source":"assets/img/bandeaux/pelouse.jpg",
+					"distance": this.positionService.getDistanceFromPosInKm(event.lat, event.lng),
+					//get Img
+					"source": this.requestService.getImageSource(event.category, event.subCategory),
 					});
 				});
 	    		this.cdr.detectChanges();
@@ -92,5 +95,14 @@ export class ListPage {
 	public createEvent(){
 		//Event creation page
 		this.nav.push(CreateEventPage);
+	}
+
+	doRefresh(refresher) {
+		this.cards = [];
+		this.getEvents();
+
+	    setTimeout(() => {
+	      refresher.complete();
+	    }, 1000);
 	}
 }

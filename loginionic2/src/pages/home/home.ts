@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, LoadingController, Loading, PopoverController } from 'ionic-angular';
+import { NavController, LoadingController, Loading, PopoverController, MenuController  } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
+import { PositionService } from '../../providers/position-service';
+import { RequestService } from '../../providers/request-service';
 import { CustomPopOverComponent } from "../../components/custom-pop-over/custom-pop-over"
 import { LoginPage } from '../login/login';
 import { Geolocation } from 'ionic-native';
@@ -21,17 +23,24 @@ export class HomePage {
   email = '';
   @ViewChild('map') mapElement: ElementRef;
   map: any;
-  latLng: any;
+  markerArray : Array<any> = []; 
 
-  constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, public popoverCtrl: PopoverController) {
-    let info = this.auth.getUserInfo();
+  constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, 
+    public popoverCtrl: PopoverController, public positionService: PositionService, public requestService: RequestService, private menu: MenuController) {
+
+    // let info = this.auth.getUserInfo();
     // this.username = info.name;
     // this.email = info.email;
+  }
+
+  ionViewDidEnter() {
+    this.menu.swipeEnable(false, 'menu');
   }
 
   ionViewDidLoad(){
 
     this.loadMap();
+
   }
 
   public loadMap(){
@@ -40,22 +49,29 @@ export class HomePage {
 
     Geolocation.getCurrentPosition().then((position) => {
  
-      this.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- 
+      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+      this.positionService.setPosition(latLng);
+  
       let mapOptions = {
-        center: this.latLng,
+        center: latLng,
         zoom: 13,
         zoomMax: 17,
         minZoom: 6,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        disableDefaultUI: true
+        disableDefaultUI: true,
+        parent:this, //adding parent to access home page class inside google maps events
       }
  
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-      this.map.addListener('dragend', this.makeQuery);
+      this.map.addListener('dragend', function(){
+        this.parent.makeQuery(this.parent);
+      });
 
-      this.map.addListener('zoom_changed', this.makeQuery);
+      this.map.addListener('zoom_changed', function(){
+        this.parent.makeQuery(this.parent);
+      });
 
       //setIcon
       var icon = {
@@ -67,7 +83,7 @@ export class HomePage {
 
       //Set First Marker
        var posMarker = new google.maps.Marker({
-        position: this.latLng,
+        position: latLng,
         icon: icon,
         size: 5,
         map: this.map
@@ -77,6 +93,7 @@ export class HomePage {
 
       setTimeout(() => {
         this.loading.dismiss();
+        this.makeQuery(this);
       }, 1000);
 
     }, (err) => {
@@ -94,13 +111,43 @@ export class HomePage {
     if(location)
       this.map.panTo(location);
     else
-      this.map.panTo(this.latLng);
-    this.makeQuery();
+      this.map.panTo(this.positionService.getPosition());
+    this.makeQuery(this);
 
   }
 
-  public makeQuery(){
-    console.log("Query");
+  public makeQuery(that){
+
+    let latNE = this.map.getBounds().getNorthEast().lat();
+    let lngNE = this.map.getBounds().getNorthEast().lng();
+    let latSW = this.map.getBounds().getSouthWest().lat();
+    let lngSW = this.map.getBounds().getSouthWest().lng();
+
+    that.markerArray.forEach(elem => {
+      elem.setMap(null);
+    });
+    that.markerArray = [];
+
+    that.requestService.getEventFromMap(latNE, lngNE, latSW, lngSW).subscribe(res => {
+
+      let jsonRes = res.json();
+      if (jsonRes.success) {
+        console.log(jsonRes.events);
+        jsonRes.events.forEach((event, index) => {
+          //Setting markers for each event
+          that.markerArray.push(
+            new google.maps.Marker({
+              map: this.map,
+              animation: google.maps.Animation.DROP,
+              position: { lat: event.lat, lng: event.lng },
+              draggable: false
+            })
+          );
+        });
+      }
+    }, err => {
+
+    });
   }
 
   showLoading() {

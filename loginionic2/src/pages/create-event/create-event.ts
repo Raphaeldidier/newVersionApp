@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { AppSettings } from '../../providers/app-settings';
 import { AuthService } from '../../providers/auth-service';
+import { RequestService } from '../../providers/request-service';
 import { MapModalPage } from '../../pages/map-modal/map-modal';
 import { HomePage } from '../../pages/home/home';
 import { Http } from '@angular/http';
-import { NavController, AlertController, LoadingController, Loading, ModalController, ViewController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, Loading, ModalController } from 'ionic-angular';
 
 @Component({
   selector: 'page-create-event',
@@ -20,11 +21,12 @@ export class CreateEventPage {
   optionsListCat: Array<{ value: number, text: string }> = [];
   optionsListSubCat: Array<{ value: number, text: string }> = [];
   apiUrl = this.appSettings.getApiUrl();
-  createEventVal = { languages: "", category: "", subCategory: "", priceNumber:0, date: new Date().toISOString(), 
-  	time: new Date().toISOString(), address:"", lat: "", lng: "", currency:'', valid:false, name:"", spots:0};
+  createEventVal = { languages: "", category: "", subCategory: "", priceNumber:0, date: this.formatLocalDate(), 
+  	address:"", lat: "", lng: "", currency:'', valid:false, name:"", spots:0};
 
   constructor(public navCtrl: NavController, public appSettings: AppSettings, public http: Http, public alertCtrl: AlertController, 
-  	private loadingCtrl: LoadingController, public modalCtrl: ModalController, public homePage: HomePage, public auth: AuthService) {
+  	private loadingCtrl: LoadingController, public modalCtrl: ModalController, public homePage: HomePage, public auth: AuthService, 
+    public requestService: RequestService) {
 
     //get the User 
     this.currentUser = this.auth.getUserInfo();
@@ -74,9 +76,7 @@ export class CreateEventPage {
   public setCustomCard(){
   	
   	//Set the default values and fetch the images
-  	let source = (this.createEventVal.category && this.createEventVal.subCategory) ?
-  			"http://localhost:8080/images/"+this.createEventVal.category+"/"+this.createEventVal.subCategory+".jpg":
-  			"http://localhost:8080/images/default.jpg"; 
+  	let source = this.requestService.getImageSource(this.createEventVal.category, this.createEventVal.subCategory);
   	let spotsLeft = (this.createEventVal.spots == 0)?1:this.createEventVal.spots;
   	let nameEvent = (this.createEventVal.name=="")?"Name of the event":this.createEventVal.name;
   	let addressEvent = (this.createEventVal.address=="")?"Address of the event":this.createEventVal.address;
@@ -87,15 +87,13 @@ export class CreateEventPage {
   		address: addressEvent,
   		creator: this.currentUser.name,
   		date: this.createEventVal.date,
-  		time: this.createEventVal.time,
   		totalNumberPlaces: spotsLeft,
-  		daysLeft: "?d",
-  		distance: "?km"
+  		daysLeft: "*d",
+  		distance: "* km"
   	};
   }
 
   public createEvent(){
-    console.log("creatingEvent");
     this.http.post(this.apiUrl + 'createEvent', this.formalizeEvent())
     .subscribe(res => {
       let jsonRes = res.json();
@@ -130,10 +128,8 @@ export class CreateEventPage {
   }
 
 	public presentMapModal() {
-    console.log("Before");
 		let MapModal = this.modalCtrl.create(MapModalPage);
 		MapModal.onDidDismiss(data => {
-      console.log("After");
 			this.createEventVal.address = data.address;
 			this.createEventVal.lat = data.lat;
 			this.createEventVal.lng = data.lng;
@@ -152,7 +148,6 @@ export class CreateEventPage {
       "priceNumber": this.createEventVal.priceNumber,
       "priceCurrency": this.createEventVal.currency,
       "date": this.createEventVal.date,
-      "time": this.createEventVal.time,
       "address": this.createEventVal.address,
       "lat": this.createEventVal.lat,
       "lng": this.createEventVal.lng,
@@ -160,4 +155,22 @@ export class CreateEventPage {
       "spotsLeft": this.createEventVal.spots,
     }
   }
+
+  public formatLocalDate() {
+    var now = new Date(),
+        tzo = -now.getTimezoneOffset(),
+        dif = tzo >= 0 ? '+' : '-',
+        pad = function(num) {
+            var norm = Math.abs(Math.floor(num));
+            return (norm < 10 ? '0' : '') + norm;
+        };
+    return now.getFullYear() 
+        + '-' + pad(now.getMonth()+1)
+        + '-' + pad(now.getDate())
+        + 'T' + pad(now.getHours())
+        + ':' + pad(now.getMinutes()) 
+        + ':' + pad(now.getSeconds()) 
+        + dif + pad(tzo / 60) 
+        + ':' + pad(tzo % 60);
+    }
 }

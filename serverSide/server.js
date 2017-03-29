@@ -124,15 +124,12 @@ apiRoutes.get('/categories', function(req, res){
 
 //event creation
 apiRoutes.post('/createEvent', function(req, res) {
-  console.log(req.body);
   User.findOne({
     _id: mongoose.Types.ObjectId(req.body._creator)
   }, function(err, user) {
     if (err) throw err;
-
-      console.log("User :"+user);
       var newEvent = new Event({
-        _creator: user,
+        creator: user,
         name: req.body.name,
         languages: req.body.languages,
         category: req.body.category,
@@ -157,12 +154,30 @@ apiRoutes.post('/createEvent', function(req, res) {
 });
 
 apiRoutes.get('/events', function(req, res){
-  Event.find({}, function(err, events){
-    if(events)
-      res.json({success: true, events: events});
-    else
-      res.json({success: false, events: null});
-  });
+  Event.find({date: { $gte: new Date() }})
+    .populate('creator')
+    .sort('date')
+    .exec(function(err, events){
+      if(events){
+        res.json({success: true, events: events});
+      }
+      else
+        res.json({success: false, events: null});
+    });
+});
+
+apiRoutes.get('/mapEvents', function(req, res){
+  let limits = req.query;
+  Event.find({date: { $gte: new Date() }})
+    .populate('creator')
+    .sort('date')
+    .exec(function(err, events){
+      if(events){
+        res.json({success: true, events: events});
+      }
+      else
+        res.json({success: false, events: null});
+    });
 });
  
 // connect the api routes under /api/*

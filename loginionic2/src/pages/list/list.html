@@ -25,10 +25,12 @@
 
 <ion-content padding>
 
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+    	<ion-refresher-content></ion-refresher-content>
+  	</ion-refresher>
+
 	<ion-list>
-
 		<custom-card *ngFor="let card of cards" [card]="card"></custom-card>
-
 	</ion-list>
 
 	<ion-fab bottom right>

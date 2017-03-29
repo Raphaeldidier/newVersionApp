@@ -12,6 +12,8 @@ import { ProfilePage } from '../pages/profile/profile';
 import { MapModalPage } from '../pages/map-modal/map-modal';
 import { AuthService } from '../providers/auth-service';
 import { AppSettings } from './../providers/app-settings';
+import { PositionService } from './../providers/position-service';
+import { RequestService } from './../providers/request-service';
 import { TokenAuth } from './../providers/token-auth';
 import { Facebook } from '@ionic-native/facebook';
 import { DatePipe } from '@angular/common';
@@ -51,6 +53,6 @@ import { CustomCardComponent } from './../components/custom-card/custom-card';
     CustomPopOverComponent,
     CustomCardComponent
   ],
-  providers: [AuthService, AppSettings, TokenAuth, Facebook, DatePipe]
+  providers: [AuthService, AppSettings, TokenAuth, PositionService, RequestService, Facebook, DatePipe]
 })
 export class AppModule {}
