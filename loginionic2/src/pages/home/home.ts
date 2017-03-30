@@ -24,6 +24,7 @@ export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   markerArray : Array<any> = []; 
+  infoWindows: Array<any> = []; 
 
   constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, 
     public popoverCtrl: PopoverController, public positionService: PositionService, public requestService: RequestService, private menu: MenuController) {
@@ -127,6 +128,7 @@ export class HomePage {
       elem.setMap(null);
     });
     that.markerArray = [];
+      
 
     that.requestService.getEventFromMap(latNE, lngNE, latSW, lngSW).subscribe(res => {
 
@@ -134,15 +136,19 @@ export class HomePage {
       if (jsonRes.success) {
         console.log(jsonRes.events);
         jsonRes.events.forEach((event, index) => {
-          //Setting markers for each event
-          that.markerArray.push(
-            new google.maps.Marker({
+          // Setting markers for each event
+          let marker = new google.maps.Marker({
               map: this.map,
-              animation: google.maps.Animation.DROP,
+              icon: {
+                url: "assets/img/orange_dot.png",
+                scaledSize: new google.maps.Size(50, 50)
+              },
+              // animation: google.maps.Animation.DROP,
               position: { lat: event.lat, lng: event.lng },
               draggable: false
-            })
-          );
+            });
+          that.addInfoWindowToMarker(marker, event);
+          that.markerArray.push(marker);
         });
       }
     }, err => {
@@ -178,6 +184,24 @@ export class HomePage {
 
     popover.present({
       ev: ev
+    });
+  }
+
+  public addInfoWindowToMarker(marker, event) {
+    var infoWindowContent = '<h1>'+event.name+'</h1';
+    var infoWindow = new google.maps.InfoWindow({
+      content: infoWindowContent
+    });
+    marker.addListener('click', () => {
+      this.closeAllInfoWindows();
+      infoWindow.open(this.map, marker);
+    });
+    this.infoWindows.push(infoWindow);
+  }
+
+  closeAllInfoWindows() {
+    this.infoWindows.map((currentW) => {
+      currentW.close();
     });
   }
 }

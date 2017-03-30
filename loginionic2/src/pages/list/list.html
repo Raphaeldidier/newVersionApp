@@ -8,9 +8,11 @@
 	  </ion-buttons>
 
 	  <ion-searchbar 
-	    [(ngModel)]="searchedEvent"
+	    [(ngModel)]="searchedWord"
 	    placeholder="Event, city"
 	    (search)="searchByKeyword($event)"
+	    (ionClear)="clearCards()"
+	    (ionInput)="searchKey($event)"
 	    animated=true>
 	  </ion-searchbar>
 

@@ -14,10 +14,11 @@ import { Http } from '@angular/http';
 export class ListPage {
 
 	loading: Loading;
-	searchedEvent: any = "";
+	searchedWord: any = "";
 	events: any;
  	apiUrl = this.appSettings.getApiUrl();
-	cards: Array<{}> = [];
+	cards: Array<any> = [];
+	initCards: Array<any> = [];
 
 	constructor(public datepipe: DatePipe, public nav: Nav, public cdr: ChangeDetectorRef, public loadingCtrl: LoadingController, public alertCtrl: AlertController,
 		public http: Http, public appSettings: AppSettings, public positionService: PositionService, public requestService: RequestService) {
@@ -34,12 +35,12 @@ export class ListPage {
 		let todayDate = new Date();
 		let formatedDate = new Date(date);
 		let diffHours = (formatedDate.getTime() - todayDate.getTime())/(60*60*1000);
-		return  (diffHours >= 24) ? Math.round(diffHours/24)+"d" : Math.round(diffHours)+"h";
+		return  (diffHours >= 24) ? Math.round(diffHours/24)+"d" : (diffHours>=1) ? Math.round(diffHours)+"h" : "in < 1h";
 	}
 
 	searchByKeyword(){
 		//Looking for event by name or city
-		console.log("Searching for : "+this.searchedEvent);
+		console.log("Searching for : "+this.searchedWord);
 	}
 
 	public getEvents(){
@@ -53,7 +54,7 @@ export class ListPage {
 			if (jsonRes.success) {
 				console.log(jsonRes.events);
 				jsonRes.events.forEach((event) => {
-				this.cards.push({
+				this.initCards.push({
 					"name": event.name,
 					"address": event.address,
 					"date": event.date,
@@ -62,10 +63,10 @@ export class ListPage {
 					"spotsMax": event.spotsMax,
 					"spotsLeft": event.spotsLeft,
 					"distance": this.positionService.getDistanceFromPosInKm(event.lat, event.lng),
-					//get Img
 					"source": this.requestService.getImageSource(event.category, event.subCategory),
 					});
 				});
+				this.cards = this.initCards;
 	    		this.cdr.detectChanges();
 			}
 			else
@@ -98,11 +99,32 @@ export class ListPage {
 	}
 
 	doRefresh(refresher) {
-		this.cards = [];
-		this.getEvents();
+		this.clearCards();
 
 	    setTimeout(() => {
 	      refresher.complete();
 	    }, 1000);
+	}
+
+	public clearCards(){
+		this.initCards = [];
+		this.cards = this.initCards;
+		this.getEvents();
+	}
+
+	public searchKey(){
+		//get the value
+		this.cards = this.initCards;
+		let searchedTerm = this.searchedWord;
+		this.cdr.detectChanges();
+
+	    // if the value is an empty string don't filter the items
+	    if (searchedTerm.trim() == '') {
+	        return;
+	    }
+
+		this.cards = this.cards.filter((card) => {
+			return card.name.toLowerCase().indexOf(searchedTerm.toLowerCase()) > -1;
+		});
 	}
 }

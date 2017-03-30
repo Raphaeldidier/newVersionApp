@@ -168,7 +168,15 @@ apiRoutes.get('/events', function(req, res){
 
 apiRoutes.get('/mapEvents', function(req, res){
   let limits = req.query;
-  Event.find({date: { $gte: new Date() }})
+  Event.find({ 
+      $and:[
+        {date: { $gte: new Date() } },
+        {lat: { $gte: limits.latSW } },
+        {lng: { $gte: limits.lngSW } },
+        {lat: { $lte: limits.latNE } },
+        {lng: { $lte: limits.lngNE } }
+      ]
+    })
     .populate('creator')
     .sort('date')
     .exec(function(err, events){
