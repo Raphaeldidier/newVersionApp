@@ -21,7 +21,8 @@ var UserSchema = new Schema({
     birthdate: {
         type: String,
         required: true
-    }
+    },
+    groups : [{ type: Schema.Types.ObjectId, ref: 'Groups' }],
 });
  
 UserSchema.pre('save', function (next) {

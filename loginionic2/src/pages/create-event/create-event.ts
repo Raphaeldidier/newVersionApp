@@ -22,7 +22,7 @@ export class CreateEventPage {
   optionsListSubCat: Array<{ value: number, text: string }> = [];
   apiUrl = this.appSettings.getApiUrl();
   createEventVal = { languages: "", category: "", subCategory: "", priceNumber:0, date: this.formatLocalDate(), 
-  	address:"", lat: "", lng: "", currency:'', valid:false, name:"", spots:0};
+  	address:"", lat: "", lng: "", city:"", currency:'', valid:false, name:"", spots:0};
 
   constructor(public navCtrl: NavController, public appSettings: AppSettings, public http: Http, public alertCtrl: AlertController, 
   	private loadingCtrl: LoadingController, public modalCtrl: ModalController, public homePage: HomePage, public auth: AuthService, 
@@ -132,7 +132,8 @@ export class CreateEventPage {
 		MapModal.onDidDismiss(data => {
 			this.createEventVal.address = data.address;
 			this.createEventVal.lat = data.lat;
-			this.createEventVal.lng = data.lng;
+      this.createEventVal.lng = data.lng;
+      this.createEventVal.city = data.city;
 	    this.setCustomCard();
 		});
 		MapModal.present();
@@ -151,6 +152,7 @@ export class CreateEventPage {
       "address": this.createEventVal.address,
       "lat": this.createEventVal.lat,
       "lng": this.createEventVal.lng,
+      "city": this.createEventVal.city,
       "spotsMax": this.createEventVal.spots,
       "spotsLeft": this.createEventVal.spots,
     }

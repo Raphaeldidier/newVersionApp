@@ -21,4 +21,4 @@ var CategoriesSchema = new Schema({
     subCategories: [SubCategoriesSchema]
 });
  
-module.exports = mongoose.model('categories', CategoriesSchema);
+module.exports = mongoose.model('Categories', CategoriesSchema);

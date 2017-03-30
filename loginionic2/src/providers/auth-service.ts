@@ -9,12 +9,14 @@ export class User {
   name: string;
   email: string;
   birthdate: string;
+  groups: Array<any>;
  
-  constructor(id: string, name: string, email: string, birthdate: string) {
+  constructor(id: string, name: string, email: string, birthdate: string, groups: Array<any>) {
     this.id = id,
     this.name = name;
     this.email = email;
     this.birthdate = birthdate;
+    this.groups = groups;
   }
 }
  
@@ -48,6 +50,10 @@ export class AuthService {
  
   public getUserInfo() : User {
     return this.currentUser;
+  }
+
+  public getUserGroups() {
+    return this.currentUser.groups;
   }
  
   public logout() {

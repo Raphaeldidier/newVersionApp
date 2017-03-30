@@ -13,6 +13,7 @@ var EventSchema = new Schema({
   priceNumber : Number,
   priceCurrency : String,
   date : Date,
+  city : String,
   address : String,
   lat : SchemaTypes.Double,
   lng : SchemaTypes.Double,

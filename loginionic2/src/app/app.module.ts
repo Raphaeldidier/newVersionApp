@@ -9,7 +9,10 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { SettingsPage } from '../pages/settings/settings';
 import { CreateEventPage } from '../pages/create-event/create-event';
 import { ProfilePage } from '../pages/profile/profile';
+import { GroupsPage } from '../pages/groups/groups';
 import { MapModalPage } from '../pages/map-modal/map-modal';
+import { MyEventsPage } from '../pages/my-events/my-events';
+import { CreateGroupModalPage } from '../pages/create-group-modal/create-group-modal';
 import { AuthService } from '../providers/auth-service';
 import { AppSettings } from './../providers/app-settings';
 import { PositionService } from './../providers/position-service';
@@ -19,7 +22,7 @@ import { Facebook } from '@ionic-native/facebook';
 import { DatePipe } from '@angular/common';
 import { CustomPopOverComponent } from './../components/custom-pop-over/custom-pop-over';
 import { CustomCardComponent } from './../components/custom-card/custom-card';
- 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -32,6 +35,9 @@ import { CustomCardComponent } from './../components/custom-card/custom-card';
     ProfilePage,
     CreateEventPage,
     MapModalPage,
+    GroupsPage,
+    MyEventsPage,
+    CreateGroupModalPage,
     CustomPopOverComponent,
     CustomCardComponent
   ],
@@ -50,6 +56,9 @@ import { CustomCardComponent } from './../components/custom-card/custom-card';
     ProfilePage,
     CreateEventPage,
     MapModalPage,
+    GroupsPage,
+    MyEventsPage,
+    CreateGroupModalPage,
     CustomPopOverComponent,
     CustomCardComponent
   ],

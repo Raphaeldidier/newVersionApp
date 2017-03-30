@@ -1,0 +1,51 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Groups</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+	<ion-list *ngFor="let group of groups">
+
+		<ion-card>
+
+			<ion-item-sliding #item>
+			    <ion-item>
+			    	<ion-label>
+		      			{{ group.name }}
+	      			</ion-label>
+	      			<div item-content>
+				    	<ion-icon name="arrow-dropleft"></ion-icon>
+				    </div>	
+		    	</ion-item>
+			    <ion-item-options side="right" icon-top>
+					<button ion-button color="primary" (click)="addUser(group)">
+						<ion-icon name="person-add"></ion-icon>
+						Favorite
+					</button>
+					<button ion-button color="secondary" (click)="manageGroup(group)">
+						<ion-icon name="construct"></ion-icon>
+						Manage
+					</button>
+					<button ion-button color="danger" (click)="deleteGroup(group)">
+						<ion-icon name="trash"></ion-icon>
+						Delete
+					</button>
+			    </ion-item-options>
+		    </ion-item-sliding>	
+	
+		</ion-card>
+
+	</ion-list>
+
+	<ion-fab bottom right>
+		<button mini ion-fab icon-only clear=true color="primary" (click)="createGroup()">
+			<ion-icon name="add-circle"></ion-icon>
+		</button>
+	</ion-fab>
+
+</ion-content>

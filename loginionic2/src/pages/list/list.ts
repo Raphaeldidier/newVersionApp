@@ -35,7 +35,7 @@ export class ListPage {
 		let todayDate = new Date();
 		let formatedDate = new Date(date);
 		let diffHours = (formatedDate.getTime() - todayDate.getTime())/(60*60*1000);
-		return  (diffHours >= 24) ? Math.round(diffHours/24)+"d" : (diffHours>=1) ? Math.round(diffHours)+"h" : "in < 1h";
+		return  (diffHours >= 24) ? Math.round(diffHours/24)+"d" : (diffHours>=1) ? Math.round(diffHours)+"h" : "< 1h";
 	}
 
 	searchByKeyword(){
@@ -62,6 +62,7 @@ export class ListPage {
 					"daysLeft": this.getDaysDiff(event.date),
 					"spotsMax": event.spotsMax,
 					"spotsLeft": event.spotsLeft,
+					"city": event.city,
 					"distance": this.positionService.getDistanceFromPosInKm(event.lat, event.lng),
 					"source": this.requestService.getImageSource(event.category, event.subCategory),
 					});
@@ -124,7 +125,7 @@ export class ListPage {
 	    }
 
 		this.cards = this.cards.filter((card) => {
-			return card.name.toLowerCase().indexOf(searchedTerm.toLowerCase()) > -1;
+			return card.name.toLowerCase().indexOf(searchedTerm.toLowerCase()) > -1 || card.city.toLowerCase().indexOf(searchedTerm.toLowerCase()) > -1 ;
 		});
 	}
 }

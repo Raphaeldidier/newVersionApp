@@ -8,6 +8,7 @@ var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
 var Categories  = require('./app/models/categories'); // get the mongoose model
 var Event        = require('./app/models/event'); // get the mongoose model
+var Groups        = require('./app/models/groups'); // get the mongoose model
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
  
@@ -67,26 +68,27 @@ apiRoutes.post('/signup', function(req, res) {
 
 //Authentification
 apiRoutes.post('/authenticate', function(req, res) {
-  User.findOne({
-    email: req.body.email
-  }, function(err, user) {
-    if (err) throw err;
- 
-    if (!user) {
-      res.send({success: false, msg: 'Authentication failed. User not found.'});
-    } else {
-      // check if password matches
-      user.comparePassword(req.body.password, function (err, isMatch) {
-        if (isMatch && !err) {
-          // if user is found and password is right create a token
-          var token = jwt.encode(user, config.secret);
-          // return the information including token as JSON
-          res.json({success: true, user: user, token: 'JWT ' + token});
-        } else {
-          res.send({success: false, msg: 'Authentication failed. Wrong password.'});
-        }
-      });
-    }
+  User.findOne({ email: req.body.email })
+    .populate('groups users')
+    .exec(
+      function(err, user) {
+      if (err) throw err;
+   
+      if (!user) {
+        res.send({success: false, msg: 'Authentication failed. User not found.'});
+      } else {
+        // check if password matches
+        user.comparePassword(req.body.password, function (err, isMatch) {
+          if (isMatch && !err) {
+            // if user is found and password is right create a token
+            var token = jwt.encode(user, config.secret);
+            // return the information including token as JSON
+            res.json({success: true, user: user, token: 'JWT ' + token});
+          } else {
+            res.send({success: false, msg: 'Authentication failed. Wrong password.'});
+          }
+        });
+      }
   });
 });
 
@@ -141,6 +143,7 @@ apiRoutes.post('/createEvent', function(req, res) {
         address : req.body.address,
         lat : req.body.lat,
         lng : req.body.lng,
+        city : req.body.city,
         spotsMax : req.body.spotsMax,
         spotsLeft: req.body.spotsLeft
       });
@@ -163,6 +166,33 @@ apiRoutes.get('/events', function(req, res){
       }
       else
         res.json({success: false, events: null});
+    });
+});
+
+apiRoutes.post('/createGroup', function(req, res){
+  User.findOne({
+    _id: mongoose.Types.ObjectId(req.body._User)
+  }, function(err, user) {
+    if (err) throw err;
+    console.log(user);
+      var newGroup = new Groups({
+        name: req.body.name,
+        color: req.body.color,
+      });
+      console.log(newGroup);
+      newGroup.save((err) => {
+        if(err) throw err;
+        else
+        {
+          console.log("create group");
+          user.groups.push(newGroup);
+          user.save((err) => {
+            if(err) throw err;
+            else
+              res.json({success: true});
+          })
+        }
+      })
     });
 });
 

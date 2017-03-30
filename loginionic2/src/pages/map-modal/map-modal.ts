@@ -36,8 +36,16 @@ export class MapModalPage {
 	    this.lng = lngLat.lng();
 	    this.http.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+this.lat+","+this.lng+"&sensor=true").subscribe((res)=>{
 	      if(res.status==200){
-	        let addressInfo = (res.json()).results[0].formatted_address;
-	        let data = { 'address': addressInfo, 'lng': this.lng, 'lat': this.lat };
+	        let addressResult = (res.json()).results[0];
+          let addressCompo = addressResult.address_components;
+          let city = "";
+          addressCompo.forEach((infoAdd) => {
+            infoAdd.types.forEach((type) => {
+              if(type == "locality") city = infoAdd.short_name;
+            })
+          });
+          let addressInfo = addressResult.formatted_address;
+	        let data = { 'address': addressInfo, 'city': city, 'lng': this.lng, 'lat': this.lat };
 
           //Alert popUp
           let alert = this.alertCtrl.create({

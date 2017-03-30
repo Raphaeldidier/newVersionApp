@@ -1,10 +1,9 @@
-<!-- <ion-nav [root]="rootPage"></ion-nav> -->
+<ion-nav [root]="rootPage"></ion-nav>
 
-<ion-menu [content]="content" id="menu">
+<!-- <ion-menu [content]="content" id="menu">
   <ion-header>
     <ion-list>
       <button menuClose ion-item (click)="openPage(profilePage)">
-        Jean Loulou
       </button>
       <button menuClose ion-item (click)="openPage(settingsPage)">
         Settings
@@ -13,15 +12,16 @@
   </ion-header>
 
   <ion-content>
-    <ion-list>
-      <button menuClose ion-item (click)="openPage(settingsPage)">
-        Settings
-      </button>
-    </ion-list>
+    <ion-label>Groups</ion-label>
+      <ion-list *ngFor="let group of groups">
+        1 group
+      </ion-list>
+    <button ion-button clear icon-only (click)="openPage(settingsPage)">
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-content>
-
 </ion-menu>
 
-<ion-nav [root]="rootPage" #content></ion-nav>
+<ion-nav [root]="rootPage" #content></ion-nav> -->
 
 <!-- swipeBackEnabled="false" -->
