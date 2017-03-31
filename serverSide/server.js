@@ -179,21 +179,28 @@ apiRoutes.post('/createGroup', function(req, res){
         name: req.body.name,
         color: req.body.color,
       });
-      console.log(newGroup);
       newGroup.save((err) => {
         if(err) throw err;
         else
         {
-          console.log("create group");
           user.groups.push(newGroup);
           user.save((err) => {
             if(err) throw err;
-            else
-              res.json({success: true});
+            else res.json({success: true, group: newGroup});
           })
         }
       })
     });
+});
+
+apiRoutes.post('/deleteGroup', function(req, res){
+  Groups.findOne({
+    _id: mongoose.Types.ObjectId(req.body._groupId)
+  })
+  .remove(function(err){
+    if(err) throw err;
+    else res.json({success: true});
+  });
 });
 
 apiRoutes.get('/mapEvents', function(req, res){
@@ -216,6 +223,32 @@ apiRoutes.get('/mapEvents', function(req, res){
       else
         res.json({success: false, events: null});
     });
+});
+
+apiRoutes.post('/addUserToGroup', function(req, res){
+  Groups.findOne({
+    _id: mongoose.Types.ObjectId(req.body._groupId)
+  }, function(err, group){
+     User.findOne({ email: req.body.email}, function(err, user){
+      if(err) throw err;
+      else{
+        if(user){
+          if(group.users.filter((currentUser) => { return user == currentUser;})){
+            group.users.push(user);
+            group.save((err) => {
+              if(err) throw err;
+              else res.json({success: true, user: user});
+            });
+          }
+          else
+            res.json({success: false, msg: "This user is already in this group"});
+        }
+        else{
+          res.json({success: false, msg: "Could not find this user"});
+        }
+      }
+     })
+  });
 });
  
 // connect the api routes under /api/*

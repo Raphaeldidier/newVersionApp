@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar hideBackButton>
+    <ion-title>Create a group</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+	<ion-item>
+		<ion-label floating>Email</ion-label>
+		<ion-input type="text" name="email" [(ngModel)]="email"></ion-input>
+	</ion-item>
+
+
+	<div class="buttons-container">
+
+		<button ion-button full clear (click)="dismissModal()">
+	        Cancel
+	    </button>
+
+	    <button ion-button full clear (click)="addUser()">
+	        Create
+	    </button>
+
+    </div>
+
+</ion-content>

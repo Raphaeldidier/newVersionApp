@@ -1,0 +1,29 @@
+page-add-user-modal {
+	
+	height: 50% !important;
+	
+	ion-content{
+
+		padding: 0;
+
+		.scroll-content{
+
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: space-between;
+
+		    .buttons-container{
+			
+				display: flex;	
+
+			}
+		}
+
+	}
+
+}
+
+ion-modal {
+    padding: 25px !important;
+    background: rgba(0,0,0,0.5) !important;
+}

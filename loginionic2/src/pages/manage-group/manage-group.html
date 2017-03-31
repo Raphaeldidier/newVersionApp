@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ group.name }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+	<ion-list *ngFor="let user of group.users">
+
+		<ion-card>
+
+			<ion-item-sliding #item>
+
+				<ion-item>
+			    	<ion-label>
+		      			{{ user.name }}
+		  			</ion-label>
+		  			<div item-content>
+				    	<ion-icon name="arrow-dropleft"></ion-icon>
+				    </div>	
+		    	</ion-item>
+			    <ion-item-options side="right">
+					<button ion-button icon-only color="danger" (click)="deleteUser(user)">
+						<ion-icon name="trash"></ion-icon>
+					</button>
+			    </ion-item-options>
+
+			</ion-item-sliding>
+
+		</ion-card>
+
+	</ion-list>
+
+	<button ion-button icon-left clear (click)="addUser()">
+		<ion-icon name="add"></ion-icon>
+			Add a friend
+	</button>
+
+</ion-content>

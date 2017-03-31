@@ -14,7 +14,7 @@
 		<ion-card>
 
 			<ion-item-sliding #item>
-			    <ion-item>
+			    <ion-item (click)="manageGroup(group)">
 			    	<ion-label>
 		      			{{ group.name }}
 	      			</ion-label>
@@ -22,18 +22,15 @@
 				    	<ion-icon name="arrow-dropleft"></ion-icon>
 				    </div>	
 		    	</ion-item>
-			    <ion-item-options side="right" icon-top>
-					<button ion-button color="primary" (click)="addUser(group)">
+			    <ion-item-options side="right">
+					<button ion-button icon-only color="primary" (click)="addUser(group)">
 						<ion-icon name="person-add"></ion-icon>
-						Favorite
 					</button>
-					<button ion-button color="secondary" (click)="manageGroup(group)">
+					<button ion-button icon-only color="secondary" (click)="manageGroup(group)">
 						<ion-icon name="construct"></ion-icon>
-						Manage
 					</button>
-					<button ion-button color="danger" (click)="deleteGroup(group)">
+					<button ion-button icon-only color="danger" (click)="deleteGroup(group)">
 						<ion-icon name="trash"></ion-icon>
-						Delete
 					</button>
 			    </ion-item-options>
 		    </ion-item-sliding>	

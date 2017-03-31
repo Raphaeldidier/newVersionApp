@@ -1,18 +1,44 @@
-<!--
-  Generated template for the CreateGroupModal page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>CreateGroupModal</ion-title>
+  <ion-navbar hideBackButton>
+    <ion-title>Create a group</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+	<ion-item>
+		<ion-label floating>Name</ion-label>
+		<ion-input type="text" name="name" [(ngModel)]="name"></ion-input>
+	</ion-item>
+
+	<ion-row class="row-dots">
+		<ion-col>
+			<button ion-button="dot" (click)="changeColor('turquoise')" class="dot-turquoise" [class.selected]="selected == 'turquoise'"></button>
+		</ion-col>
+		<ion-col>
+			<button ion-button="dot" (click)="changeColor('green')" class="dot-green" [class.selected]="selected == 'green'"></button>
+		</ion-col>
+		<ion-col>
+			<button ion-button="dot" (click)="changeColor('blue')" class="dot-blue" [class.selected]="selected == 'blue'"></button>
+		</ion-col>
+		<ion-col>
+			<button ion-button="dot" (click)="changeColor('violet')" class="dot-violet" [class.selected]="selected == 'violet'"></button>
+		</ion-col>
+	</ion-row>
+
+	<div class="buttons-container">
+
+		<button ion-button full clear (click)="dismissModal()">
+	        Cancel
+	    </button>
+
+	    <button ion-button full clear (click)="createGroup()">
+	        Create
+	    </button>
+
+    </div>
 
 </ion-content>
