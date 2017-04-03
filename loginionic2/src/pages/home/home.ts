@@ -120,7 +120,7 @@ export class HomePage {
 
   public makeQuery(that){
 
-    this.slides.update();
+    that.slides.update();
 
     let latNE = this.map.getBounds().getNorthEast().lat();
     let lngNE = this.map.getBounds().getNorthEast().lng();
@@ -158,10 +158,6 @@ export class HomePage {
               let indexMarker = that.markerArray.indexOf(marker);
               that.slides.slideTo(indexMarker, 500);
             });
-            console.log("that.eventsArray");
-
-            console.log(that.eventsArray);
-
         });
       }
     }, err => {
