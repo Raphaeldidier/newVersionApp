@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, LoadingController, Loading, PopoverController, MenuController  } from 'ionic-angular';
+import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides  } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
 import { PositionService } from '../../providers/position-service';
 import { RequestService } from '../../providers/request-service';
@@ -7,6 +7,7 @@ import { CustomPopOverComponent } from "../../components/custom-pop-over/custom-
 import { LoginPage } from '../login/login';
 import { Geolocation } from 'ionic-native';
 import { Http } from '@angular/http';
+
 
 declare var google; 
 
@@ -21,6 +22,7 @@ export class HomePage {
   loading: Loading;
   username = 'Raphaël DIDIER';
   email = '';
+  @ViewChild(Slides) slides: Slides;
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   markerArray : Array<any> = []; 
@@ -28,10 +30,7 @@ export class HomePage {
 
   constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, 
     public popoverCtrl: PopoverController, public positionService: PositionService, public requestService: RequestService, private menu: MenuController) {
-
-    // let info = this.auth.getUserInfo();
-    // this.username = info.name;
-    // this.email = info.email;
+  
   }
 
   ionViewDidEnter() {

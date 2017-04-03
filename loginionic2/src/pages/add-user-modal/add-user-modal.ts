@@ -25,6 +25,6 @@ export class AddUserModalPage {
 		  	alert.present();
 		}
 	  	else
-			this.viewCtrl.dismiss({ email: this.email });
+			this.viewCtrl.dismiss({ success: true, email: this.email });
 	}
 }

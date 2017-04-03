@@ -53,10 +53,19 @@ export class RequestService {
       });
     }
 
-    public addUserToGroup(groupId, userName){
+    public addUserToGroup(groupId, email){
       return this.http.post(this.appSettings.getApiUrl() + "addUserToGroup", {
         _groupId: groupId,
-        userName: userName
+        email: email
+      });
+    }
+
+    public delUserFromGroup(groupId, creatorId, userId){
+      console.log(groupId+ " "+ creatorId+" "+userId);
+      return this.http.post(this.appSettings.getApiUrl() + "delUserFromGroup", {
+        _groupId: groupId,
+        _creatorId: creatorId,
+        _userId: userId
       });
     }
 

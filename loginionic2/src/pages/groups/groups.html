@@ -9,12 +9,12 @@
 
 <ion-content padding>
 
-	<ion-list *ngFor="let group of groups">
+	<ion-list>
 
-		<ion-card>
+		<ion-card *ngFor="let group of groups">
 
 			<ion-item-sliding #item>
-			    <ion-item (click)="manageGroup(group)">
+			    <ion-item (click)="manageGroup(group)" class="YTETESTES" style="background-image:linear-gradient(to right, {{ group.color }}, white);">>
 			    	<ion-label>
 		      			{{ group.name }}
 	      			</ion-label>

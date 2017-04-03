@@ -25,10 +25,23 @@
 
 
 <ion-content>
-  <div #map id="map"></div> 
-  <ion-fab top right class="clear-position-button">
-    <button ion-fab icon-only clear=true mini (click)=recenterMap()>
-      <ion-icon name="locate"></ion-icon>
-    </button>
-  </ion-fab>
+  	<div #map id="map"></div> 
+
+  	<ion-slides>
+  		<ion-slide>
+    		<h1>Info event 1</h1>
+	  	</ion-slide>
+	  	<ion-slide>
+	    	<h1>Slide 2</h1>
+	  	</ion-slide>
+	  	<ion-slide>
+	    	<h1>Slide 3</h1>
+  		</ion-slide>
+	</ion-slides>
+
+	<ion-fab top right class="clear-position-button">
+		<button ion-fab icon-only clear=true mini (click)=recenterMap()>
+  			<ion-icon name="locate"></ion-icon>
+		</button>
+	</ion-fab>
 </ion-content>

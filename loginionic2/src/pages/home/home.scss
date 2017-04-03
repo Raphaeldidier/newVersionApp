@@ -2,8 +2,12 @@ page-home {
  
 	#map {
 		width: 100%;
-		height: 100%;
+		height: 80%;
 	}	
+
+	ion-slides{
+		height: 20%;
+	}
 
 	ion-navbar {
 		.toolbar-content {

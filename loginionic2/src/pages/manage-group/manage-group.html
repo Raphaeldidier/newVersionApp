@@ -10,29 +10,25 @@
 <ion-content padding>
 
 
-	<ion-list *ngFor="let user of group.users">
+	<ion-list>
 
-		<ion-card>
+		<ion-item-sliding *ngFor="let user of group.users">
 
-			<ion-item-sliding #item>
+			<ion-item>
+		    	<ion-label>
+	      			{{ user.name }}
+	  			</ion-label>
+	  			<div item-content>
+			    	<ion-icon name="arrow-dropleft"></ion-icon>
+			    </div>	
+	    	</ion-item>
+		    <ion-item-options side="right">
+				<button ion-button icon-only color="danger" (click)="deleteUser(user)">
+					<ion-icon name="trash"></ion-icon>
+				</button>
+		    </ion-item-options>
 
-				<ion-item>
-			    	<ion-label>
-		      			{{ user.name }}
-		  			</ion-label>
-		  			<div item-content>
-				    	<ion-icon name="arrow-dropleft"></ion-icon>
-				    </div>	
-		    	</ion-item>
-			    <ion-item-options side="right">
-					<button ion-button icon-only color="danger" (click)="deleteUser(user)">
-						<ion-icon name="trash"></ion-icon>
-					</button>
-			    </ion-item-options>
-
-			</ion-item-sliding>
-
-		</ion-card>
+		</ion-item-sliding>
 
 	</ion-list>
 

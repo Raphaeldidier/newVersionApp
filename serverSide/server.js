@@ -69,11 +69,18 @@ apiRoutes.post('/signup', function(req, res) {
 //Authentification
 apiRoutes.post('/authenticate', function(req, res) {
   User.findOne({ email: req.body.email })
-    .populate('groups users')
+    // .populate('groups')
+    .populate({
+      path:     'groups',       
+      populate: { path:  'users',
+            model: 'User' }
+    })
     .exec(
       function(err, user) {
       if (err) throw err;
    
+
+
       if (!user) {
         res.send({success: false, msg: 'Authentication failed. User not found.'});
       } else {
@@ -174,10 +181,10 @@ apiRoutes.post('/createGroup', function(req, res){
     _id: mongoose.Types.ObjectId(req.body._User)
   }, function(err, user) {
     if (err) throw err;
-    console.log(user);
       var newGroup = new Groups({
         name: req.body.name,
         color: req.body.color,
+        creator: req.body._User
       });
       newGroup.save((err) => {
         if(err) throw err;
@@ -194,12 +201,27 @@ apiRoutes.post('/createGroup', function(req, res){
 });
 
 apiRoutes.post('/deleteGroup', function(req, res){
-  Groups.findOne({
+  Groups.findOneAndRemove({
     _id: mongoose.Types.ObjectId(req.body._groupId)
-  })
-  .remove(function(err){
-    if(err) throw err;
-    else res.json({success: true});
+  }, function(err, group){
+      if(err) throw err;
+      else{
+        User.findOne({
+          _id: mongoose.Types.ObjectId(group.creator)
+        }, function(err, user){
+          if(err) throw err;
+          else {
+            console.log("before "+user.groups);
+            user.groups = user.groups.filter((groupElem) => {
+              return (!(groupElem.toString() == group._id.toString()));
+            });
+            user.save((err) => {
+              if(err) throw err;
+              else res.json({success: true});
+            });
+          }  
+        });
+      }
   });
 });
 
@@ -229,25 +251,53 @@ apiRoutes.post('/addUserToGroup', function(req, res){
   Groups.findOne({
     _id: mongoose.Types.ObjectId(req.body._groupId)
   }, function(err, group){
-     User.findOne({ email: req.body.email}, function(err, user){
+     User.findOne({ email: req.body.email.toLowerCase()}, function(err, user){
       if(err) throw err;
       else{
+        //Check if we found a user
         if(user){
-          if(group.users.filter((currentUser) => { return user == currentUser;})){
-            group.users.push(user);
-            group.save((err) => {
-              if(err) throw err;
-              else res.json({success: true, user: user});
+            //Check if the user is already in the group 
+            var sameUser = group.users.filter((userInGroup) => {
+              console.log('Gere');
+              console.log(userInGroup.toString() + " " + user._id.toString() );
+              return (userInGroup.toString()==user._id.toString());
             });
-          }
-          else
-            res.json({success: false, msg: "This user is already in this group"});
+
+            if(group.users.length > 0 && sameUser.length > 0)
+                res.json({success: false, msg: user.name+" is already in this group"});
+            else{
+              group.users.push(user);
+              group.save((err) => {
+                if(err) throw err;
+                else res.json({success: true, user: user});
+              });
+            }
         }
         else{
           res.json({success: false, msg: "Could not find this user"});
         }
       }
      })
+  });
+});
+
+apiRoutes.post('/delUserFromGroup', function(req, res){
+
+  Groups.findOne({
+    _id: mongoose.Types.ObjectId(req.body._groupId),
+    creator: mongoose.Types.ObjectId(req.body._creatorId),
+    users: mongoose.Types.ObjectId(req.body._userId)
+  }, function(err, group){
+      if(err) throw err;
+      else{
+        group.users = group.users.filter((userID) => {
+          return userID.toString() != req.body._userId; 
+        });
+        group.save((err) => {
+          if(err) throw err;
+          else res.json({success: true});
+        });
+      }
   });
 });
  

@@ -41,6 +41,8 @@ export class GroupsPage {
 				this.loading.dismiss();
 		  	}
 		  	else this.showPopup("Error", "Couldn't delete groups, Please try later");
+  		}, err => {
+		  	this.showPopup("Error", "Couldn't delete groups, Please try later");
   		});
   	}
 
