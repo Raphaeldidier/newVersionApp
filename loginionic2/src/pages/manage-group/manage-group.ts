@@ -14,6 +14,7 @@ export class ManageGroupPage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public reqServ: RequestService, 
 		public modalCtrl: ModalController, private loadingCtrl: LoadingController, public alertCtrl: AlertController) {
+
 		this.group = this.navParams.get("group");
 		console.log(this.group);
 	}

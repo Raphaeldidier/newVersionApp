@@ -76,7 +76,7 @@ export class CreateEventPage {
   public setCustomCard(){
   	
   	//Set the default values and fetch the images
-  	let source = this.requestService.getImageSource(this.createEventVal.category, this.createEventVal.subCategory);
+  	let source = this.requestService.getImageSource("categories", this.createEventVal.category, this.createEventVal.subCategory);
   	let spotsLeft = (this.createEventVal.spots == 0)?1:this.createEventVal.spots;
   	let nameEvent = (this.createEventVal.name=="")?"Name of the event":this.createEventVal.name;
   	let addressEvent = (this.createEventVal.address=="")?"Address of the event":this.createEventVal.address;

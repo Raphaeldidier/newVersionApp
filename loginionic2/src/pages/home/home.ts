@@ -1,5 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+<<<<<<< HEAD
 import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides  } from 'ionic-angular';
+=======
+import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides } from 'ionic-angular';
+>>>>>>> 49ce9da3558da5b59610b5143e14ab53b8d57290
 import { AuthService } from '../../providers/auth-service';
 import { PositionService } from '../../providers/position-service';
 import { RequestService } from '../../providers/request-service';
@@ -22,11 +26,11 @@ export class HomePage {
   loading: Loading;
   username = 'Raphaël DIDIER';
   email = '';
-  @ViewChild(Slides) slides: Slides;
   @ViewChild('map') mapElement: ElementRef;
+  @ViewChild(Slides) slides: Slides;
   map: any;
+  eventsArray: Array<any> = [];
   markerArray : Array<any> = []; 
-  infoWindows: Array<any> = []; 
 
   constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, 
     public popoverCtrl: PopoverController, public positionService: PositionService, public requestService: RequestService, private menu: MenuController) {
@@ -118,6 +122,8 @@ export class HomePage {
 
   public makeQuery(that){
 
+    that.slides.update();
+
     let latNE = this.map.getBounds().getNorthEast().lat();
     let lngNE = this.map.getBounds().getNorthEast().lng();
     let latSW = this.map.getBounds().getSouthWest().lat();
@@ -134,6 +140,7 @@ export class HomePage {
       let jsonRes = res.json();
       if (jsonRes.success) {
         console.log(jsonRes.events);
+        that.eventsArray = [];
         jsonRes.events.forEach((event, index) => {
           // Setting markers for each event
           let marker = new google.maps.Marker({
@@ -146,8 +153,13 @@ export class HomePage {
               position: { lat: event.lat, lng: event.lng },
               draggable: false
             });
-          that.addInfoWindowToMarker(marker, event);
-          that.markerArray.push(marker);
+            that.markerArray.push(marker);
+            that.eventsArray.push({event: event, addInfo: {avatarSource: this.requestService.getImageSource("avatars", event.category, event.subCategory)}});
+            //for the slider
+            marker.addListener('click', function() {
+              let indexMarker = that.markerArray.indexOf(marker);
+              that.slides.slideTo(indexMarker, 500);
+            });
         });
       }
     }, err => {
@@ -183,24 +195,6 @@ export class HomePage {
 
     popover.present({
       ev: ev
-    });
-  }
-
-  public addInfoWindowToMarker(marker, event) {
-    var infoWindowContent = '<h1>'+event.name+'</h1';
-    var infoWindow = new google.maps.InfoWindow({
-      content: infoWindowContent
-    });
-    marker.addListener('click', () => {
-      this.closeAllInfoWindows();
-      infoWindow.open(this.map, marker);
-    });
-    this.infoWindows.push(infoWindow);
-  }
-
-  closeAllInfoWindows() {
-    this.infoWindows.map((currentW) => {
-      currentW.close();
     });
   }
 }

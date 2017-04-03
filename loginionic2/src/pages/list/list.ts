@@ -64,7 +64,7 @@ export class ListPage {
 					"spotsLeft": event.spotsLeft,
 					"city": event.city,
 					"distance": this.positionService.getDistanceFromPosInKm(event.lat, event.lng),
-					"source": this.requestService.getImageSource(event.category, event.subCategory),
+					"source": this.requestService.getImageSource("categories", event.category, event.subCategory),
 					});
 				});
 				this.cards = this.initCards;

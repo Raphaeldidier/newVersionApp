@@ -1,11 +1,6 @@
 <ion-header>
 
   <ion-navbar color="primary">
-	  <!-- <ion-buttons class="firstButton">
-	    <button menuToggle ion-button icon-only>
-	      <ion-icon name="menu"></ion-icon>
-	    </button>
-	  </ion-buttons> -->
 
 	  <ion-searchbar 
 	    [(ngModel)]="searchedAddress"
@@ -25,6 +20,7 @@
 
 
 <ion-content>
+<<<<<<< HEAD
   	<div #map id="map"></div> 
 
   	<ion-slides>
@@ -42,6 +38,33 @@
 	<ion-fab top right class="clear-position-button">
 		<button ion-fab icon-only clear=true mini (click)=recenterMap()>
   			<ion-icon name="locate"></ion-icon>
+=======
+	<div class="map-container">
+
+		<div #map id="map"></div> 
+		
+		<ion-slides>
+
+			<ion-slide  *ngFor="let eventInfo of eventsArray">
+				<ion-card>
+					<ion-item>
+						<ion-avatar item-left>
+							<img src="{{ eventInfo.addInfo.avatarSource }}">
+						</ion-avatar>
+						<h2>{{ eventInfo.event.name }}</h2>
+    					<p>{{ eventInfo.event.address }}</p>
+    					<p>{{ eventInfo.event.date | date: 'EEE, MMMM dd' }} / {{ eventInfo.event.date | date: 'jm' }}</p>
+					</ion-item>	
+				</ion-card>
+			</ion-slide>
+			
+		</ion-slides>
+	</div>	
+	
+	<ion-fab top right class="clear-position-button">
+		<button ion-fab icon-only clear=true mini (click)=recenterMap()>
+			<ion-icon name="locate"></ion-icon>
+>>>>>>> 49ce9da3558da5b59610b5143e14ab53b8d57290
 		</button>
 	</ion-fab>
 </ion-content>
