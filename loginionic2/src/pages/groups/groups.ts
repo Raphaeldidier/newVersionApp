@@ -15,7 +15,8 @@ export class GroupsPage {
   	loading: Loading;
 
   	constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, 
-  		public reqServ: RequestService, public auth: AuthService, private loadingCtrl: LoadingController, public alertCtrl: AlertController) {
+  		public reqServ: RequestService, public auth: AuthService, private loadingCtrl: LoadingController, 
+  		public alertCtrl: AlertController) {
   		this.groups = this.auth.getUserGroups();
   	}
 

@@ -61,12 +61,33 @@ export class RequestService {
     }
 
     public delUserFromGroup(groupId, creatorId, userId){
-      console.log(groupId+ " "+ creatorId+" "+userId);
       return this.http.post(this.appSettings.getApiUrl() + "delUserFromGroup", {
         _groupId: groupId,
         _creatorId: creatorId,
         _userId: userId
       });
+    }
+
+    public getMyEvents(userId){
+      let params = new URLSearchParams();
+      params.append('id', userId.toString());
+
+      let options = new RequestOptions({
+          search: params
+      });
+
+      return this.http.get(this.appSettings.getApiUrl() + "myEvents", options);
+    }
+
+    public getRegisteredEvents(userId){
+      let params = new URLSearchParams();
+      params.append('id', userId.toString());
+
+      let options = new RequestOptions({
+          search: params
+      });
+
+      return this.http.get(this.appSettings.getApiUrl() + "registeredEvents", options);
     }
 
   	public getRootPath() {

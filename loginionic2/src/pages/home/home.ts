@@ -1,9 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-<<<<<<< HEAD
 import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides  } from 'ionic-angular';
-=======
-import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides } from 'ionic-angular';
->>>>>>> 49ce9da3558da5b59610b5143e14ab53b8d57290
 import { AuthService } from '../../providers/auth-service';
 import { PositionService } from '../../providers/position-service';
 import { RequestService } from '../../providers/request-service';

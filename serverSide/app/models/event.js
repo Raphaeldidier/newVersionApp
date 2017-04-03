@@ -18,7 +18,8 @@ var EventSchema = new Schema({
   lat : SchemaTypes.Double,
   lng : SchemaTypes.Double,
   spotsMax : Number,
-  spotsLeft: Number 
+  spotsLeft: Number,
+  users : [{ type: SchemaTypes.ObjectId, ref: 'User' }]
 });
 
 module.exports = mongoose.model('Event', EventSchema);

@@ -300,6 +300,43 @@ apiRoutes.post('/delUserFromGroup', function(req, res){
       }
   });
 });
+
+apiRoutes.get('/myEvents', function(req, res){
+  Event.find({ 
+      $and:[
+        { date: { $gte: new Date() }},
+        { creator: req.query.id }
+      ]
+    })
+    .populate('users', 'name')
+    .populate('creator', 'name')
+    .sort('date')
+    .exec(function(err, events){
+      if(events){
+        res.json({success: true, events: events});
+      }
+      else
+        res.json({success: false, events: null});
+    });
+});
+
+apiRoutes.get('/registeredEvents', function(req, res){
+  console.log(req.query.id);
+  Event.find({ 
+        date: { $gte: new Date() },
+        users: mongoose.Types.ObjectId(req.query.id) 
+    })
+    .populate('users', 'name')
+    .populate('creator', 'name')
+    .sort('date')
+    .exec(function(err, events){
+      if(events){
+        res.json({success: true, events: events});
+      }
+      else
+        res.json({success: false, events: null});
+    });
+});
  
 // connect the api routes under /api/*
 app.use('/api/v1', apiRoutes);
