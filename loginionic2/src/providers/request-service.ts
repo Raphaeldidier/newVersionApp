@@ -17,11 +17,11 @@ export class RequestService {
     this.currentUser = this.auth.getUserInfo();
   }
 
-  	public getImageSource(category, subCategory){
+  	public getImageSource(directory, category, subCategory){
   		//Check if we set the category + sub
   		return (category.length!=0 && subCategory.length!=0) ?
-  			CONFIG.rootPath+category+"/"+subCategory+".jpg":
-  			CONFIG.rootPath+"default.jpg"; 
+  			CONFIG.rootPath+directory+"/"+category+"/"+subCategory+".jpg":
+  			CONFIG.rootPath+directory+"/default.jpg"; 
   	}
 
   	public getEventFromMap(latNE, lngNE, latSW, lngSW){

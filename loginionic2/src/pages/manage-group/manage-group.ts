@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { RequestService } from '../../providers/request-service'
-import { AddUserModalPage } from '../../pages/add-user-modal'
+import { AddUserModalPage } from '../../pages/add-user-modal/add-user-modal'
 
 @Component({
   selector: 'page-manage-group',
@@ -10,8 +10,10 @@ import { AddUserModalPage } from '../../pages/add-user-modal'
 export class ManageGroupPage {
 
 	group: any;
+  	loading: Loading;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public reqServ: RequestService, public modalCtrl: ModalController) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public reqServ: RequestService, public modalCtrl: ModalController,
+		private loadingCtrl: LoadingController, public alertCtrl: AlertController) {
 		this.group = this.navParams.get("group");
 		console.log(this.group);
 	}
@@ -42,5 +44,23 @@ export class ManageGroupPage {
 
 	deleteUser(user){
 
+	}
+
+	showLoading() {
+		this.loading = this.loadingCtrl.create({
+			content: 'Please wait...'
+		});
+		this.loading.present();
+	}
+
+	public showPopup(title, text){
+	  	let alert = this.alertCtrl.create({
+	      title: title,
+	      subTitle: text,
+	      buttons: [
+	           { text: 'OK'}
+           ]
+	    });
+	    alert.present();
 	}
 }
