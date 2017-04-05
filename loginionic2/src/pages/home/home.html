@@ -19,15 +19,15 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content> 
 
 	<div class="map-container">
 
 		<div #map id="map"></div> 
 		
-		<ion-slides>
+		<!-- <ion-slides >
 
-			<ion-slide  *ngFor="let eventInfo of eventsArray">
+			<ion-slide *ngFor="let eventInfo of eventsArray">
 				<ion-card>
 					<ion-item>
 						<ion-avatar item-left>
@@ -40,8 +40,31 @@
 				</ion-card>
 			</ion-slide>
 			
-		</ion-slides>
+		</ion-slides> -->
 	</div>	
+
+	<div class="events-list" [style.height]="heightStyle"> 
+		<div id="swipeElement">
+			TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! 
+		</div>
+		<ion-scroll #scrollable [scrollY]="scrollEnable" id="swipeElementDiv"> 
+				Footere
+				fesfes
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd
+				dzagazfa gzadfzgzad zgvafzfza gzfzgvdvs vdsvddddddddddddd fefffffffffffffffffffegsfes dzfqsd
+				fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesd
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesd 
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
+				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd
+				Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf 
+		</ion-scroll>
+	</div>
 	
 	<ion-fab top right class="clear-position-button">
 		<button ion-fab icon-only clear=true mini (click)=recenterMap()>

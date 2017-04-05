@@ -1,5 +1,27 @@
 page-home {
 
+	.events-list{
+		overflow: hidden;
+		position: absolute;
+		bottom: 0;
+		background: white;
+		width: 100%;
+  		transition: height 0.5s;
+
+  		#swipeElement{
+
+  			height: 50px;
+
+  		}
+
+  		ion-scroll{
+
+  			height: 350px;
+
+  		}
+
+	}
+
 	.map-container{
 		height: 100%;
 		width: 100%;

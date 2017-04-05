@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides  } from 'ionic-angular';
+import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides, Scroll } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
 import { PositionService } from '../../providers/position-service';
 import { RequestService } from '../../providers/request-service';
@@ -7,9 +7,11 @@ import { CustomPopOverComponent } from "../../components/custom-pop-over/custom-
 import { LoginPage } from '../login/login';
 import { Geolocation } from 'ionic-native';
 import { Http } from '@angular/http';
-
+import { DIRECTION_VERTICAL } from "ionic-angular/gestures/hammer";
+import { Gesture } from 'ionic-angular/gestures/gesture'
 
 declare var google; 
+declare var Hammer: any
 
 @Component({
   selector: 'page-home',
@@ -24,9 +26,15 @@ export class HomePage {
   email = '';
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild(Slides) slides: Slides;
+    @ViewChild(Scroll) scroll: Scroll;
   map: any;
   eventsArray: Array<any> = [];
-  markerArray : Array<any> = []; 
+  markerArray: Array<any> = []; 
+  bottomStyle: any = 0;
+  topStyle: any = "none";
+  scrollEnable: boolean = false;
+  heightStyle: any = "100px";
+  canGoDown: any = true;
 
   constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, 
     public popoverCtrl: PopoverController, public positionService: PositionService, public requestService: RequestService, private menu: MenuController) {
@@ -34,7 +42,48 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    this.menu.swipeEnable(false, 'menu');
+
+    //Set the vertical swipe of the bar
+    let swipeElement = document.getElementById("swipeElement")
+    let swipeGesture = new Gesture(swipeElement, {
+      recognizers: [
+        [Hammer.Swipe, {direction: Hammer.DIRECTION_VERTICAL}]
+      ]
+    });
+    swipeGesture.listen();
+    swipeGesture.on('swipeup', e => {
+       this.heightStyle = "400px";
+       this.scrollEnable = true;
+    })
+    swipeGesture.on('swipedown', e => {
+       this.scrollEnable = false;
+       this.heightStyle = "100px";
+    })
+
+    let swipeElementDiv = document.getElementById("swipeElementDiv")
+    let swipeGestureDiv = new Gesture(swipeElementDiv, {
+      recognizers: [
+        [Hammer.Swipe, {direction: Hammer.DIRECTION_VERTICAL}]
+      ]
+    });
+    swipeGestureDiv.listen();
+    swipeGesture.on('swipeup', e => {
+       this.scrollEnable = true;
+       this.heightStyle = "400px";
+    })
+    swipeGestureDiv.on('swipedown', e => {
+      if(this.canGoDown){
+        this.scrollEnable = false;
+        this.heightStyle = "100px";
+      }
+    })
+
+    this.scroll.addScrollEventListener((event) => {
+      if(event.target.scrollTop < 10)
+        this.canGoDown = true;
+      else
+        this.canGoDown = false;
+    });
   }
 
   ionViewDidLoad(){
@@ -94,7 +143,7 @@ export class HomePage {
       setTimeout(() => {
         this.loading.dismiss();
         this.makeQuery(this);
-      }, 1000);
+      }, 2000);
 
     }, (err) => {
       console.log(err);
@@ -118,16 +167,16 @@ export class HomePage {
 
   public makeQuery(that){
 
-    that.slides.update();
+    // that.slides.update();
 
     let latNE = this.map.getBounds().getNorthEast().lat();
     let lngNE = this.map.getBounds().getNorthEast().lng();
     let latSW = this.map.getBounds().getSouthWest().lat();
     let lngSW = this.map.getBounds().getSouthWest().lng();
 
-    that.markerArray.forEach(elem => {
-      elem.setMap(null);
-    });
+    // that.markerArray.forEach(elem => {
+    //   elem.setMap(null);
+    // });
     that.markerArray = [];
       
 
