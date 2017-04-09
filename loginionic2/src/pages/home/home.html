@@ -45,24 +45,12 @@
 
 	<div class="events-list" [style.height]="heightStyle"> 
 		<div id="swipeElement">
-			TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! TEST ! 
+			Bar
 		</div>
-		<ion-scroll #scrollable [scrollY]="scrollEnable" id="swipeElementDiv"> 
-				Footere
-				fesfes
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd
-				dzagazfa gzadfzgzad zgvafzfza gzfzgvdvs vdsvddddddddddddd fefffffffffffffffffffegsfes dzfqsd
-				fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesd
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesd 
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd 
-				fesfesfesgesfesge sfesgesdfes gesdfesfesd fesfesfesgesfesge sfesgesdfes gesdfesfesdfesfesfesgesfesgefesfesfesgesfesge sfesgesdfes gesdfesfesd
-				Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf Zfeafzafzadz ageadzafzadaf 
+		<ion-scroll #scrollable [scrollY]="scrollEnable" id="swipeElementDiv">
+			<ion-list>
+				<custom-card *ngFor="let card of eventsArray" [card]="card"></custom-card>
+			</ion-list>				
 		</ion-scroll>
 	</div>
 	

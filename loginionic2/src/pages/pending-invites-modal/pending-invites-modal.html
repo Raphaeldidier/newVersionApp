@@ -1,0 +1,40 @@
+<ion-header>
+
+	<ion-navbar>
+	  	<ion-buttons left>
+	        <button ion-button icon-only clear (click)=closeModal()>
+	            <ion-icon name="close"></ion-icon>
+	        </button>
+        </ion-buttons>
+    <ion-title>Pending invites</ion-title>
+  	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+	<ion-list>
+
+		<ion-card *ngFor="let friend of pending_friends">
+
+			<div class="name-and-icons">
+
+				<ion-label>
+	      			{{ friend.name }}
+	  			</ion-label>
+	  			<div class="buttons">
+		  			<button ion-button icon-only clear color="primary" (click)=acceptFriend(friend)>
+		  				<ion-icon name="checkmark-circle"></ion-icon>
+		  			</button>
+		  			<button ion-button icon-only clear color="danger" (click)=declineFriend(friend)>
+		  				<ion-icon name="close-circle"></ion-icon>
+		  			</button>
+	  			</div>
+  			</div>
+
+		</ion-card>
+
+	</ion-list>
+
+</ion-content>

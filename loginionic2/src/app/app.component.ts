@@ -12,7 +12,7 @@ import { ProfilePage } from '../pages/profile/profile';
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  rootPage = TabsPage;
+  rootPage = LoginPage;
   settingsPage: any;
   profilePage: any;
 

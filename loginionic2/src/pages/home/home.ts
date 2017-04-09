@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides, Scroll } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
 import { PositionService } from '../../providers/position-service';
@@ -7,7 +7,6 @@ import { CustomPopOverComponent } from "../../components/custom-pop-over/custom-
 import { LoginPage } from '../login/login';
 import { Geolocation } from 'ionic-native';
 import { Http } from '@angular/http';
-import { DIRECTION_VERTICAL } from "ionic-angular/gestures/hammer";
 import { Gesture } from 'ionic-angular/gestures/gesture'
 
 declare var google; 
@@ -26,18 +25,19 @@ export class HomePage {
   email = '';
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild(Slides) slides: Slides;
-    @ViewChild(Scroll) scroll: Scroll;
+  @ViewChild(Scroll) scroll: Scroll;
   map: any;
   eventsArray: Array<any> = [];
   markerArray: Array<any> = []; 
   bottomStyle: any = 0;
   topStyle: any = "none";
   scrollEnable: boolean = false;
-  heightStyle: any = "100px";
+  heightStyle: any = "0px";
   canGoDown: any = true;
 
   constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, 
-    public popoverCtrl: PopoverController, public positionService: PositionService, public requestService: RequestService, private menu: MenuController) {
+    public popoverCtrl: PopoverController, public positionService: PositionService, public requestService: RequestService, 
+    private menu: MenuController, public cdr: ChangeDetectorRef) {
   
   }
 
@@ -52,8 +52,11 @@ export class HomePage {
     });
     swipeGesture.listen();
     swipeGesture.on('swipeup', e => {
-       this.heightStyle = "400px";
-       this.scrollEnable = true;
+      if(this.eventsArray.length == 1)
+        this.heightStyle = "250px";
+      else  
+        this.heightStyle = "450px";
+      this.scrollEnable = true;
     })
     swipeGesture.on('swipedown', e => {
        this.scrollEnable = false;
@@ -68,8 +71,11 @@ export class HomePage {
     });
     swipeGestureDiv.listen();
     swipeGesture.on('swipeup', e => {
-       this.scrollEnable = true;
-       this.heightStyle = "400px";
+      if(this.eventsArray.length == 1)
+        this.heightStyle = "250px";
+      else  
+        this.heightStyle = "450px";
+      this.scrollEnable = true;
     })
     swipeGestureDiv.on('swipedown', e => {
       if(this.canGoDown){
@@ -178,14 +184,13 @@ export class HomePage {
     //   elem.setMap(null);
     // });
     that.markerArray = [];
-      
 
     that.requestService.getEventFromMap(latNE, lngNE, latSW, lngSW).subscribe(res => {
 
       let jsonRes = res.json();
       if (jsonRes.success) {
-        console.log(jsonRes.events);
         that.eventsArray = [];
+
         jsonRes.events.forEach((event, index) => {
           // Setting markers for each event
           let marker = new google.maps.Marker({
@@ -199,7 +204,22 @@ export class HomePage {
               draggable: false
             });
             that.markerArray.push(marker);
-            that.eventsArray.push({event: event, addInfo: {avatarSource: this.requestService.getImageSource("avatars", event.category, event.subCategory)}});
+
+            that.eventsArray.push({
+              "name": event.name,
+              "address": event.address,
+              "date": event.date,
+              "creator":event.creator[0].name,
+              "daysLeft": that.getDaysDiff(event.date),
+              "spotsMax": event.spotsMax,
+              "spotsLeft": event.spotsLeft,
+              "city": event.city,
+              "distance": that.positionService.getDistanceFromPosInKm(event.lat, event.lng),
+              "source": that.requestService.getImageSource("categories", event.category, event.subCategory),
+            });
+            that.cdr.detectChanges();
+
+            // that.eventsArray.push({event: event, addInfo: {avatarSource: this.requestService.getImageSource("avatars", event.category, event.subCategory)}});
             //for the slider
             marker.addListener('click', function() {
               let indexMarker = that.markerArray.indexOf(marker);
@@ -207,6 +227,13 @@ export class HomePage {
             });
         });
       }
+
+      //hide scrollable events bar
+      if(that.eventsArray.length > 0)
+        that.heightStyle = "100px";
+      else
+        that.heightStyle = "0px";
+
     }, err => {
 
     });
@@ -233,6 +260,14 @@ export class HomePage {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  public getDaysDiff(date){
+
+    let todayDate = new Date();
+    let formatedDate = new Date(date);
+    let diffHours = (formatedDate.getTime() - todayDate.getTime())/(60*60*1000);
+    return  (diffHours >= 24) ? Math.round(diffHours/24)+"d" : (diffHours>=1) ? Math.round(diffHours)+"h" : "< 1h";
   }
 
   presentPopover(ev) {

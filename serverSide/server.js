@@ -3,12 +3,12 @@ var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose');
-var passport	= require('passport');
+var passport	  = require('passport');
 var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
 var Categories  = require('./app/models/categories'); // get the mongoose model
-var Event        = require('./app/models/event'); // get the mongoose model
-var Groups        = require('./app/models/groups'); // get the mongoose model
+var Event       = require('./app/models/event'); // get the mongoose model
+var Groups      = require('./app/models/groups'); // get the mongoose model
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
  
@@ -69,17 +69,16 @@ apiRoutes.post('/signup', function(req, res) {
 //Authentification
 apiRoutes.post('/authenticate', function(req, res) {
   User.findOne({ email: req.body.email })
-    // .populate('groups')
     .populate({
       path:     'groups',       
       populate: { path:  'users',
             model: 'User' }
     })
+    .populate('friends')
+    .populate('pending_friends')
     .exec(
       function(err, user) {
       if (err) throw err;
-   
-
 
       if (!user) {
         res.send({success: false, msg: 'Authentication failed. User not found.'});
@@ -128,7 +127,24 @@ apiRoutes.get('/categories', function(req, res){
     else
       res.json({success: false, categories: null});
   });
+});
 
+apiRoutes.get('/userInfo', function(req, res){
+
+  User.findOne({  _id: mongoose.Types.ObjectId(req.query._User) })
+  .populate({
+    path:     'groups',       
+    populate: { path:  'users',
+          model: 'User' }
+  })
+  .populate('friends')
+  .populate('pending_friends')
+  .exec(function(err, user){
+    if(err)
+      res.json({success: false, msg: "Coudln't do that!"});
+    else
+      res.json({success: true, user: user});
+  });
 });
 
 //event creation
@@ -258,8 +274,6 @@ apiRoutes.post('/addUserToGroup', function(req, res){
         if(user){
             //Check if the user is already in the group 
             var sameUser = group.users.filter((userInGroup) => {
-              console.log('Gere');
-              console.log(userInGroup.toString() + " " + user._id.toString() );
               return (userInGroup.toString()==user._id.toString());
             });
 
@@ -336,6 +350,77 @@ apiRoutes.get('/registeredEvents', function(req, res){
       else
         res.json({success: false, events: null});
     });
+});
+
+apiRoutes.post('/sendInvitePending', function(req, res){
+  User.findOne({ email: req.body.email.toLowerCase()})
+    .exec(function(err, friend){
+    if(err) throw err;
+    if(!friend)
+      res.json({success: false, msg: "Couldn't find this friend"});
+    else{
+      User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
+        friend.pending_friends.push(currentUser);
+        friend.save((err) => {
+          if(err) throw err;
+          else
+            res.json({success: true, msg: "The invit is pending!"});
+        });
+      })
+    }
+  });
+});
+
+apiRoutes.post('/acceptFriendById', function(req, res){
+  User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
+    if(err) throw err;
+    else{
+      User.findOne({ _id: mongoose.Types.ObjectId(req.body.friend_id) }, function(err, friend){
+        if(err) throw err;
+        else{
+          var index = currentUser.pending_friends.indexOf(friend);
+          currentUser.pending_friends.splice(index, 1);
+          currentUser.friends.push(friend);
+          currentUser.save((err)=> {
+            if(err)
+              res.json({success: false, msg: "Couldn't accept this friend"});
+            else{
+              friend.friends.push(currentUser);
+              friend.save((err) => {
+                if(err)
+                  res.json({success: false, msg: "Couldn't accept this friend"});
+                else
+                  res.json({ success: true });
+              });
+            }
+          });
+        }
+      });
+    }
+  })
+});
+
+apiRoutes.post('/addUserToFriendsList', function(req, res){
+  User.findOne({ email: req.body.email.toLowerCase()}, function(err, friend){
+    if(err) throw err;
+    if(!friend)
+      res.json({success: false, msg: "Couldn't find this friend"});
+    else{
+      User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
+        // var sameUser = currentUser.friends.filter((userInGroup) => {
+        //   console.log('Gere');
+        //   console.log(userInGroup.toString() + " " + user._id.toString() );
+        //   return (userInGroup.toString()==user._id.toString());
+        // });
+        currentUser.friends.push(friend);
+        currentUser.save((err) => {
+          if(err) throw err;
+          else
+            res.json({success: true, friend: friend});
+        });
+      })
+    }
+  });
 });
  
 // connect the api routes under /api/*

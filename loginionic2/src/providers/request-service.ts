@@ -60,6 +60,28 @@ export class RequestService {
       });
     }
 
+    public addUserToFriendsList(email){
+      return this.http.post(this.appSettings.getApiUrl() + "addUserToFriendsList", {
+        _User: this.currentUser.id,
+        email: email
+      });    
+    }
+
+   public sendInvitePending(email){
+      return this.http.post(this.appSettings.getApiUrl() + "sendInvitePending", {
+        _User: this.currentUser.id,
+        email: email
+      });    
+    }
+
+
+    public acceptFriendById(friend_id){
+      return this.http.post(this.appSettings.getApiUrl() + "acceptFriendById", {
+        _User: this.currentUser.id,
+        friend_id: friend_id
+      });  
+    }
+
     public delUserFromGroup(groupId, creatorId, userId){
       return this.http.post(this.appSettings.getApiUrl() + "delUserFromGroup", {
         _groupId: groupId,

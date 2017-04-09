@@ -22,7 +22,9 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
-    groups : [{ type: Schema.Types.ObjectId, ref: 'Groups' }],
+    groups: [{ type: Schema.Types.ObjectId, ref: 'Groups' }],
+    friends: [{ type: Schema.Types.ObjectId, ref: 'User', unique: true }],
+    pending_friends: [{ type: Schema.Types.ObjectId, ref: 'User', unique: true}]
 });
  
 UserSchema.pre('save', function (next) {

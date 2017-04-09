@@ -30,7 +30,7 @@ export class LoginPage {
       let jsonRes = res.json();
       console.log(jsonRes);
       if (jsonRes.success) {
-        this.auth.currentUser = new User(jsonRes.user._id, jsonRes.user.name, jsonRes.user.email, jsonRes.user.email, jsonRes.user.groups);
+        this.auth.currentUser = new User(jsonRes.user._id, jsonRes.user.name, jsonRes.user.email, jsonRes.user.email, jsonRes.user.groups, jsonRes.user.friends, jsonRes.user.pending_friends);
 
         setTimeout(() => {
           this.loading.dismiss();

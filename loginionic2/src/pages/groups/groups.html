@@ -1,20 +1,35 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Groups</ion-title>
-  </ion-navbar>
+	<ion-navbar color="primary">
+	<ion-title>Groups</ion-title>
+
+	<ion-buttons end>
+		<button ion-button icon-only id="notification-button" (click) = openPendingFriends()>
+			<ion-icon name="notifications">
+				<div *ngIf="currentUser.pending_friends?.length > 0">
+				<ion-badge id="notifications-badge" color="danger">{{ currentUser.pending_friends.length }}</ion-badge>
+				</div>
+			</ion-icon>
+		</button>
+	</ion-buttons>
+
+	</ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
 
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+
 	<ion-list>
 
-		<ion-card *ngFor="let group of groups">
+		<ion-card *ngFor="let group of currentUser.groups">
 
 			<ion-item-sliding #item>
-			    <ion-item (click)="manageGroup(group)" class="YTETESTES" style="background-image:linear-gradient(to right, {{ group.color }}, white);">>
+			    <ion-item (click)="manageGroup(group)">
 			    	<ion-label>
 		      			{{ group.name }}
 	      			</ion-label>
@@ -40,6 +55,23 @@
 	</ion-list>
 
 	<button ion-button icon-left clear (click)="createGroup()">
+		<ion-icon name="add"></ion-icon>
+			Add a group
+	</button>
+
+	<ion-list>
+
+		<ion-card *ngFor="let friend of currentUser.friends">
+			<ion-item>
+				<ion-label>
+	      			{{ friend.name }}
+	  			</ion-label>
+  			</ion-item>
+		</ion-card>
+
+	</ion-list>
+
+	<button ion-button icon-left clear (click)="addUser()">
 		<ion-icon name="add"></ion-icon>
 			Add a friend
 	</button>

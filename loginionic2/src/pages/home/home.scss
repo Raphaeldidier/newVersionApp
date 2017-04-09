@@ -16,7 +16,13 @@ page-home {
 
   		ion-scroll{
 
-  			height: 350px;
+  			height: 400px;
+
+  			ion-list{
+
+  				margin-bottom: 0;
+
+  			}
 
   		}
 
