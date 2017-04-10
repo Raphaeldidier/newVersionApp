@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>AddUserGroupModal</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+	<div>
+		Find one of your friends to add them in your group!
+	</div>
+
+	<ion-searchbar 
+	    [(ngModel)]="searchedWord"
+	    placeholder="Friend's username"
+	    (search)="searchByKeyword($event)"
+	    (ionClear)="clearFriends()"
+	    (ionInput)="searchKey($event)"
+	    animated=true>
+  	</ion-searchbar>
+
+  	<ion-list>
+
+		<ion-item-sliding *ngFor="let friend of friends">
+
+			<ion-item (click)="addUserToGroup(friend)">
+		    	<ion-label>
+	      			{{ friend.name }}
+	  			</ion-label>
+	    	</ion-item>
+
+		</ion-item-sliding>
+
+	</ion-list>
+
+</ion-content>

@@ -47,7 +47,7 @@ export class GroupsPage {
   	}
 
   	createGroup() {
-  		let groupCreateModal = this.modalCtrl.create(CreateGroupModalPage);
+  		let groupCreateModal = this.modalCtrl.create(CreateGroupModalPage, { group: null });
 	   	groupCreateModal.onDidDismiss(data => {
 	   		if(data.success){	
 				this.showLoading();
@@ -93,6 +93,32 @@ export class GroupsPage {
 	     	}
 	   });
 	   addUserModal.present();
+	}
+
+	updateGroup(group){
+		let groupCreateModal = this.modalCtrl.create(CreateGroupModalPage, { group: group });
+	   	groupCreateModal.onDidDismiss(data => {
+	   		if(data.success){	
+				this.showLoading();
+		     	this.reqServ.updateGroup(group._id, data.name, data.color).subscribe(res => {
+
+					let jsonRes = res.json();
+					if (jsonRes.success) {
+						let index = this.currentUser.groups.indexOf(group);
+						this.currentUser.groups[index] = jsonRes.group;
+
+					} else {
+						this.showPopup("Error", jsonRes.msg);
+					}
+					this.loading.dismiss();
+				}, error => {
+					this.showPopup("Error", "Group could not be updated, Please try later");
+					this.loading.dismiss();
+				});
+	     	}
+	   });
+	   groupCreateModal.present();
+
 	}
 
 	public openPendingFriends(){

@@ -1,8 +1,22 @@
 <ion-header>
 
-  <ion-navbar hideBackButton>
-    <ion-title>Create a group</ion-title>
-  </ion-navbar>
+	<ion-navbar hideBackButton color="primary">
+
+		<ion-buttons left>
+	        <button ion-button icon-only clear (click)=dismissModal()>
+	            <ion-icon name="close"></ion-icon>
+	        </button>
+        </ion-buttons>
+
+		<ion-title>Create a group</ion-title>
+
+		<ion-buttons right>
+	        <button ion-button icon-only clear (click)=createGroup()>
+	            <ion-icon name="checkmark"></ion-icon>
+	        </button>
+        </ion-buttons>
+
+	</ion-navbar>
 
 </ion-header>
 
@@ -11,7 +25,7 @@
 
 	<ion-item>
 		<ion-label floating>Name</ion-label>
-		<ion-input type="text" name="name" [(ngModel)]="name"></ion-input>
+		<ion-input type="text" name="name" maxlength=20 [(ngModel)]="name"></ion-input>
 	</ion-item>
 
 	<ion-row class="row-dots">
@@ -28,17 +42,5 @@
 			<button ion-button="dot" (click)="changeColor('violet')" class="dot-violet" [class.selected]="selected == 'violet'"></button>
 		</ion-col>
 	</ion-row>
-
-	<div class="buttons-container">
-
-		<button ion-button full clear (click)="dismissModal()">
-	        Cancel
-	    </button>
-
-	    <button ion-button full clear (click)="createGroup()">
-	        Create
-	    </button>
-
-    </div>
 
 </ion-content>

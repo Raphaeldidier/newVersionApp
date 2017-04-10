@@ -15,6 +15,7 @@ import { MyEventsPage } from '../pages/my-events/my-events';
 import { CreateGroupModalPage } from '../pages/create-group-modal/create-group-modal';
 import { ManageGroupPage } from '../pages/manage-group/manage-group';
 import { AddUserModalPage } from '../pages/add-user-modal/add-user-modal';
+import { AddUserGroupModalPage } from '../pages/add-user-group-modal/add-user-group-modal';
 import { PendingInvitesModalPage } from '../pages/pending-invites-modal/pending-invites-modal';
 import { AuthService } from '../providers/auth-service';
 import { AppSettings } from './../providers/app-settings';
@@ -43,6 +44,7 @@ import { CustomCardComponent } from './../components/custom-card/custom-card';
     CreateGroupModalPage,
     ManageGroupPage,
     AddUserModalPage,
+    AddUserGroupModalPage,
     PendingInvitesModalPage,
     CustomPopOverComponent,
     CustomCardComponent
@@ -67,6 +69,7 @@ import { CustomCardComponent } from './../components/custom-card/custom-card';
     CreateGroupModalPage,
     ManageGroupPage,
     AddUserModalPage,
+    AddUserGroupModalPage,
     PendingInvitesModalPage,
     CustomPopOverComponent,
     CustomCardComponent

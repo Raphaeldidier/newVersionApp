@@ -27,6 +27,14 @@ page-groups {
             button{
                 margin: auto;
             }
+        }
+
+        ion-item-sliding:last-child{
+
+            ion-item{
+
+                border: none !important;
+            }
         } 
 	}
 

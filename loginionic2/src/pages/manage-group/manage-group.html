@@ -1,8 +1,16 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>{{ group.name }}</ion-title>
-  </ion-navbar>
+	<ion-navbar color="primary">
+
+		<ion-title>{{ group.name }}</ion-title>
+
+		<ion-buttons right>
+	        <button ion-button icon-only clear (click)=addUser()>
+	            <ion-icon name="add"></ion-icon>
+	        </button>
+        </ion-buttons>
+
+	</ion-navbar>
 
 </ion-header>
 
@@ -30,10 +38,5 @@
 		</ion-item-sliding>
 
 	</ion-list>
-
-	<button ion-button icon-left clear (click)="addUser()">
-		<ion-icon name="add"></ion-icon>
-			Add a friend
-	</button>
-
+	
 </ion-content>

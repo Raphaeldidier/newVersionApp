@@ -1,8 +1,22 @@
 <ion-header>
 
-  <ion-navbar hideBackButton>
-    <ion-title>Add a friend</ion-title>
-  </ion-navbar>
+	<ion-navbar hideBackButton color="primary">
+
+		<ion-buttons left>
+	        <button ion-button icon-only clear (click)=dismissModal()>
+	            <ion-icon name="close"></ion-icon>
+	        </button>
+        </ion-buttons>
+
+		<ion-title>Add a friend</ion-title>
+
+		<ion-buttons right>
+	        <button ion-button icon-only clear (click)=addUser()>
+	            <ion-icon name="checkmark"></ion-icon>
+	        </button>
+        </ion-buttons>
+
+	</ion-navbar>
 
 </ion-header>
 
@@ -13,18 +27,5 @@
 		<ion-label floating>Email</ion-label>
 		<ion-input type="text" name="email" [(ngModel)]="email"></ion-input>
 	</ion-item>
-
-
-	<div class="buttons-container">
-
-		<button ion-button full clear (click)="dismissModal()">
-	        Cancel
-	    </button>
-
-	    <button ion-button full clear (click)="addUser()">
-	        Add
-	    </button>
-
-    </div>
 
 </ion-content>

@@ -1,6 +1,14 @@
 page-create-group-modal {
-	
-	height: 50% !important;
+
+	ion-navbar{
+
+		ion-title{
+
+			text-align: center;
+
+		}
+
+	}
 
 	ion-content{
 
@@ -8,9 +16,11 @@ page-create-group-modal {
 
 		.scroll-content{
 
-		    display: flex;
-		    flex-direction: column;
-		    justify-content: space-between;
+			ion-item{
+
+				margin-bottom: 10%;
+
+			}
 
 			 .row-dots {
 

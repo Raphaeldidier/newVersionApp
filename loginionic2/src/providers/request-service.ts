@@ -47,6 +47,14 @@ export class RequestService {
       });
     }
 
+    public updateGroup(group_id, name, color){
+      return this.http.post(this.appSettings.getApiUrl() + "updateGroup", {
+        _groupId: group_id,
+        name: name,
+        color: color
+      });
+    }
+
     public deleteGroup(groupId){
       return this.http.post(this.appSettings.getApiUrl() + "deleteGroup", {
         _groupId: groupId

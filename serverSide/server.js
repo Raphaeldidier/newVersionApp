@@ -216,6 +216,26 @@ apiRoutes.post('/createGroup', function(req, res){
     });
 });
 
+apiRoutes.post('/updateGroup', function(req, res){
+  Groups.findOne({
+    _id: mongoose.Types.ObjectId(req.body._groupId)
+  }, function(err, group) {
+    if (err) 
+      res.json({success: false, msg: "Couldn't update this group!"});
+    else {
+
+      group.name  = req.body.name;
+      group.color = req.body.color;
+      
+      group.save((err) => {
+        if(err) 
+          res.json({success: false, msg: "Couldn't update this group!"});
+        else res.json({success: true, group: group});
+      })
+    }
+  });
+});
+
 apiRoutes.post('/deleteGroup', function(req, res){
   Groups.findOneAndRemove({
     _id: mongoose.Types.ObjectId(req.body._groupId)
@@ -407,14 +427,24 @@ apiRoutes.post('/sendInvitePending', function(req, res){
         res.json({success: false, msg: "Come on ... You can't be your own friend!"});
       }
       else {
-      User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
-        friend.pending_friends.push(currentUser);
-        friend.save((err) => {
-          if(err) throw err;
-          else
-            res.json({success: true, msg: "The invit is pending!"});
-        });
-      })
+        User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
+          //Check if he is alerady friend
+          if(currentUser.friends.indexOf(friend._id) >= 0)
+            res.json({success: false, msg: "You are already friend with " + friend.name});
+          else{
+            //Check if the invite is pending
+            if(friend.pending_friends.indexOf(currentUser._id) >= 0)
+              res.json({success: false, msg: "The invite for " + friend.name + " is still pending!"});
+            else{
+              friend.pending_friends.push(currentUser);
+              friend.save((err) => {
+                if(err) throw err;
+                else
+                  res.json({success: true, msg: "The invit is pending!"});
+              });
+            }
+          }
+        })
       }
     }
   });

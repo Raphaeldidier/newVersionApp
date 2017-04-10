@@ -11,7 +11,14 @@ export class CreateGroupModalPage {
 	selected = "";
 	name = "";
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController) {}
+	constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController,
+	 public alertCtrl: AlertController) {
+		let group = navParams.get('group');
+		if(group != null){
+			this.selected = group.color;
+			this.name = group.name;
+		}
+	}
 
 	dismissModal(){
 		this.viewCtrl.dismiss({});

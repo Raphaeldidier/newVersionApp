@@ -1,22 +1,20 @@
 page-add-user-modal {
-	
-	height: 50% !important;
+
+	ion-navbar{
+
+		ion-title{
+
+			text-align: center;
+
+		}
+
+	}
 	
 	ion-content{
 
 		padding: 0;
 
 		.scroll-content{
-
-		    display: flex;
-		    flex-direction: column;
-		    justify-content: space-between;
-
-		    .buttons-container{
-			
-				display: flex;	
-
-			}
 		}
 
 	}
