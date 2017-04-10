@@ -1,24 +1,78 @@
 page-groups {
 
+    .friends-list{
+        margin-top: 10% !important;
+    }
+
 	ion-list{
 
 		margin: 0 !important;
+
+        .top-header{
+
+            display: flex;
+
+            ion-list-header{
+                margin: 0;
+                border: none;
+
+                ion-label{
+
+                    font-size: 2rem;
+                    color: map-get($colors, primary);
+
+                }
+            }
+
+            button{
+                margin: auto;
+            }
+        } 
 	}
 
 	#notification-button {            
-            position: relative;
-            width: 42px;
-            top:1px;
-            right: 1px;
-            overflow: visible!important;
-        }
+        position: relative;
+        width: 42px;
+        top:1px;
+        right: 1px;
+        overflow: visible!important;
+    }
 
 
    #notifications-badge {
-            background-color: red;
-            position: absolute;
-            top: -3px;
-            right: -3px;
-            border-radius: 100%;
+        background-color: red;
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        border-radius: 100%;
+    }
+
+    ion-navbar {
+        .toolbar-content {
+            display: flex;
+            justify-content: space-between;
         }
+
+        .toolbar-content-md{
+            align-items : center;
+        }
+
+        ion-searchbar, ion-buttons{
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .firstButton{
+            order:1;
+        }
+
+        ion-title{
+            order:2;
+            text-align: center;
+        }
+
+        .lastButton{
+            order:3;
+        }
+    }
 }

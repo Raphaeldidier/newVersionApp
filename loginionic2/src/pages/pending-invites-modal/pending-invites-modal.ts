@@ -36,8 +36,18 @@ export class PendingInvitesModalPage {
 
 	}
 
-	declinefriend(friend){
+	declineFriend(friend){
+		this.rqst.declineFriendById(friend._id).subscribe(res => {
+  			if(res.json().success){
 
+  				this.showPopup("Success", "You've declined "+friend.name +"'s invitation!");
+
+				let index = this.pending_friends.indexOf(friend);
+				this.pending_friends.splice(index, 1);
+  			}
+  		}, err => {
+  			this.showPopup("Error", "Couldn't decline this invitation, Please try later");
+  		});
 	}
 
 	closeModal() {

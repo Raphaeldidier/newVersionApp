@@ -82,11 +82,26 @@ export class RequestService {
       });  
     }
 
+    public declineFriendById(friend_id){
+      return this.http.post(this.appSettings.getApiUrl() + "declineFriendById", {
+        _User: this.currentUser.id,
+        friend_id: friend_id
+      });  
+    }
+
     public delUserFromGroup(groupId, creatorId, userId){
       return this.http.post(this.appSettings.getApiUrl() + "delUserFromGroup", {
         _groupId: groupId,
         _creatorId: creatorId,
         _userId: userId
+      });
+    }
+
+    public deleteFriend(friend_id){
+    console.log(friend_id);
+      return this.http.post(this.appSettings.getApiUrl() + "deleteFriendFromList", {
+        _User: this.currentUser.id,
+        friend_id: friend_id
       });
     }
 

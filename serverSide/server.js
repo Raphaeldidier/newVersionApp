@@ -255,9 +255,8 @@ apiRoutes.get('/mapEvents', function(req, res){
     .populate('creator')
     .sort('date')
     .exec(function(err, events){
-      if(events){
+      if(events)
         res.json({success: true, events: events});
-      }
       else
         res.json({success: false, events: null});
     });
@@ -315,6 +314,52 @@ apiRoutes.post('/delUserFromGroup', function(req, res){
   });
 });
 
+apiRoutes.post('/deleteFriendFromList', function(req, res){
+
+  User.findOne({
+    _id: mongoose.Types.ObjectId(req.body._User)
+  }, function(err, user) {
+    if(err) 
+      res.json({success: false, msg: "Couln't delete this friend!"});
+    else {
+      User.findOne({
+          _id: mongoose.Types.ObjectId(req.body.friend_id)
+        }, function(err, friend){
+          if(!friend){
+            user.friends = user.friends.filter((friend) => {
+              return friend._id.toString() != req.body.friend_id; 
+            });
+            user.save((err)=> {
+            if(err)
+              res.json({success: false, msg: "Couln't delete this friend"});
+            else
+              res.json({ success: true });
+            });
+          }
+          else{
+          var index = user.friends.indexOf(friend);
+          user.friends.splice(index, 1);
+          var indexF = friend.friends.indexOf(user);
+          friend.friends.splice(indexF, 1);
+
+          user.save((err)=> {
+            if(err)
+              res.json({success: false, msg: "Couln't delete this friend"});
+            else{
+              friend.save((err) => {
+                if(err)
+                  res.json({success: false, msg: "Couln't delete this friend"});
+                else
+                  res.json({ success: true });
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
 apiRoutes.get('/myEvents', function(req, res){
   Event.find({ 
       $and:[
@@ -335,7 +380,6 @@ apiRoutes.get('/myEvents', function(req, res){
 });
 
 apiRoutes.get('/registeredEvents', function(req, res){
-  console.log(req.query.id);
   Event.find({ 
         date: { $gte: new Date() },
         users: mongoose.Types.ObjectId(req.query.id) 
@@ -359,6 +403,10 @@ apiRoutes.post('/sendInvitePending', function(req, res){
     if(!friend)
       res.json({success: false, msg: "Couldn't find this friend"});
     else{
+      if(req.body._User == friend._id){
+        res.json({success: false, msg: "Come on ... You can't be your own friend!"});
+      }
+      else {
       User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
         friend.pending_friends.push(currentUser);
         friend.save((err) => {
@@ -367,6 +415,7 @@ apiRoutes.post('/sendInvitePending', function(req, res){
             res.json({success: true, msg: "The invit is pending!"});
         });
       })
+      }
     }
   });
 });
@@ -400,6 +449,21 @@ apiRoutes.post('/acceptFriendById', function(req, res){
   })
 });
 
+apiRoutes.post('/declineFriendById', function(req, res){
+  User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
+    if(err) 
+      res.json({success: false, msg: "Couldn't decline this invitation"});
+    else {
+      console.log(currentUser.pending_friends);
+      var index = currentUser.pending_friends.indexOf(req.body.friend_id);
+      currentUser.pending_friends.splice(index, 1);
+      console.log(currentUser.pending_friends);
+      res.json({success: false});
+    }
+  })
+});
+
+
 apiRoutes.post('/addUserToFriendsList', function(req, res){
   User.findOne({ email: req.body.email.toLowerCase()}, function(err, friend){
     if(err) throw err;
@@ -407,11 +471,6 @@ apiRoutes.post('/addUserToFriendsList', function(req, res){
       res.json({success: false, msg: "Couldn't find this friend"});
     else{
       User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
-        // var sameUser = currentUser.friends.filter((userInGroup) => {
-        //   console.log('Gere');
-        //   console.log(userInGroup.toString() + " " + user._id.toString() );
-        //   return (userInGroup.toString()==user._id.toString());
-        // });
         currentUser.friends.push(friend);
         currentUser.save((err) => {
           if(err) throw err;

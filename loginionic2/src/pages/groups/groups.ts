@@ -3,6 +3,7 @@ import { NavController, NavParams, ModalController, LoadingController, Loading, 
 import { AuthService } from '../../providers/auth-service';
 import { RequestService } from '../../providers/request-service'
 import { CreateGroupModalPage } from '../../pages/create-group-modal/create-group-modal';
+import { SettingsPage } from '../../pages/settings/settings';
 import { PendingInvitesModalPage } from '../../pages/pending-invites-modal/pending-invites-modal';
 import { AddUserModalPage } from '../../pages/add-user-modal/add-user-modal';
 import { ManageGroupPage } from '../../pages/manage-group/manage-group';
@@ -100,16 +101,13 @@ export class GroupsPage {
 
      	pendingFriendsModal.onDidDismiss(data => {
      		data.addedFriends.forEach((friend) => {
-     			// this.friend.push(friend);
      		})
-     		// this.currentUser = this.auth.getUpdatedProfile();
      		this.setUserFriendsAndInfo();
 		});
 	    pendingFriendsModal.present();
 	}
 
 	doRefresh(refresher) {
-		// this.currentUser = this.auth.getUpdatedProfile();
  		this.setUserFriendsAndInfo();
 		setTimeout(() => {
 			refresher.complete();
@@ -127,6 +125,26 @@ export class GroupsPage {
         }, err => {
           // ?
       });
+	}
+
+	deleteFriend(friend){
+
+		this.reqServ.deleteFriend(friend._id).subscribe(res => {
+          	let jsonRes = res.json();
+  			if(jsonRes.success){
+				this.showPopup("Success", friend.name+" is not longer your friend!");
+  				let index = this.currentUser.friends.indexOf(friend);
+          		this.currentUser.friends.splice(index, 1);
+		  	}
+		  	else
+				this.showPopup("Error", jsonRes.msg);
+  		}, err => {
+		  	this.showPopup("Error", "Couldn't delete friend, Please try later");
+  		});
+	}
+
+	public openSettings(){
+		this.navCtrl.push(SettingsPage);
 	}
 
  	public showPopup(title, text){

@@ -1,17 +1,24 @@
 <ion-header>
 
 	<ion-navbar color="primary">
-	<ion-title>Groups</ion-title>
 
-	<ion-buttons end>
-		<button ion-button icon-only id="notification-button" (click) = openPendingFriends()>
-			<ion-icon name="notifications">
-				<div *ngIf="currentUser.pending_friends?.length > 0">
-				<ion-badge id="notifications-badge" color="danger">{{ currentUser.pending_friends.length }}</ion-badge>
-				</div>
-			</ion-icon>
-		</button>
-	</ion-buttons>
+		<ion-buttons class="firstButton">
+			<button ion-button icon-only (click) = openSettings()>
+				<ion-icon name="settings"></ion-icon>
+			</button>
+		</ion-buttons>
+
+		<ion-title>Social</ion-title>
+
+		<ion-buttons class="lastButton">
+			<button ion-button icon-only id="notification-button" (click) = openPendingFriends()>
+				<ion-icon name="notifications">
+					<div *ngIf="currentUser.pending_friends?.length > 0">
+					<ion-badge id="notifications-badge" color="danger">{{ currentUser.pending_friends.length }}</ion-badge>
+					</div>
+				</ion-icon>
+			</button>
+		</ion-buttons>
 
 	</ion-navbar>
 
@@ -26,15 +33,23 @@
 
 	<ion-list>
 
-		<ion-card *ngFor="let group of currentUser.groups">
+		<div class="top-header">
+			<ion-list-header>Groups</ion-list-header>
+			<button ion-button icon-left clear (click)="createGroup()">
+				<ion-icon name="add"></ion-icon>
+			</button>
+		</div>
 
-			<ion-item-sliding #item>
+		<!-- <ion-card> -->
+
+			<ion-item-sliding *ngFor="let group of currentUser.groups">
+
 			    <ion-item (click)="manageGroup(group)">
 			    	<ion-label>
 		      			{{ group.name }}
 	      			</ion-label>
-	      			<div item-content>
-				    	<ion-icon name="arrow-dropleft"></ion-icon>
+	      			<div item-left [style.color]="group.color">
+				    	<ion-icon item-left name="square"></ion-icon>
 				    </div>	
 		    	</ion-item>
 			    <ion-item-options side="right">
@@ -50,30 +65,37 @@
 			    </ion-item-options>
 		    </ion-item-sliding>	
 	
-		</ion-card>
+		<!-- </ion-card> -->
 
 	</ion-list>
 
-	<button ion-button icon-left clear (click)="createGroup()">
-		<ion-icon name="add"></ion-icon>
-			Add a group
-	</button>
+	<ion-list class="friends-list">
+	
+		<div class="top-header">
+			<ion-list-header>Friends</ion-list-header>
 
-	<ion-list>
+			<button ion-button icon-left clear (click)="addUser()">
+				<ion-icon name="person-add"></ion-icon>
+			</button>
+		</div>
 
-		<ion-card *ngFor="let friend of currentUser.friends">
+		<ion-item-sliding *ngFor="let friend of currentUser.friends">
 			<ion-item>
 				<ion-label>
 	      			{{ friend.name }}
 	  			</ion-label>
+      			<!-- <div item-content>
+			    	<ion-icon name="arrow-dropleft"></ion-icon>
+			    </div> -->	
   			</ion-item>
-		</ion-card>
+		    <ion-item-options side="right">
+		    	<button ion-button icon-only color="danger" (click)="deleteFriend(friend)">
+					<ion-icon name="trash"></ion-icon>
+				</button>
+		    </ion-item-options>
+			
+	    </ion-item-sliding>	
 
 	</ion-list>
-
-	<button ion-button icon-left clear (click)="addUser()">
-		<ion-icon name="add"></ion-icon>
-			Add a friend
-	</button>
 
 </ion-content>

@@ -3,14 +3,12 @@ import { AppSettings } from '../../providers/app-settings';
 import { AuthService } from '../../providers/auth-service';
 import { RequestService } from '../../providers/request-service';
 import { MapModalPage } from '../../pages/map-modal/map-modal';
-import { HomePage } from '../../pages/home/home';
 import { Http } from '@angular/http';
 import { NavController, AlertController, LoadingController, Loading, ModalController } from 'ionic-angular';
 
 @Component({
   selector: 'page-create-event',
-  templateUrl: 'create-event.html',
-  providers: [HomePage]
+  templateUrl: 'create-event.html'
 })
 export class CreateEventPage {
   card: any;
@@ -25,7 +23,7 @@ export class CreateEventPage {
   	address:"", lat: "", lng: "", city:"", currency:'', valid:false, name:"", spots:0};
 
   constructor(public navCtrl: NavController, public appSettings: AppSettings, public http: Http, public alertCtrl: AlertController, 
-  	private loadingCtrl: LoadingController, public modalCtrl: ModalController, public homePage: HomePage, public auth: AuthService, 
+  	private loadingCtrl: LoadingController, public modalCtrl: ModalController, public auth: AuthService, 
     public requestService: RequestService) {
 
     //get the User 

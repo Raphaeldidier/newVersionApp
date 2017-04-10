@@ -1,10 +1,11 @@
 import { Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { NavController, LoadingController, Loading, PopoverController, MenuController, Slides, Scroll } from 'ionic-angular';
+import { Nav, LoadingController, Loading, PopoverController, MenuController, Slides, Scroll } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
 import { PositionService } from '../../providers/position-service';
 import { RequestService } from '../../providers/request-service';
 import { CustomPopOverComponent } from "../../components/custom-pop-over/custom-pop-over"
 import { LoginPage } from '../login/login';
+import { CreateEventPage } from '../create-event/create-event';
 import { Geolocation } from 'ionic-native';
 import { Http } from '@angular/http';
 import { Gesture } from 'ionic-angular/gestures/gesture'
@@ -35,7 +36,7 @@ export class HomePage {
   heightStyle: any = "0px";
   canGoDown: any = true;
 
-  constructor(private nav: NavController, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, 
+  constructor(private nav: Nav, private auth: AuthService, private loadingCtrl: LoadingController, public http: Http, 
     public popoverCtrl: PopoverController, public positionService: PositionService, public requestService: RequestService, 
     private menu: MenuController, public cdr: ChangeDetectorRef) {
   
@@ -260,6 +261,11 @@ export class HomePage {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  createEvent(){
+    //Event creation page
+    this.nav.push(CreateEventPage);
   }
 
   public getDaysDiff(date){
