@@ -20,24 +20,27 @@ export class ManageGroupPage {
 
 	addUser(){
 		let addUserGroupModal = this.modalCtrl.create(AddUserGroupModalPage, { group: this.group });
-	   // 	addUserModal.onDidDismiss(data => {
-	   // 		if(data.success){	
-				// this.showLoading();
-		  //    	this.reqServ.addUserToGroup(this.group._id, data.email).subscribe(res => {
+	   	addUserGroupModal.onDidDismiss(data => {
+	   		if(data.success){	
+				this.showLoading();
+		     	this.reqServ.addUsersToGroup(this.group._id, data.usersToAdd).subscribe(res => {
 
-				// 	let jsonRes = res.json();
-				// 	if (jsonRes.success) {
-				// 		this.group.users.push(jsonRes.user);
-				// 	} else {
-				// 		this.showPopup("Error", jsonRes.msg);
-				// 	}
-				// 	this.loading.dismiss();
-				// }, error => {
-				// 	this.showPopup("Error", "User could not be added, Please try later");
-				// 	this.loading.dismiss();
-				// });
-	   //   	}
-	   // });
+					let jsonRes = res.json();
+					if (jsonRes.success) {
+						jsonRes.users.forEach((user) => {
+							this.group.users.push(user);
+						});
+					} else {
+						this.showPopup("Error", jsonRes.msg);
+					}
+					this.loading.dismiss();
+				}, error => {
+					this.showPopup("Error", "User could not be added, Please try later");
+					this.loading.dismiss();
+				});
+			}
+
+	   });
 	   addUserGroupModal.present();
 	}
 
@@ -55,7 +58,7 @@ export class ManageGroupPage {
 			this.showPopup("Error", "User could not be deleted, Please try later");
 			this.loading.dismiss();			
 		});
-	}
+	}	
 
 	public showPopup(title, text){
 	  	let alert = this.alertCtrl.create({

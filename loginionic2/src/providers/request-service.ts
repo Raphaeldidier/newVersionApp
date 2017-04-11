@@ -61,10 +61,10 @@ export class RequestService {
       });
     }
 
-    public addUserToGroup(groupId, email){
-      return this.http.post(this.appSettings.getApiUrl() + "addUserToGroup", {
+    public addUsersToGroup(groupId, users){
+      return this.http.post(this.appSettings.getApiUrl() + "addUsersToGroup", {
         _groupId: groupId,
-        email: email
+        users: users
       });
     }
 

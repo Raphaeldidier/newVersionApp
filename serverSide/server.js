@@ -282,35 +282,29 @@ apiRoutes.get('/mapEvents', function(req, res){
     });
 });
 
-apiRoutes.post('/addUserToGroup', function(req, res){
+apiRoutes.post('/addUsersToGroup', function(req, res){
+
   Groups.findOne({
     _id: mongoose.Types.ObjectId(req.body._groupId)
   }, function(err, group){
-     User.findOne({ email: req.body.email.toLowerCase()}, function(err, user){
-      if(err) throw err;
-      else{
-        //Check if we found a user
-        if(user){
-            //Check if the user is already in the group 
-            var sameUser = group.users.filter((userInGroup) => {
-              return (userInGroup.toString()==user._id.toString());
-            });
-
-            if(group.users.length > 0 && sameUser.length > 0)
-                res.json({success: false, msg: user.name+" is already in this group"});
-            else{
-              group.users.push(user);
-              group.save((err) => {
-                if(err) throw err;
-                else res.json({success: true, user: user});
-              });
-            }
+    if(group){
+      User.find({ _id: { $in: req.body.users } }, function(err, users){
+        console.log("users:");
+        console.log(users);
+        if(users){
+          users.forEach((user) => {
+            group.users.push(user);
+          });
+          console.log(group.users);
+          group.save((err) => {
+            if(err) res.json({success: false, msg: "Couldn't save this action!"});
+            else res.json({success: true, users: users});
+          });
         }
-        else{
-          res.json({success: false, msg: "Could not find this user"});
-        }
-      }
-     })
+        else res.json({success: false, msg: "Couldn't find one of this friends!"});
+      });
+    }
+    else res.json({success: false, msg: "Problem with the group!"});
   });
 });
 
@@ -346,8 +340,8 @@ apiRoutes.post('/deleteFriendFromList', function(req, res){
           _id: mongoose.Types.ObjectId(req.body.friend_id)
         }, function(err, friend){
           if(!friend){
-            user.friends = user.friends.filter((friend) => {
-              return friend._id.toString() != req.body.friend_id; 
+            user.friends = user.friends.filter((friendT) => {
+              return friendT._id.toString() != req.body.friend_id; 
             });
             user.save((err)=> {
             if(err)
@@ -357,6 +351,8 @@ apiRoutes.post('/deleteFriendFromList', function(req, res){
             });
           }
           else{
+            console.log("friend");
+            console.log(friend);
           var index = user.friends.indexOf(friend);
           user.friends.splice(index, 1);
           var indexF = friend.friends.indexOf(user);
@@ -369,8 +365,25 @@ apiRoutes.post('/deleteFriendFromList', function(req, res){
               friend.save((err) => {
                 if(err)
                   res.json({success: false, msg: "Couln't delete this friend"});
-                else
-                  res.json({ success: true });
+                else{
+                  //Delete all groups
+                  // BUGHERE
+                  Groups.find({ users: mongoose.Types.ObjectId(friend._id)}, function(err, groups){
+                    
+                    console.log("groups");
+                    console.log(groups);
+                    groups.forEach((group, index) => {
+                      console.log(groups);
+                      var indexValue = group.users.indexOf(friend._id);
+                      if(indexValue >= 0) groups[index].users.splice(indexValue, 1);
+
+                      group.save((err)=> {
+                        if(err) res.json({success: false, msg: "Couln't delete this friend"});
+                      });
+                    });
+                    res.json({success: true });
+                  });
+                }
               });
             }
           });

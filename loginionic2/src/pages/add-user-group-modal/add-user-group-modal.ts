@@ -23,15 +23,11 @@ export class AddUserGroupModalPage {
  		this.group = this.navParams.get("group");
  		let currentUser = this.auth.getCurrentUser();
  		this.initFriends = currentUser.friends;
+
  		this.initFriends = this.initFriends.filter((friend) => {
- 			
  			return this.group.users.findIndex((user) => {
- 				console.log('test');
- 				console.log(user);
- 				console.log(friend);
  				return user._id == friend._id;
  			}) < 0;
-
  		})
 
  		this.initFriends.forEach((friend, index) => {
@@ -74,7 +70,7 @@ export class AddUserGroupModalPage {
 		});
 	}
 
-	addUserToGroup(friend){
+	addUserToSelected(friend){
 
 		let index = (this.initFriends.indexOf(friend));
 
@@ -84,17 +80,18 @@ export class AddUserGroupModalPage {
 			this.initFriends[index].color = "green";
 
 		this.initFriends[index].bool = !friend.bool;
+	}
 
-		console.log(this.initFriends);
+	addUsersToGroup(){
+		let usersToAdd = this.initFriends.filter((friend) => {
+			return friend.bool;
+		});
+
+		this.viewCtrl.dismiss({ success: true, usersToAdd: usersToAdd });
 	}
 
 	public clearFriends(){
 		this.friends = this.initFriends;
-	}
-
-	public clickedFriend(friend){
-		
-
 	}
 
 	dismissModal(){

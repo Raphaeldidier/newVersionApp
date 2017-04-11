@@ -17,6 +17,12 @@
 		    animated=true>
 	  	</ion-searchbar>
 
+	  	<ion-buttons right>
+	        <button ion-button icon-only clear (click)=addUsersToGroup()>
+	            <ion-icon name="checkmark"></ion-icon>
+	        </button>
+        </ion-buttons>
+
 	</ion-navbar>
 
 </ion-header>
@@ -28,11 +34,11 @@
 
 		<ion-item-sliding *ngFor="let friend of friends">
 
-			<ion-item (click)="addUserToGroup(friend)">
+			<ion-item (click)="addUserToSelected(friend)">
 		    	<ion-label>
 	      			{{ friend.name }}
 	  			</ion-label>
-	  			<button clear ion-button item-right [style.color]="friend.color" (click)="clickedFriend(friend)">
+	  			<button clear ion-button item-right [style.color]="friend.color">
 	  				<ion-icon isActive=false name="add-circle"></ion-icon>
 	  			</button>
 	    	</ion-item>
