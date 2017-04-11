@@ -36,6 +36,23 @@ page-groups {
                 border: none !important;
             }
         } 
+
+        ion-item-options{
+
+            .button-inner {
+              font-size: 1.2rem;
+              flex-direction: column;
+            }
+
+            .button {
+              padding-right: 10px !important;
+              padding-left: 10px !important;
+            }
+
+            ion-icon {
+              margin-bottom: 5px !important;
+            }
+        }
 	}
 
 	#notification-button {            

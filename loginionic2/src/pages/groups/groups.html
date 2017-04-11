@@ -53,14 +53,13 @@
 				    </div>	
 		    	</ion-item>
 			    <ion-item-options side="right">
-					<!-- <button ion-button icon-only color="primary" (click)="addUser(group)">
-						<ion-icon name="person-add"></ion-icon>
-					</button> -->
 					<button ion-button icon-only color="secondary" (click)="updateGroup(group)">
 						<ion-icon name="construct"></ion-icon>
+						Manage
 					</button>
 					<button ion-button icon-only color="danger" (click)="deleteGroup(group)">
 						<ion-icon name="trash"></ion-icon>
+						Delete
 					</button>
 			    </ion-item-options>
 		    </ion-item-sliding>	
@@ -88,9 +87,14 @@
 			    	<ion-icon name="arrow-dropleft"></ion-icon>
 			    </div> -->	
   			</ion-item>
-		    <ion-item-options side="right">
+		    <ion-item-options icon-right side="right">
+		    	<button ion-button color="secondary" (click)="deleteFriend(friend)">
+					<ion-icon name="move"></ion-icon>
+					Move
+				</button>
 		    	<button ion-button icon-only color="danger" (click)="deleteFriend(friend)">
 					<ion-icon name="trash"></ion-icon>
+					Delete
 				</button>
 		    </ion-item-options>
 			

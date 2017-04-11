@@ -1,3 +1,28 @@
 page-add-user-group-modal {
 
+	ion-searchbar{
+
+		.back-button{
+
+			margin: 0;
+
+		}
+	}
+
+	ion-list{
+
+		ion-item{
+
+			button{
+			
+				width: 15% !important;
+			    margin: 0 !important;
+			    padding: 0 !important;
+			    height: 100% !important;
+	    		font-size: 2.2rem !important;
+
+			}
+		}
+
+	}
 }

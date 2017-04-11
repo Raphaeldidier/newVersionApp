@@ -1,26 +1,28 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>AddUserGroupModal</ion-title>
-  </ion-navbar>
+	<ion-navbar color="primary">
+
+		<ion-buttons left>
+	        <button ion-button icon-only clear (click)=dismissModal()>
+	            <ion-icon name="close"></ion-icon>
+	        </button>
+        </ion-buttons>
+
+	    <ion-searchbar 
+		    [(ngModel)]="searchedWord"
+		    placeholder="Friend's username"
+		    (search)="searchByKeyword($event)"
+		    (ionClear)="clearFriends()"
+		    (ionInput)="searchKey($event)"
+		    animated=true>
+	  	</ion-searchbar>
+
+	</ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
-	<div>
-		Find one of your friends to add them in your group!
-	</div>
-
-	<ion-searchbar 
-	    [(ngModel)]="searchedWord"
-	    placeholder="Friend's username"
-	    (search)="searchByKeyword($event)"
-	    (ionClear)="clearFriends()"
-	    (ionInput)="searchKey($event)"
-	    animated=true>
-  	</ion-searchbar>
 
   	<ion-list>
 
@@ -30,6 +32,9 @@
 		    	<ion-label>
 	      			{{ friend.name }}
 	  			</ion-label>
+	  			<button clear ion-button item-right [style.color]="friend.color" (click)="clickedFriend(friend)">
+	  				<ion-icon isActive=false name="add-circle"></ion-icon>
+	  			</button>
 	    	</ion-item>
 
 		</ion-item-sliding>

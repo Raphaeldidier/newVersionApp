@@ -26,7 +26,6 @@ export class GroupsPage {
 
 
   	manageGroup(group){
-  		console.log(group);
   		this.navCtrl.push(ManageGroupPage, { "group": group });
   	}
 
@@ -51,7 +50,6 @@ export class GroupsPage {
 	   	groupCreateModal.onDidDismiss(data => {
 	   		if(data.success){	
 				this.showLoading();
-	     		console.log(data);
 		     	this.reqServ.createNewGroup(data.name, data.color).subscribe(res => {
 
 					let jsonRes = res.json();

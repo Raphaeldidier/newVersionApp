@@ -27,6 +27,7 @@ import { DatePipe } from '@angular/common';
 import { CustomPopOverComponent } from './../components/custom-pop-over/custom-pop-over';
 import { CustomCardComponent } from './../components/custom-card/custom-card';
 
+
 @NgModule({
   declarations: [
     MyApp,
