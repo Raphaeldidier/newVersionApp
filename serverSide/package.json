@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "This app is used to go out with your friends",
   "main": "server.js",
+  "scripts": {
+    "start" : "node server.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "~1.9.2",

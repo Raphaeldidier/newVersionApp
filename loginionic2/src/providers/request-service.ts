@@ -3,9 +3,13 @@ import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { AppSettings } from './app-settings';
 import { AuthService } from './auth-service';
 
+// const CONFIG = {
+//   rootPath: 'http://localhost:8080/images/',
+// }; 
+
 const CONFIG = {
-  rootPath: 'http://localhost:8080/images/',
-}; 
+  rootPath: 'https://venews-app.herokuapp.com/images/',
+};
 
 @Injectable()
 export class RequestService {
