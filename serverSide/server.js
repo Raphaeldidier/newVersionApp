@@ -37,7 +37,12 @@ app.get('/', function(req, res) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Connect to the mongoDB 
-mongoose.connect(config.database);
+// mongoose.connect(config.database);
+
+mongoose.connect("mongodb://heroku_rkjcn59n:3cbe6ivb9a218tl2itg4u9uup1@ds147510.mlab.com:47510/heroku_rkjcn59n", function(err){
+  if(err) console.log('error DB');
+  else console.log("Connect DB");
+});
  
 // pass passport for configuration
 require('./config/passport')(passport);
@@ -74,7 +79,7 @@ apiRoutes.post('/authenticate', function(req, res) {
       populate: { path:  'users',
             model: 'User' }
     })
-    .populate('friends')
+    .populate({ path: 'friends', options: { sort: { 'name': 1 } } })
     .populate('pending_friends')
     .exec(
       function(err, user) {
@@ -137,7 +142,7 @@ apiRoutes.get('/userInfo', function(req, res){
     populate: { path:  'users',
           model: 'User' }
   })
-  .populate('friends')
+  .populate({ path: 'friends', options: { sort: { 'name': 1 } } })
   .populate('pending_friends')
   .exec(function(err, user){
     if(err)
@@ -351,12 +356,12 @@ apiRoutes.post('/deleteFriendFromList', function(req, res){
             });
           }
           else{
-            console.log("friend");
-            console.log(friend);
-          var index = user.friends.indexOf(friend);
-          user.friends.splice(index, 1);
-          var indexF = friend.friends.indexOf(user);
-          friend.friends.splice(indexF, 1);
+          user.friends = user.friends.filter((friendT) => {
+            return friendT.toString() != friend._id.toString(); 
+          });
+          friend.friends = friend.friends.filter((friendT) => {
+            return friendT.toString() != user._id.toString(); 
+          });
 
           user.save((err)=> {
             if(err)
@@ -367,13 +372,9 @@ apiRoutes.post('/deleteFriendFromList', function(req, res){
                   res.json({success: false, msg: "Couln't delete this friend"});
                 else{
                   //Delete all groups
-                  // BUGHERE
                   Groups.find({ users: mongoose.Types.ObjectId(friend._id)}, function(err, groups){
                     
-                    console.log("groups");
-                    console.log(groups);
                     groups.forEach((group, index) => {
-                      console.log(groups);
                       var indexValue = group.users.indexOf(friend._id);
                       if(indexValue >= 0) groups[index].users.splice(indexValue, 1);
 
