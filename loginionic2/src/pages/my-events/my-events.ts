@@ -15,6 +15,7 @@ export class MyEventsPage {
 	createdEvents: any = [];
 	registeredEvents: any = [];
 	currentUser: any;
+	state: boolean = true;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public auth: AuthService, 
   		public reqServ: RequestService, private loadingCtrl: LoadingController, public alertCtrl: AlertController,
@@ -22,6 +23,7 @@ export class MyEventsPage {
 
 		this.currentUser = this.auth.getUserInfo();
 		this.requestCreated();
+		this.requestRegistered();
 	}
 
 	requestCreated(){
@@ -62,16 +64,32 @@ export class MyEventsPage {
   		});
 	}
 
-	segmentChanged(event){
-		console.log(this.registeredEvents);
-		if(event.value == "registered"){
+	doRefresh(refresher) {
+		if(this.state){
 			this.createdEvents = [];
-			this.requestRegistered();
+			this.requestCreated();
 		}
 		else{
 			this.registeredEvents = [];
-			this.requestCreated();
+			this.requestRegistered();
 		}
+		setTimeout(() => {
+			refresher.complete();
+		}, 2000);
+	} 
+
+	segmentChanged(event){
+		this.state = !this.state;
+		this.cdr.detectChanges();
+		// console.log(this.registeredEvents);
+		// if(event.value == "registered"){
+		// 	this.createdEvents = [];
+		// 	this.requestRegistered();
+		// }
+		// else{
+		// 	this.registeredEvents = [];
+		// 	this.requestCreated();
+		// }
 	}
 
 	public showPopup(title, text){

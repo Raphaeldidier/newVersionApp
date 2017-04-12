@@ -30,7 +30,7 @@ export class LoginPage {
       let jsonRes = res.json();
       console.log(jsonRes);
       if (jsonRes.success) {
-        this.auth.currentUser = new User(jsonRes.user._id, jsonRes.user.name, jsonRes.user.email, jsonRes.user.email, jsonRes.user.groups, jsonRes.user.friends, jsonRes.user.pending_friends);
+        this.auth.currentUser = new User(jsonRes.user._id, jsonRes.user.name, jsonRes.user.email, jsonRes.user.birthdate, jsonRes.user.groups, jsonRes.user.friends, jsonRes.user.pending_friends);
 
         setTimeout(() => {
           this.loading.dismiss();
@@ -69,12 +69,10 @@ export class LoginPage {
 
     this.platform.ready().then(() => {
 
-        console.log('Connecting to Fb');
-
         facebookConnectPlugin.login(["email"], function(result) {
             let alert = this.alertCtrl.create({
             title: 'Success',
-            subTitle: JSON.stringify(result),
+            subTitle: result,
             buttons: ['OK']
             });
             alert.present(prompt);

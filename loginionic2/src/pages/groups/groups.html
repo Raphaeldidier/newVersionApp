@@ -31,6 +31,17 @@
 		<ion-refresher-content></ion-refresher-content>
 	</ion-refresher>
 
+	<div class="profile" (click)="openProfile()">
+		<ion-card>
+			<img src="https://support.plymouth.edu/kb_images/Yammer/default.jpeg"/>
+			<ion-card-content>
+    			<p class="name">
+					{{ currentUser.name }}
+				</p>
+			</ion-card-content>
+		</ion-card>
+	</div>
+
 	<ion-list>
 
 		<div class="top-header">

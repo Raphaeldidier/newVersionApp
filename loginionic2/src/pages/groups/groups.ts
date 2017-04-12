@@ -4,6 +4,7 @@ import { AuthService } from '../../providers/auth-service';
 import { RequestService } from '../../providers/request-service'
 import { CreateGroupModalPage } from '../../pages/create-group-modal/create-group-modal';
 import { SettingsPage } from '../../pages/settings/settings';
+import { ProfilePage } from '../../pages/profile/profile';
 import { PendingInvitesModalPage } from '../../pages/pending-invites-modal/pending-invites-modal';
 import { AddUserModalPage } from '../../pages/add-user-modal/add-user-modal';
 import { ManageGroupPage } from '../../pages/manage-group/manage-group';
@@ -22,6 +23,7 @@ export class GroupsPage {
   		public alertCtrl: AlertController) {
 
   		this.currentUser = this.auth.getCurrentUser();
+  		console.log(this.currentUser);
   	}
 
 
@@ -171,6 +173,10 @@ export class GroupsPage {
 
 	public openSettings(){
 		this.navCtrl.push(SettingsPage);
+	}
+
+	public openProfile(){
+		this.navCtrl.push(ProfilePage, { user: this.currentUser});
 	}
 
  	public showPopup(title, text){

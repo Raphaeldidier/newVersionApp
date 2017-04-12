@@ -1,22 +1,28 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-/*
-  Generated class for the Profile page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html'
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+	currentUser: any;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
-  }
+	constructor(public navCtrl: NavController, public navParams: NavParams) {
+		this.currentUser = this.navParams.get("user");
+		console.log(this.currentUser);
+	}
+
+	modifProfile(){
+		console.log("modify Profile");
+	}
+
+	calculateAge(birthday) { 
+		let birthdayDate = new Date(birthday);
+	    let ageDifMs = Date.now() - birthdayDate.getTime();
+	    let ageDate = new Date(ageDifMs); 
+	    return Math.abs(ageDate.getUTCFullYear() - 1970);
+	}
 
 }

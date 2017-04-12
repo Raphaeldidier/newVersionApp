@@ -1,6 +1,6 @@
 <ion-header>
 
-	<ion-navbar>
+	<ion-navbar color="primary">
 		<ion-title>MyEvents</ion-title>
 	</ion-navbar>
 
@@ -20,7 +20,9 @@
 		</ion-segment>
 	</ion-toolbar>
 
-
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
 
 	<div [ngSwitch]="toggleVal">
   		<div *ngSwitchCase="'created'">

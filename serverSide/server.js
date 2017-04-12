@@ -37,12 +37,12 @@ app.get('/', function(req, res) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Connect to the mongoDB 
-// mongoose.connect(config.database);
+mongoose.connect(config.database);
 
-mongoose.connect("mongodb://heroku_rkjcn59n:3cbe6ivb9a218tl2itg4u9uup1@ds147510.mlab.com:47510/heroku_rkjcn59n", function(err){
-  if(err) console.log('error DB');
-  else console.log("Connect DB");
-});
+// mongoose.connect("mongodb://heroku_rkjcn59n:3cbe6ivb9a218tl2itg4u9uup1@ds147510.mlab.com:47510/heroku_rkjcn59n", function(err){
+//   if(err) console.log('error DB');
+//   else console.log("Connect DB");
+// });
  
 // pass passport for configuration
 require('./config/passport')(passport);
