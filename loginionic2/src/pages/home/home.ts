@@ -61,7 +61,7 @@ export class HomePage {
     })
     swipeGesture.on('swipedown', e => {
        this.scrollEnable = false;
-       this.heightStyle = "100px";
+       this.heightStyle = "50px";
     })
 
     let swipeElementDiv = document.getElementById("swipeElementDiv")
@@ -81,7 +81,7 @@ export class HomePage {
     swipeGestureDiv.on('swipedown', e => {
       if(this.canGoDown){
         this.scrollEnable = false;
-        this.heightStyle = "100px";
+        this.heightStyle = "50px";
       }
     })
 
@@ -231,7 +231,7 @@ export class HomePage {
 
       //hide scrollable events bar
       if(that.eventsArray.length > 0)
-        that.heightStyle = "100px";
+        that.heightStyle = "50px";
       else
         that.heightStyle = "0px";
 
