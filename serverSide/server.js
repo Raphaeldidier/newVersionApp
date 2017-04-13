@@ -525,6 +525,16 @@ apiRoutes.post('/addUserToFriendsList', function(req, res){
     }
   });
 });
+
+apiRoutes.post('/test', function(req, res){
+  console.log("req1");
+  console.log(req);
+});
+
+apiRoutes.post('/upload', function(req, res){
+  console.log("req2");
+  console.log(req);
+});
  
 // connect the api routes under /api/*
 app.use('/api/v1', apiRoutes);
