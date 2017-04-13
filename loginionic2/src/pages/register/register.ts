@@ -62,7 +62,8 @@ export class RegisterPage {
     });
     loader.present();
  
-    let filename = this.imagePath.split('/').pop();
+    let filename = this.lastImage.split('/').pop();
+    alert(filename);
     let options = {
       fileKey: "file",
       fileName: filename,
@@ -75,6 +76,8 @@ export class RegisterPage {
     var targetPath = this.pathForImage(this.lastImage);
  
     const fileTransfer = new Transfer();
+
+    alert(targetPath);
   
     fileTransfer.upload(targetPath, 'https://venews-app.herokuapp.com/api/v1/upload',
       options).then((entry) => {
