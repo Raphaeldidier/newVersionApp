@@ -93,6 +93,18 @@ export class HomePage {
     });
   }
 
+  clickBar(){
+    if(this.heightStyle == "50px")
+    {
+      if(this.eventsArray.length == 1)
+        this.heightStyle = "250px";
+      else  
+        this.heightStyle = "450px";
+    }
+    else
+      this.heightStyle = "50px";
+  }
+
   ionViewDidLoad(){
 
     this.loadMap();

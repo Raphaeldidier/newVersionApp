@@ -4,13 +4,15 @@ import { AuthService } from '../../providers/auth-service';
 import { RequestService } from '../../providers/request-service';
 import { MapModalPage } from '../../pages/map-modal/map-modal';
 import { Http } from '@angular/http';
-import { NavController, AlertController, LoadingController, Loading, ModalController } from 'ionic-angular';
+import { ViewChild } from '@angular/core';
+import { NavController, AlertController, LoadingController, Loading, ModalController, Slides } from 'ionic-angular';
 
 @Component({
   selector: 'page-create-event',
   templateUrl: 'create-event.html'
 })
 export class CreateEventPage {
+  @ViewChild(Slides) slides: Slides;
   card: any;
   loading: Loading;
   currentUser : any;
@@ -25,6 +27,8 @@ export class CreateEventPage {
   constructor(public navCtrl: NavController, public appSettings: AppSettings, public http: Http, public alertCtrl: AlertController, 
   	private loadingCtrl: LoadingController, public modalCtrl: ModalController, public auth: AuthService, 
     public requestService: RequestService) {
+
+    
 
     //get the User 
     this.currentUser = this.auth.getUserInfo();

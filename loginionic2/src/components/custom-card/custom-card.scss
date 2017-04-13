@@ -4,6 +4,7 @@ ion-card{
 	margin: 0 !important;
 	width: 100% !important;
 	position: relative;
+	height: 200px;
 
 	img{
 		height: 200px;
@@ -14,9 +15,8 @@ ion-card{
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
-			top: 0%;
-			padding: 15px;
-			/*to check*/
+		top: 0%;
+		padding: 15px;
 		height: 200px;
 
 		.left-card{

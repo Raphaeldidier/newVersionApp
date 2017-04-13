@@ -1,7 +1,7 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>CreateEvent</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Event Creation</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -31,89 +31,139 @@
 		</div>
 	</ion-card>
 
-	<form #createEventForm="ngForm">
-	  <ion-row>
-	    <ion-col>
-	      <ion-list inset>
-	        <ion-item>
-			  <ion-label floating>Category</ion-label>
-			  <ion-select [(ngModel)]="createEventVal.category" name="category" (ionChange)=changeCategory()>
-		      	<ion-option *ngFor="let item of optionsListCat" value="{{item.value}}" required>{{item.text}}</ion-option>
-			  </ion-select>
-			</ion-item>
+	
 
-			<ion-item>
-			  <ion-label floating>SubCategory</ion-label>
-			  <ion-select [(ngModel)]="createEventVal.subCategory" name="subCategory" (ionChange)="setCustomCard()" [disabled]="disableSubCategory">
-		      	<ion-option *ngFor="let item of optionsListSubCat" value="{{item.value}}" required>{{item.text}}</ion-option>
-			  </ion-select>
-			</ion-item>
+	<ion-slides zoom=false>
+		<ion-slide zoom=false>
+			<form #createEventForm="ngForm">
+			  <ion-row>
+			    <ion-col>
+			      <ion-list inset>
 
-			<ion-item>
-			  <ion-label floating>Name</ion-label>
-			  <ion-input type="text" name="name" min=0 [(ngModel)]="createEventVal.name" (change)="setCustomCard()" required></ion-input>
-			</ion-item>
+					<ion-item>
+					  <ion-label fixed>Name</ion-label>
+					  <ion-input type="text" name="name" min=0 [(ngModel)]="createEventVal.name" (change)="setCustomCard()" required></ion-input>
+					</ion-item>
 
-			<ion-item>
-			  <ion-label floating>Date</ion-label>
-			  <ion-datetime displayFormat="MMM DD, YYYY" name="date" [(ngModel)]="createEventVal.date" (ionChange)="setCustomCard()" required></ion-datetime>
-			</ion-item>
+			      	<!-- <div class="duo"> -->
+				        <ion-item>
+						  <ion-label>Category</ion-label>
+						  <ion-select [(ngModel)]="createEventVal.category" name="category" (ionChange)=changeCategory()>
+					      	<ion-option *ngFor="let item of optionsListCat" value="{{item.value}}" required>{{item.text}}</ion-option>
+						  </ion-select>
+						</ion-item>
 
-			<ion-item>
-			  <ion-label floating>Time</ion-label>
-			  <ion-datetime displayFormat="hh:mma" name="date" [(ngModel)]="createEventVal.date" (ionChange)="setCustomCard()" required></ion-datetime>
-			</ion-item>
+						<ion-item>
+						  <ion-label>Sub-Category</ion-label>
+						  <ion-select [(ngModel)]="createEventVal.subCategory" name="subCategory" (ionChange)="setCustomCard()" [disabled]="disableSubCategory">
+					      	<ion-option *ngFor="let item of optionsListSubCat" value="{{item.value}}" required>{{item.text}}</ion-option>
+						  </ion-select>
+						</ion-item>
+					<!-- </div> -->
 
-			<ion-item>
-			  <ion-label floating>Languages</ion-label>
-			  <ion-select [(ngModel)]="createEventVal.languages" (ionChange)="setCustomCard()" name="languages" multiple="true">
-			    <ion-option>French</ion-option>
-			    <ion-option>English</ion-option>
-			    <ion-option>German</ion-option>
-			  </ion-select>
-			</ion-item>
 
-			<ion-item>
-			  <ion-label floating>Spots</ion-label>
-			  <ion-input type="number" name="sports" min=0 max=10000 [(ngModel)]="createEventVal.spots" (change)="setCustomCard()" required></ion-input>
-			</ion-item>
+			      	<!-- <div class="duo"> -->
+						<ion-item>
+						  <ion-label fixed>Date</ion-label>
+						  <ion-datetime displayFormat="MMM DD, YYYY" name="date" [(ngModel)]="createEventVal.date" (ionChange)="setCustomCard()" required></ion-datetime>
+						</ion-item>
 
-			<ion-item>
-			  <ion-label floating>Price</ion-label>
-			  <ion-input type="number" name="priceNumber" min=0 max=10000 [(ngModel)]="createEventVal.priceNumber" (change)="setCustomCard()" required></ion-input>
-			</ion-item>
+						<ion-item>
+						  <ion-label fixed>Time</ion-label>
+						  <ion-datetime displayFormat="hh:mma" name="date" [(ngModel)]="createEventVal.date" (ionChange)="setCustomCard()" required></ion-datetime>
+						</ion-item>
+					<!-- </div> -->
+					
+					<button ion-button full clear  [disabled]="!createEventForm.form.valid || !createEventVal.category || !createEventVal.subCategory" (click)="slides.slideNext(500)">Next</button>
 
-			<ion-item>
-			  <ion-label floating>Currency</ion-label>
-			  <ion-select [(ngModel)]="createEventVal.currency" (ionChange)="setCustomCard()" name="currency" required>
-			    <ion-option>$</ion-option>
-			    <ion-option>€</ion-option>
-			    <ion-option>¥</ion-option>
-			    <ion-option>£</ion-option>
-			  </ion-select>
-			</ion-item>
+				  </ion-list>
+				</ion-col>
+			  </ion-row>
+			</form>
 
-			<ion-item>
-				<button ion-button icon-right full (click)=presentMapModal()>
-  					Location
-  					<ion-icon name="flag"></ion-icon>
-				</button>
-			</ion-item>
-			<ion-item>
-			  <ion-label floating>Address</ion-label>
-			  <ion-input type="text" name="address" [(ngModel)]="createEventVal.address" (ionChange)="setCustomCard()" disabled="true" required></ion-input>
-			</ion-item>
-	        
-	      </ion-list>
-	    </ion-col>
-	  </ion-row>
-	  
-	  <ion-row>
-	    <ion-col class="signup-col">
-	      <button ion-button class="submit-btn" full type="submit" (click)="createEvent()" [disabled]="!createEventForm.form.valid||!createEventVal.address">Create Event !</button>
-	    </ion-col>
-	  </ion-row>
-	  
-	 </form>
+		</ion-slide>
+
+		<ion-slide zoom=false>
+			<form #createEventForm2="ngForm">
+			  <ion-row>
+			    <ion-col>
+			      <ion-list inset>
+
+					<ion-item>
+					  <ion-label floating>Spots</ion-label>
+					  <ion-input type="number" name="sports" min=0 max=10000 [(ngModel)]="createEventVal.spots" (change)="setCustomCard()" required></ion-input>
+					</ion-item>
+
+					<ion-item>
+					  <ion-label floating>Price</ion-label>
+					  <ion-input type="number" name="priceNumber" min=0 max=10000 [(ngModel)]="createEventVal.priceNumber" (change)="setCustomCard()" required></ion-input>
+					</ion-item>
+
+					<ion-item>
+					  <ion-label floating>Currency</ion-label>
+					  <ion-select [(ngModel)]="createEventVal.currency" (ionChange)="setCustomCard()" name="currency" required>
+					    <ion-option>$</ion-option>
+					    <ion-option>€</ion-option>
+					    <ion-option>¥</ion-option>
+					    <ion-option>£</ion-option>
+					  </ion-select>
+					</ion-item>
+
+					<ion-item>
+					  <ion-label floating>Languages</ion-label>
+					  <ion-select [(ngModel)]="createEventVal.languages" (ionChange)="setCustomCard()" name="languages" multiple="true">
+					    <ion-option>French</ion-option>
+					    <ion-option>English</ion-option>
+					    <ion-option>German</ion-option>
+					  </ion-select>
+					</ion-item>
+
+					<div class="NPButtons">
+						<button ion-button full clear (click)="slides.slidePrev(500)">Prev</button>
+						<button ion-button full clear  [disabled]="!createEventForm2.form.valid" (click)="slides.slideNext(500)">Next</button>
+					</div>
+
+					</ion-list>
+				</ion-col>
+			  </ion-row>
+			</form>
+
+		</ion-slide>
+
+		<ion-slide zoom=false>
+			<form #createEventForm3="ngForm">
+			  <ion-row>
+			    <ion-col>
+			      <ion-list inset>
+
+					<ion-item>
+						<button ion-button icon-right full (click)=presentMapModal()>
+		  					{{ createEventVal.address }}
+		  					<ion-icon name="flag"></ion-icon>
+						</button>
+					</ion-item>
+					<ion-item>
+					  <ion-label floating>Address</ion-label>
+					  <ion-input type="text" name="address" [(ngModel)]="createEventVal.address" (ionChange)="setCustomCard()" disabled="true" required></ion-input>
+					</ion-item>
+
+					<div class="NPButtons">
+						<button ion-button full clear (click)="slides.slidePrev(500)">Prev</button>
+						<button ion-button class="submit-btn" full icon-left type="submit" (click)="createEvent()" [disabled]="!createEventForm.form.valid || !createEventForm2.form.valid || !createEventVal.address">Create Event !</button>
+					</div>
+			      	
+
+			      </ion-list>
+			    </ion-col>
+			  </ion-row>
+			  
+			  <ion-row>
+			    <ion-col class="signup-col">
+			    </ion-col>
+			  </ion-row>
+			  
+			 </form>
+		</ion-slide>
+	</ion-slides>
 
 </ion-content>
