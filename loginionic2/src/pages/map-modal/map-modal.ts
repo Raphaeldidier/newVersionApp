@@ -72,7 +72,6 @@ export class MapModalPage {
 	public loadMap(){
  
     this.showLoading();
-    console.log("After2");
 
     Geolocation.getCurrentPosition().then((position) => {
  
@@ -100,6 +99,12 @@ export class MapModalPage {
         draggable: true
       });
 
+      let marker = this.marker;
+
+      this.map.addListener('click', function(e){
+        marker.setPosition(e.latLng);
+      });
+
     }, (err) => {
       console.log(err);
       setTimeout(() => {
@@ -108,6 +113,17 @@ export class MapModalPage {
     });
  
   }
+
+  public placeMarkerAndPanTo(latLng, map) {
+    console.log(this.marker);
+    this.marker.setPosition(latLng);
+    // var marker = new google.maps.Marker({
+    //   position: latLng,
+    //   map: map
+    // });
+    // map.panTo(latLng);
+  }
+
 
   showLoading() {
     this.loading = this.loadingCtrl.create({

@@ -3,21 +3,20 @@ import { NavController, ActionSheetController, ToastController, Platform, Loadin
  AlertController } from 'ionic-angular';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { AuthService } from '../../providers/auth-service';
-import { Camera, File, Transfer, FilePath } from 'ionic-native';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
+import { File, FilePath } from 'ionic-native';
  
 declare var cordova: any;
 
 @Component({
   selector: 'page-register',
-  templateUrl: 'register.html'
+  templateUrl: 'register.html',
+  providers: [Transfer,Camera]
 })
 export class RegisterPage {
   createSuccess = false;
   loading:any;
-  imageChosen: any = 0;
-  lastImage: any;
-  imagePath: any;
-  imageNewPath: any;
 
   registerCredentials = {
     name: '', 
@@ -28,7 +27,7 @@ export class RegisterPage {
 
   constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, 
     public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController, public platform: Platform,
-    public loadingCtrl: LoadingController, public http: Http) {
+    public loadingCtrl: LoadingController, public http: Http, private transfer: Transfer,private camera: Camera) {
 
   }
  
@@ -47,141 +46,38 @@ export class RegisterPage {
     });
   }
 
-  pathForImage(img) {
-    if (img === null) {
-      return '';
-    } else {
-      return cordova.file.dataDirectory + img;
-    }
-  }
+  upload()
+    {
+      
+       let options = {
+
+           quality: 100
+            };
 
 
-  uploadPhoto() {
-    let loader = this.loadingCtrl.create({
-      content: "Please wait..."
-    });
-    loader.present();
- 
-    let filename = this.lastImage.split('/').pop();
-    alert(filename);
-    let options = {
-      fileKey: "file",
-      fileName: filename,
-      chunkedMode: false,
-      mimeType: "image/jpg",
-      params: { 'test':'test' }
-    };
+      this.camera.getPicture(options).then((imageData) => {
+       // imageData is either a base64 encoded string or a file URI
+       // If it's base64:
 
-     // File for Upload
-    var targetPath = this.pathForImage(this.lastImage);
- 
-    const fileTransfer = new Transfer();
+     const fileTransfer: TransferObject = this.transfer.create();
 
-    alert(targetPath);
-  
-    fileTransfer.upload(targetPath, 'https://venews-app.herokuapp.com/api/v1/upload',
-      options).then((entry) => {
-        this.imagePath = '';
-        this.imageChosen = 0;
-        loader.dismiss();
-      }, (err) => {
-        alert(JSON.stringify(err));
-      });
-  }
- 
-  chooseImage() {
- 
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Choose Picture Source',
-      buttons: [
-        {
-          text: 'Gallery',
-          icon: 'albums',
-          handler: () => {
-            this.actionHandler(1, Camera.PictureSourceType.PHOTOLIBRARY);
-          }
-        },
-        {
-          text: 'Camera',
-          icon: 'camera',
-          handler: () => {
-            this.actionHandler(2, Camera.PictureSourceType.CAMERA);
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
- 
-    actionSheet.present();
-  }
- 
- 
-  actionHandler(selection: any, sourceType) {
-    var options: any;
- 
-    if (selection == 1) {
-      options = {
-        quality: 75,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-        allowEdit: false,
-        encodingType: Camera.EncodingType.JPEG,
-        targetWidth: 500,
-        targetHeight: 500,
-        saveToPhotoAlbum: false
-      };
-    } else {
-      options = {
-        quality: 75,
-        destinationType: Camera.DestinationType.FILE_URI,
-        sourceType: Camera.PictureSourceType.CAMERA,
-        allowEdit: true,
-        encodingType: Camera.EncodingType.JPEG,
-        targetWidth: 500,
-        targetHeight: 500,
-        saveToPhotoAlbum: false
-      };
-    }
-
-    Camera.getPicture(options).then((imagePath) => {
-      // Special handling for Android library
-      if (this.platform.is('android') && sourceType === Camera.PictureSourceType.PHOTOLIBRARY) {
-        FilePath.resolveNativePath(imagePath)
-        .then(filePath => {
-            let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-            let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-        });
-      } else {
-        var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-        var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+      let options1: FileUploadOptions = {
+         fileKey: 'file',
+         fileName: 'name.jpg',
+         headers: {}
+      
       }
-    }, (err) => {
-      alert('Error while selecting image.');
-    });
-  }
 
-  createFileName() {
-    var d = new Date(),
-    n = d.getTime(),
-    newFileName =  n + ".jpg";
-    return newFileName;
-  }
-   
-  // Copy the image to a local folder
-  copyFileToLocalDir(namePath, currentName, newFileName) {
-    File.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
-      alert(newFileName);
-      this.lastImage = newFileName;
-    }, error => {
-      alert('Error while storing file.');
+    fileTransfer.upload(imageData, 'https://venews-app.herokuapp.com/api/v1/upload', options1)
+     .then((data) => {
+       // success
+       alert("success");
+     }, (err) => {
+       // error
+       alert("error"+JSON.stringify(err));
+     });
+
+
     });
   }
 
