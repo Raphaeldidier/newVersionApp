@@ -117,6 +117,8 @@ export class HomePage {
 
     Geolocation.getCurrentPosition().then((position) => {
  
+      
+
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
       this.positionService.setPosition(latLng);
@@ -165,6 +167,7 @@ export class HomePage {
       }, 2000);
 
     }, (err) => {
+      this.loading.dismiss();
       console.log(err);
     });
   }

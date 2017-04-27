@@ -6,7 +6,7 @@ page-home {
 		bottom: 0;
 		background: map-get($colors, primary);;
 		width: 100%;
-  		transition: height 0.5s;
+  		transition: height 0.1s;
     	border-radius: 25px 25px 0px 0px;
 
   		#swipeElement{

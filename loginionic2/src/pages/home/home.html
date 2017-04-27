@@ -32,30 +32,14 @@
 	<div class="map-container">
 
 		<div #map id="map"></div> 
-		
-		<!-- <ion-slides >
 
-			<ion-slide *ngFor="let eventInfo of eventsArray">
-				<ion-card>
-					<ion-item>
-						<ion-avatar item-left>
-							<img src="{{ eventInfo.addInfo.avatarSource }}">
-						</ion-avatar>
-						<h2>{{ eventInfo.event.name }}</h2>
-    					<p>{{ eventInfo.event.address }}</p>
-    					<p>{{ eventInfo.event.date | date: 'EEE, MMMM dd' }} / {{ eventInfo.event.date | date: 'jm' }}</p>
-					</ion-item>	
-				</ion-card>
-			</ion-slide>
-			
-		</ion-slides> -->
 	</div>	
 
 	<div class="events-list" [style.height]="heightStyle"> 
 		<div id="swipeElement" color="primary" (click)="clickBar()">
 			<div class="text-swipe-bar">
 				List events
-			</div>	
+			</div>
 		</div>
 		<ion-scroll #scrollable [scrollY]="scrollEnable" id="swipeElementDiv">
 			<ion-list>

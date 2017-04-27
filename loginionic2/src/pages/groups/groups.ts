@@ -52,24 +52,26 @@ export class GroupsPage {
   	createGroup() {
   		let groupCreateModal = this.modalCtrl.create(CreateGroupModalPage, { group: null });
 	   	groupCreateModal.onDidDismiss(data => {
-	   		if(data.success){	
-				this.showLoading();
-		     	this.reqServ.createNewGroup(data.name, data.color).subscribe(res => {
+	   		if(data){
+		   		if(data.success){	
+					this.showLoading();
+			     	this.reqServ.createNewGroup(data.name, data.color).subscribe(res => {
 
-					let jsonRes = res.json();
-					if (jsonRes.success) {
-						this.currentUser.groups.push(jsonRes.group);
-						this.loading.dismiss();
+						let jsonRes = res.json();
+						if (jsonRes.success) {
+							this.currentUser.groups.push(jsonRes.group);
+							this.loading.dismiss();
 
-					} else {
+						} else {
+							this.showPopup("Error", "Group could not be created, Please try later");
+							this.loading.dismiss();
+						}
+					}, error => {
 						this.showPopup("Error", "Group could not be created, Please try later");
 						this.loading.dismiss();
-					}
-				}, error => {
-					this.showPopup("Error", "Group could not be created, Please try later");
-					this.loading.dismiss();
-				});
-	     	}
+					});
+		     	}
+		     }
 	   });
 	   groupCreateModal.present();
 	}
@@ -77,22 +79,24 @@ export class GroupsPage {
 	addUser(){
 		let addUserModal = this.modalCtrl.create(AddUserModalPage);
 	   	addUserModal.onDidDismiss(data => {
-	   		if(data.success){	
-				this.showLoading();
-		     	this.reqServ.sendInvitePending(data.email).subscribe(res => {
+	   		if(data){
+		   		if(data.success){	
+					this.showLoading();
+			     	this.reqServ.sendInvitePending(data.email).subscribe(res => {
 
-					let jsonRes = res.json();
-					if (jsonRes.success) {
-						this.showPopup("Success", jsonRes.msg);
-					} else {
-						this.showPopup("Error", jsonRes.msg);
-					}
-					this.loading.dismiss();
-				}, error => {
-					this.showPopup("Error", "User could not be added, Please try later");
-					this.loading.dismiss();
-				});
-	     	}
+						let jsonRes = res.json();
+						if (jsonRes.success) {
+							this.showPopup("Success", jsonRes.msg);
+						} else {
+							this.showPopup("Error", jsonRes.msg);
+						}
+						this.loading.dismiss();
+					}, error => {
+						this.showPopup("Error", "User could not be added, Please try later");
+						this.loading.dismiss();
+					});
+		     	}
+		    }
 	   });
 	   addUserModal.present();
 	}
@@ -100,24 +104,26 @@ export class GroupsPage {
 	updateGroup(group){
 		let groupCreateModal = this.modalCtrl.create(CreateGroupModalPage, { group: group });
 	   	groupCreateModal.onDidDismiss(data => {
-	   		if(data.success){	
-				this.showLoading();
-		     	this.reqServ.updateGroup(group._id, data.name, data.color).subscribe(res => {
+	   		if(data){
+		   		if(data.success){	
+					this.showLoading();
+			     	this.reqServ.updateGroup(group._id, data.name, data.color).subscribe(res => {
 
-					let jsonRes = res.json();
-					if (jsonRes.success) {
-						let index = this.currentUser.groups.indexOf(group);
-						this.currentUser.groups[index] = jsonRes.group;
+						let jsonRes = res.json();
+						if (jsonRes.success) {
+							let index = this.currentUser.groups.indexOf(group);
+							this.currentUser.groups[index] = jsonRes.group;
 
-					} else {
-						this.showPopup("Error", jsonRes.msg);
-					}
-					this.loading.dismiss();
-				}, error => {
-					this.showPopup("Error", "Group could not be updated, Please try later");
-					this.loading.dismiss();
-				});
-	     	}
+						} else {
+							this.showPopup("Error", jsonRes.msg);
+						}
+						this.loading.dismiss();
+					}, error => {
+						this.showPopup("Error", "Group could not be updated, Please try later");
+						this.loading.dismiss();
+					});
+		     	}
+		    }
 	   });
 	   groupCreateModal.present();
 
@@ -128,9 +134,11 @@ export class GroupsPage {
 	    	{ pending_friends: this.currentUser.pending_friends });
 
      	pendingFriendsModal.onDidDismiss(data => {
-     		data.addedFriends.forEach((friend) => {
-     		})
-     		this.setUserFriendsAndInfo();
+	   		if(data){
+	     		data.addedFriends.forEach((friend) => {
+	     		})
+	     		this.setUserFriendsAndInfo();
+	     	}
 		});
 	    pendingFriendsModal.present();
 	}

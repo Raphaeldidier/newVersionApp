@@ -1,12 +1,6 @@
 <ion-header>
 
   <ion-navbar color="primary">
-	  <!-- <ion-buttons class="firstButton">
-	    <button menuToggle ion-button icon-only>
-	      <ion-icon name="menu"></ion-icon>
-	    </button>
-	  </ion-buttons> -->
-
 	  <ion-searchbar 
 	    [(ngModel)]="searchedWord"
 	    placeholder="City or Event"
@@ -31,10 +25,8 @@
     	<ion-refresher-content></ion-refresher-content>
   	</ion-refresher>
 
-  	<ion-label *ngIf="(cards | json) == '[]'">No Events ...</ion-label>
-
 	<ion-list>
-		<custom-card *ngFor="let card of cards" [card]="card"></custom-card>
+		<custom-card *ngFor="let card of cards" [card]="card" (clicked)="eventDetails()"></custom-card>
 	</ion-list>
 
 	<ion-fab bottom right>

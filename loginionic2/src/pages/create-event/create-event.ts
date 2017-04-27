@@ -132,11 +132,13 @@ export class CreateEventPage {
 	public presentMapModal() {
 		let MapModal = this.modalCtrl.create(MapModalPage);
 		MapModal.onDidDismiss(data => {
-			this.createEventVal.address = data.address;
-			this.createEventVal.lat = data.lat;
-      this.createEventVal.lng = data.lng;
-      this.createEventVal.city = data.city;
-	    this.setCustomCard();
+      if(data){
+  			this.createEventVal.address = data.address;
+  			this.createEventVal.lat = data.lat;
+        this.createEventVal.lng = data.lng;
+        this.createEventVal.city = data.city;
+  	    this.setCustomCard();
+      }
 		});
 		MapModal.present();
 	}

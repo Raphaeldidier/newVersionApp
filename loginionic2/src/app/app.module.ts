@@ -12,6 +12,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { GroupsPage } from '../pages/groups/groups';
 import { MapModalPage } from '../pages/map-modal/map-modal';
 import { MyEventsPage } from '../pages/my-events/my-events';
+import { EventDetailsPage } from '../pages/event-details/event-details';
 import { CreateGroupModalPage } from '../pages/create-group-modal/create-group-modal';
 import { ManageGroupPage } from '../pages/manage-group/manage-group';
 import { AddUserModalPage } from '../pages/add-user-modal/add-user-modal';
@@ -47,6 +48,7 @@ import { CustomCardComponent } from './../components/custom-card/custom-card';
     AddUserModalPage,
     AddUserGroupModalPage,
     PendingInvitesModalPage,
+    EventDetailsPage,
     CustomPopOverComponent,
     CustomCardComponent
   ],
@@ -72,6 +74,7 @@ import { CustomCardComponent } from './../components/custom-card/custom-card';
     AddUserModalPage,
     AddUserGroupModalPage,
     PendingInvitesModalPage,
+    EventDetailsPage,
     CustomPopOverComponent,
     CustomCardComponent
   ],
