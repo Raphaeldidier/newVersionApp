@@ -3,8 +3,8 @@ import { NavController, ActionSheetController, ToastController, Platform, Loadin
  AlertController } from 'ionic-angular';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { AuthService } from '../../providers/auth-service';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
+// import { Camera, CameraOptions } from '@ionic-native/camera';
+// import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 import { File, FilePath } from 'ionic-native';
  
 declare var cordova: any;
@@ -12,7 +12,7 @@ declare var cordova: any;
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
-  providers: [Transfer,Camera]
+  // providers: [Transfer,Camera]
 })
 export class RegisterPage {
   createSuccess = false;
@@ -27,7 +27,9 @@ export class RegisterPage {
 
   constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, 
     public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController, public platform: Platform,
-    public loadingCtrl: LoadingController, public http: Http, private transfer: Transfer,private camera: Camera) {
+    public loadingCtrl: LoadingController, 
+    // public http: Http, private transfer: Transfer,private camera: Camera
+    ) {
 
   }
  
@@ -46,40 +48,40 @@ export class RegisterPage {
     });
   }
 
-  upload()
-    {
+  // upload()
+  //   {
       
-       let options = {
+  //      let options = {
 
-           quality: 100
-            };
+  //          quality: 100
+  //           };
 
 
-      this.camera.getPicture(options).then((imageData) => {
-       // imageData is either a base64 encoded string or a file URI
-       // If it's base64:
+  //     this.camera.getPicture(options).then((imageData) => {
+  //      // imageData is either a base64 encoded string or a file URI
+  //      // If it's base64:
 
-     const fileTransfer: TransferObject = this.transfer.create();
+  //    const fileTransfer: TransferObject = this.transfer.create();
 
-      let options1: FileUploadOptions = {
-         fileKey: 'file',
-         fileName: 'name.jpg',
-         headers: {}
+  //     let options1: FileUploadOptions = {
+  //        fileKey: 'file',
+  //        fileName: 'name.jpg',
+  //        headers: {}
       
-      }
+  //     }
 
-    fileTransfer.upload(imageData, 'https://venews-app.herokuapp.com/api/v1/upload', options1)
-     .then((data) => {
-       // success
-       alert("success");
-     }, (err) => {
-       // error
-       alert("error"+JSON.stringify(err));
-     });
+  //   fileTransfer.upload(imageData, 'https://venews-app.herokuapp.com/api/v1/upload', options1)
+  //    .then((data) => {
+  //      // success
+  //      alert("success");
+  //    }, (err) => {
+  //      // error
+  //      alert("error"+JSON.stringify(err));
+  //    });
 
 
-    });
-  }
+  //   });
+  // }
 
 
 

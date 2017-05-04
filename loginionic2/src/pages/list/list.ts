@@ -2,7 +2,6 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { Nav, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { DatePipe } from '@angular/common';
 import { CreateEventPage } from '../create-event/create-event';
-import { EventDetailsPage } from '../../pages/event-details/event-details';
 import { PositionService } from '../../providers/position-service';
 import { RequestService } from '../../providers/request-service';
 import { AppSettings } from '../../providers/app-settings';
@@ -130,9 +129,4 @@ export class ListPage {
 			return card.name.toLowerCase().indexOf(searchedTerm.toLowerCase()) > -1 || card.city.toLowerCase().indexOf(searchedTerm.toLowerCase()) > -1 ;
 		});
 	}
-
-	public eventDetails(card){
-		console.log("gere");
-	    // this.nav.push(EventDetailsPage, {"card" : card});
-  	}
 }

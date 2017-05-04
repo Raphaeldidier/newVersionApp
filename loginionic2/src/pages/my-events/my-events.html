@@ -28,7 +28,7 @@
   		<div *ngSwitchCase="'created'">
   			<ion-list>
   				<div *ngIf="createdEvents?.length > 0">
-  					<custom-card *ngFor="let event of createdEvents" [card]="event"></custom-card>
+  					<custom-card *ngFor="let event of createdEvents" (click)="eventDetails(event)" [card]="event"></custom-card>
 				</div>
 			</ion-list>
 		</div>
@@ -38,7 +38,7 @@
   		<div *ngSwitchCase="'registered'">
   			<ion-list>
   				<div *ngIf="registeredEvents?.length > 0">
-  					<custom-card *ngFor="let event of registeredEvents" [card]="event"></custom-card>
+  					<custom-card *ngFor="let event of registeredEvents" (click)="eventDetails(card)" [card]="event"></custom-card>
 				</div>
 			</ion-list>
 		</div>

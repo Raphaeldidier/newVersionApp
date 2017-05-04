@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, ModalController, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { RequestService } from '../../providers/request-service'
+import { EventDetailsPage } from '../../pages/event-details/event-details';
 import { AuthService } from '../../providers/auth-service';
 
 
@@ -81,15 +82,6 @@ export class MyEventsPage {
 	segmentChanged(event){
 		this.state = !this.state;
 		this.cdr.detectChanges();
-		// console.log(this.registeredEvents);
-		// if(event.value == "registered"){
-		// 	this.createdEvents = [];
-		// 	this.requestRegistered();
-		// }
-		// else{
-		// 	this.registeredEvents = [];
-		// 	this.requestCreated();
-		// }
 	}
 
 	public showPopup(title, text){
@@ -108,5 +100,9 @@ export class MyEventsPage {
 			content: 'Please wait...'
 		});
 		this.loading.present();
+	}
+
+	eventDetails(card){ 
+		this.navCtrl.push(EventDetailsPage, {'card': card});
 	}
 }

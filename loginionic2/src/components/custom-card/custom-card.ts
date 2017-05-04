@@ -9,7 +9,7 @@ import { Nav } from 'ionic-angular';
 export class CustomCardComponent {
 
   @Input('card') cardToUse;
-  @Output() clicked = new EventEmitter();
+  // @Output() clicked = new EventEmitter();
 
   card: String;
 
@@ -19,8 +19,8 @@ export class CustomCardComponent {
 
   ngAfterViewInit(){
     this.card = this.cardToUse;
-    setInterval(() => {
-      this.clicked.emit()
-    }, 3000);
+    // setInterval(() => {
+    //   this.clicked.emit()
+    // }, 3000);
   }
 }

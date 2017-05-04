@@ -43,7 +43,7 @@
 		</div>
 		<ion-scroll #scrollable [scrollY]="scrollEnable" id="swipeElementDiv">
 			<ion-list>
-				<custom-card *ngFor="let card of eventsArray" [card]="card"></custom-card>
+				<custom-card *ngFor="let card of eventsArray" (click)="eventDetails(card)" [card]="card"></custom-card>
 			</ion-list>				
 		</ion-scroll>
 	</div>

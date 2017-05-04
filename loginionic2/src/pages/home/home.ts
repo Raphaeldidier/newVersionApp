@@ -6,6 +6,7 @@ import { RequestService } from '../../providers/request-service';
 import { CustomPopOverComponent } from "../../components/custom-pop-over/custom-pop-over"
 import { LoginPage } from '../login/login';
 import { CreateEventPage } from '../create-event/create-event';
+import { EventDetailsPage } from '../../pages/event-details/event-details';
 import { Geolocation } from 'ionic-native';
 import { Http } from '@angular/http';
 import { Gesture } from 'ionic-angular/gestures/gesture'
@@ -61,6 +62,7 @@ export class HomePage {
     })
     swipeGesture.on('swipedown', e => {
        this.scrollEnable = false;
+       this.scroll.scrollElement.scrollTop = 0;
        this.heightStyle = "50px";
     })
 
@@ -71,7 +73,7 @@ export class HomePage {
       ]
     });
     swipeGestureDiv.listen();
-    swipeGesture.on('swipeup', e => {
+    swipeGestureDiv.on('swipeup', e => {
       if(this.eventsArray.length == 1)
         this.heightStyle = "250px";
       else  
@@ -82,6 +84,7 @@ export class HomePage {
       if(this.canGoDown){
         this.scrollEnable = false;
         this.heightStyle = "50px";
+        this.scroll.scrollElement.scrollTop = 0;
       }
     })
 
@@ -96,13 +99,17 @@ export class HomePage {
   clickBar(){
     if(this.heightStyle == "50px")
     {
+      this.scrollEnable = true;
       if(this.eventsArray.length == 1)
         this.heightStyle = "250px";
       else  
         this.heightStyle = "450px";
     }
-    else
+    else{
       this.heightStyle = "50px";
+      this.scrollEnable = false;
+      this.scroll.scrollElement.scrollTop = 0;
+    }
   }
 
   ionViewDidLoad(){
@@ -117,8 +124,6 @@ export class HomePage {
 
     Geolocation.getCurrentPosition().then((position) => {
  
-      
-
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
       this.positionService.setPosition(latLng);
@@ -238,8 +243,13 @@ export class HomePage {
             // that.eventsArray.push({event: event, addInfo: {avatarSource: this.requestService.getImageSource("avatars", event.category, event.subCategory)}});
             //for the slider
             marker.addListener('click', function() {
+              that.heightStyle = "250px";
               let indexMarker = that.markerArray.indexOf(marker);
-              that.slides.slideTo(indexMarker, 500);
+              let tempoEvent = that.eventsArray[indexMarker];
+              that.eventsArray.splice(indexMarker, 1);
+              that.eventsArray.unshift(tempoEvent);
+              that.markerArray.splice(indexMarker, 1);
+              that.markerArray.unshift(marker);
             });
         });
       }
@@ -281,6 +291,10 @@ export class HomePage {
   createEvent(){
     //Event creation page
     this.nav.push(CreateEventPage);
+  }
+
+  eventDetails(card){
+    this.nav.push(EventDetailsPage, {'card': card});
   }
 
   public getDaysDiff(date){
