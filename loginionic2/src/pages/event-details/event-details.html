@@ -9,9 +9,25 @@
 
 <ion-content>
 	<custom-card [card]="card"></custom-card>
+
+	<div class="event-information">
+		<div class="icon">
+			<a href="geo://0,0?q=dallas">
+			<!-- maps://?q=dallas -->
+				<ion-icon name="navigate" color="primary"></ion-icon>
+			</a>
+		</div>
+	</div>
+	
 	<div class="sticky-footer">
-		<button full ion-button>
-			Join
+		<button *ngIf="isCreator" full ion-button (click)="deleteEvent()">
+			Delete Event
+		</button>
+		<button *ngIf="!isRegistered && !isCreator" full ion-button (click)="registerToEvent()">
+			Register
+		</button>
+		<button *ngIf="isRegistered && !isCreator" full ion-button (click)="unregisterToEvent()">
+			Unregister
 		</button>
 	</div>
 </ion-content>

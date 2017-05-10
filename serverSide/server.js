@@ -493,12 +493,12 @@ apiRoutes.post('/acceptFriendById', function(req, res){
   })
 });
 
+//TODO
 apiRoutes.post('/declineFriendById', function(req, res){
   User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, currentUser){
     if(err) 
       res.json({success: false, msg: "Couldn't decline this invitation"});
     else {
-      console.log(currentUser.pending_friends);
       var index = currentUser.pending_friends.indexOf(req.body.friend_id);
       currentUser.pending_friends.splice(index, 1);
       console.log(currentUser.pending_friends);
@@ -521,6 +521,51 @@ apiRoutes.post('/addUserToFriendsList', function(req, res){
           else
             res.json({success: true, friend: friend});
         });
+      })
+    }
+  });
+});
+
+apiRoutes.post('/registerUserToEvent', function(req, res){
+  User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, user){
+    if(err || !user) res.json({success: false, msg: "Problem occured"});
+    else{
+      Event.findOne({ 
+        _id: mongoose.Types.ObjectId(req.body.event_id),
+        date: { $gte: new Date() } 
+        }, function(err, event){
+          if(!event) res.json({success: false, msg: "Problem occured"});
+          else{
+            event.users.push(user);
+            event.save((err) => {
+              if(err) res.json({success: false, msg: "Problem occured"});
+              else
+                res.json({success: true});
+            })
+          }
+      })
+    }
+  });
+});
+
+apiRoutes.post('/unregisterUserToEvent', function(req, res){
+  User.findOne({ _id: mongoose.Types.ObjectId(req.body._User) }, function(err, user){
+    if(err || !user) res.json({success: false, msg: "Problem occured"});
+    else{
+      Event.findOne({ 
+        _id: mongoose.Types.ObjectId(req.body.event_id),
+        date: { $gte: new Date() } 
+        }, function(err, event){
+          if(!event) res.json({success: false, msg: "Problem occured"});
+          else{
+            var index = event.users.indexOf(user);
+            event.users.splice(index, 1);
+            event.save((err) => {
+              if(err) res.json({success: false, msg: "Problem occured"});
+              else
+                res.json({success: true});
+            })
+          }
       })
     }
   });

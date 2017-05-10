@@ -110,7 +110,6 @@ export class RequestService {
     }
 
     public deleteFriend(friend_id){
-    console.log(friend_id);
       return this.http.post(this.appSettings.getApiUrl() + "deleteFriendFromList", {
         _User: this.currentUser.id,
         friend_id: friend_id
@@ -135,8 +134,22 @@ export class RequestService {
       let options = new RequestOptions({
           search: params
       });
-
       return this.http.get(this.appSettings.getApiUrl() + "registeredEvents", options);
+    }
+
+
+    public registerUserToEvent(eventId){
+      return this.http.post(this.appSettings.getApiUrl() + "registerUserToEvent", {
+        _User: this.currentUser.id,
+        event_id: eventId
+      });
+    }
+
+    public unregisterUserToEvent(eventId){
+      return this.http.post(this.appSettings.getApiUrl() + "unregisterUserToEvent", {
+        _User: this.currentUser.id,
+        event_id: eventId
+      });
     }
 
   	public getRootPath() {

@@ -201,16 +201,16 @@ export class HomePage {
     let latSW = this.map.getBounds().getSouthWest().lat();
     let lngSW = this.map.getBounds().getSouthWest().lng();
 
-    // that.markerArray.forEach(elem => {
-    //   elem.setMap(null);
-    // });
-    that.markerArray = [];
+    that.markerArray.forEach(elem => {
+      elem.setMap(null);
+    });
 
     that.requestService.getEventFromMap(latNE, lngNE, latSW, lngSW).subscribe(res => {
 
       let jsonRes = res.json();
       if (jsonRes.success) {
         that.eventsArray = [];
+        that.markerArray = [];
 
         jsonRes.events.forEach((event, index) => {
           // Setting markers for each event
@@ -227,10 +227,13 @@ export class HomePage {
             that.markerArray.push(marker);
 
             that.eventsArray.push({
+              "id": event._id,
               "name": event.name,
               "address": event.address,
               "date": event.date,
               "creator":event.creator[0].name,
+              "creatorId":event.creator[0]._id,
+              "users": event.users,
               "daysLeft": that.getDaysDiff(event.date),
               "spotsMax": event.spotsMax,
               "spotsLeft": event.spotsLeft,
@@ -240,12 +243,19 @@ export class HomePage {
             });
             that.cdr.detectChanges();
 
+            console.log(that.eventsArray);
+
             // that.eventsArray.push({event: event, addInfo: {avatarSource: this.requestService.getImageSource("avatars", event.category, event.subCategory)}});
             //for the slider
             marker.addListener('click', function() {
+              console.log(that.markerArray);
+              console.log(that.eventsArray);
+
               that.heightStyle = "250px";
               let indexMarker = that.markerArray.indexOf(marker);
+              console.log(indexMarker);
               let tempoEvent = that.eventsArray[indexMarker];
+              console.log(tempoEvent);
               that.eventsArray.splice(indexMarker, 1);
               that.eventsArray.unshift(tempoEvent);
               that.markerArray.splice(indexMarker, 1);
