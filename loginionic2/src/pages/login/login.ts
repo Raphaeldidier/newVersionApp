@@ -14,6 +14,7 @@ declare const facebookConnectPlugin: any;
 })
 export class LoginPage {
   loading: Loading;
+  pic: any;
   FB_APP_ID: number = 1845335775720420;
   registerCredentials = {email: 'raphael@raphael.com', password: 'Raphael'};
  
@@ -67,25 +68,34 @@ export class LoginPage {
 
   fbLogin(){
 
+    let that = this;
+
     this.platform.ready().then(() => {
 
-        facebookConnectPlugin.login(["email"], function(result) {
-            let alert = this.alertCtrl.create({
-            title: 'Success',
-            subTitle: result,
-            buttons: ['OK']
+        facebookConnectPlugin.login(["public_profile"], 
+          function(userData) {
+
+            // alert("UserInfo: " + userData.authResponse.userID);
+
+            facebookConnectPlugin.api(userData.authResponse.userID+"/?fields=id,name,picture,email,birthday,friends", 
+              ["user_birthday", "user_friends", "email", "user_photos"],
+
+              function (result) {
+                alert("Result: " + JSON.stringify(result));
+                that.pic = result.picture.data.url;
+                console.log(that.pic);
+                // that.nav.setRoot(TabsPage);
+              },
+              function (error) {
+                alert("Failed: " + error);
             });
-            alert.present(prompt);
+
         }, function(error){
-            let alert = this.alertCtrl.create({
-            title: 'Fail',
-            subTitle: error,
-            buttons: ['OK']
-          });
-          alert.present(prompt);
-        })
+            
+            alert("" + error);
+        });
        
-     })
+     });
 
     } 
 }
